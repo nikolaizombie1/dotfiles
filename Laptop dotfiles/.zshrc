@@ -33,7 +33,6 @@ alias ff='firefox'
 alias install='sudo pacman -S'
 alias remove='sudo pacman -Rns'
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-alias doom="./.emacs.d/bin/doom"
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -43,8 +42,11 @@ zle -N down-line-or-beginning-search
 [[ -n "${key[Down]}" ]] && bindkey -- "${key[Down]}" down-line-or-beginning-search
 
 path+=(~/Scripts/)
+path+=(~/.emacs.d/bin/)
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 neofetch
+~/Scripts/printfrq.sh
+source ~/powerlevel10k/powerlevel10k.zsh-theme
