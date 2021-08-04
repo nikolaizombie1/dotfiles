@@ -42,10 +42,10 @@ set $mod Mod4
 
 
 #This is setup for qwerty
-set $up l
-set $down k
-set $left j
-set $right semicolon
+set $up k
+set $down j
+set $left h
+set $right l
 
 #This is setup for azerty
 #set $up l
@@ -140,7 +140,7 @@ bindsym mod1+F2 exec --no-startup-id gmrun
 bindsym mod1+F3 exec --no-startup-id xfce4-appfinder
 
 # start rofi full
-bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto Sans 13"
+#bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto Sans 13"
 
 # start rofi small
 bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -font "Noto Sans 13"
@@ -153,25 +153,25 @@ bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -font "Noto Sans 1
 
 #Backup exit
 #Press ctrl+alt+x - check toolbar for next choices
-bindsym control+mod1+X mode "$mode_system"
-
-set $mode_system System (k) lock, (l) logout, (u) suspend, (h) hibernate, (r) reboot, (s) shutdown
-mode "$mode_system" {
-    bindsym k exec --no-startup-id ~/.config/i3/scripts/i3exit.sh lock, mode "default"
-    bindsym l exec --no-startup-id ~/.config/i3/scripts/i3exit.sh logout, mode "default"
-    bindsym u exec --no-startup-id ~/.config/i3/scripts/i3exit.sh suspend, mode "default"
-    bindsym h exec --no-startup-id ~/.config/i3/scripts/i3exit.sh hibernate, mode "default"
-    bindsym r exec --no-startup-id ~/.config/i3/scripts/i3exit.sh reboot, mode "default"
-    bindsym s exec --no-startup-id ~/.config/i3/scripts/i3exit.sh shutdown, mode "default"
-
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-}
+#bindsym control+mod1+X mode "$mode_system"
+#
+#set $mode_system System (k) lock, (l) logout, (u) suspend, (h) hibernate, (r) reboot, (s) shutdown
+#mode "$mode_system" {
+#    bindsym k exec --no-startup-id ~/.config/i3/scripts/i3exit.sh lock, mode "default"
+#    bindsym l exec --no-startup-id ~/.config/i3/scripts/i3exit.sh logout, mode "default"
+#    bindsym u exec --no-startup-id ~/.config/i3/scripts/i3exit.sh suspend, mode "default"
+#    bindsym h exec --no-startup-id ~/.config/i3/scripts/i3exit.sh hibernate, mode "default"
+#    bindsym r exec --no-startup-id ~/.config/i3/scripts/i3exit.sh reboot, mode "default"
+#    bindsym s exec --no-startup-id ~/.config/i3/scripts/i3exit.sh shutdown, mode "default"
+#
+#    # back to normal: Enter or Escape
+#    bindsym Return mode "default"
+#    bindsym Escape mode "default"
+#}
 
 
 # ArcoLinux Logout
-bindsym $mod+Shift+e exec --no-startup-id arcolinux-logout
+#bindsym $mod+Shift+e exec --no-startup-id i3exit logout
 #bindsym $mod+X exec --no-startup-id arcolinux-logout
 
 
@@ -184,7 +184,7 @@ bindsym $mod+Shift+e exec --no-startup-id arcolinux-logout
 bindsym $mod+Shift+r restart
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+#bindsym $mod+Shift+c reload
 
 
 
@@ -267,10 +267,10 @@ for_window [urgent=latest] focus
 default_orientation horizontal
 
 # split in horizontal orientation
-bindsym $mod+h split h
+#bindsym $mod+h split h
 
 # split in vertical orientation
-bindsym $mod+v split v
+#bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 # Super + F in arcolinux is execute thunar
@@ -429,7 +429,7 @@ for_window [class="Spotify"] focus
 # you may see a wheel - hashtag out things you do not want
 
 #Authentication dialog
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+exec --no-startup-id /usr/lib/policykit-1-gnome &
 
 # Updater
 exec --no-startup-id pamac-tray
@@ -552,39 +552,39 @@ bindsym control+mod1+g exec --no-startup-id chromium;focus
 
 #workspace 2 related
 #bindsym $mod+F2 exec --no-startup-id geany;focus
-bindsym $mod+F2 exec --no-startup-id atom;focus
+#bindsym $mod+F2 exec --no-startup-id atom;focus
 
 #workspace 3 related
-bindsym $mod+F3 exec --no-startup-id inkscape;focus
+#bindsym $mod+F3 exec --no-startup-id inkscape;focus
 
 #workspace 4 related
-bindsym $mod+F4 exec --no-startup-id gimp;focus
+#bindsym $mod+F4 exec --no-startup-id gimp;focus
 
 #workspace 5 related
-bindsym $mod+F5 exec --no-startup-id meld;focus
-bindsym control+mod1+i exec --no-startup-id nitrogen;focus
+#bindsym $mod+F5 exec --no-startup-id meld;focus
+#bindsym control+mod1+i exec --no-startup-id nitrogen;focus
 
 #workspace 6 related
-bindsym $mod+F6 exec --no-startup-id vlc;focus
+#bindsym $mod+F6 exec --no-startup-id vlc;focus
 
 #workspace 7 related
-bindsym $mod+F7 exec --no-startup-id virtualbox;focus
+#bindsym $mod+F7 exec --no-startup-id virtualbox;focus
 
 #workspace 8 related
-for_window [class="Thunar"] focus
-bindsym $mod+F8 exec --no-startup-id thunar;focus
+#for_window [class="Thunar"] focus
+#bindsym $mod+F8 exec --no-startup-id thunar;focus
 #bindsym $mod+Shift+Return exec --no-startup-id thunar;focus
-bindsym $mod+Shift+KP_Enter exec --no-startup-id thunar;focus
-bindsym control+mod1+b exec --no-startup-id thunar;focus
+#bindsym $mod+Shift+KP_Enter exec --no-startup-id thunar;focus
+#bindsym control+mod1+b exec --no-startup-id thunar;focus
 
 #workspace 9 related
-bindsym $mod+F9 exec --no-startup-id evolution;focus
+#bindsym $mod+F9 exec --no-startup-id evolution;focus
 #bindsym $mod+F9 exec --no-startup-id geary;focus
 #bindsym control+mod1+e exec --no-startup-id geary;focus
 
 #workspace 10 related
-bindsym $mod+F10 exec --no-startup-id spotify;focus
-bindsym control+mod1+s exec --no-startup-id spotify;focus
+#bindsym $mod+F10 exec --no-startup-id spotify;focus
+#bindsym control+mod1+s exec --no-startup-id spotify;focus
 
 
 
@@ -855,7 +855,7 @@ mode "$mode_gaps_outer" {
 #####################################################################################################################
 
 #if you want transparency on non-focused windows, ...
-exec_always --no-startup-id picom --config ~/.config/i3/picom.conf
+exec_always --no-startup-id picom --config ~/.config/i3/picom.conf --experimental-backends
 
 bindsym control+mod1+o exec --no-startup-id ~/.config/i3/scripts/picom-toggle.sh
 
@@ -1035,18 +1035,20 @@ bar {
 #################                     Custom Binds						   ##################
 #####################################################################################################################
 bindsym $mod+x exec systemctl poweroff
-bindsym $mod+Shift+f exec firefox
+bindsym $mod+p exec systemctl reboot
+bindsym $mod+Shift+f exec brave-browser
 bindsym $mod+Shift+s exec speedcrunch
 bindsym $mod+Shift+n exec nautilus
-bindsym $mod+Shift+p exec pavucontrol
 bindsym $mod+Shift+a exec terminator -x cmus
-bindsym $mod+Print exec spectacle -abn 
-
-#####################################################################################################################
+bindsym $mod+Print exec spectacle -rbn
+bindsym $mod+Shift+e exec emacs
+bindsym $mod+v exec gvim 
+bindsym $mod+Shift+p exec terminator -x ./Programs/pulsemixer
+#######################################################################################################################
 ################		Custom Startup Apps						   ##################
 #####################################################################################################################
 exec_always nitrogen --restore
-exec redshift-gtk &
+exec redshift-gtk -c ~/.config/redshift.conf &
 exec fcitx -d &
 exec solaar -w hide &
-
+exec cbatticon &
