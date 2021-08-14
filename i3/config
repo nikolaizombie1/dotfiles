@@ -143,7 +143,8 @@ bindsym mod1+F3 exec --no-startup-id xfce4-appfinder
 #bindsym $mod+F11 exec --no-startup-id rofi -show run -fullscreen -font "Noto Sans 13"
 
 # start rofi small
-bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -font "Noto Sans 13"
+#bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -font "Noto Sans 13"
+bindsym $mod+Shift+Return exec --no-startup-id rofi -show run -font "mononoki 13"
 
 
 
@@ -339,7 +340,7 @@ mode "resize" {
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
 # choose your font
-font pango:Noto Mono Regular 13
+font pango:mononoki 13
 
 
 
@@ -871,7 +872,7 @@ bar {
 
     height 25
     workspace_buttons yes
-    font pango:Noto Sans 14
+    font pango:mononoki 14
 
     #position top
     position bottom
