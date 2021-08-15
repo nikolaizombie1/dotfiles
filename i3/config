@@ -933,13 +933,13 @@ bar {
     # variable border background Text
 
     colors {
-        background #2F2F2F
+        background #000000
         statusline #eeeeee
         separator  #666666
 
         # colorclass           border  backgr. text
-        focused_workspace     #a9a9a9 #5f676a #eeeeee
-        active_workspace      #a9a9a9 #5f676a #eeeeee
+        focused_workspace     #a9a9a9 #434343 #eeeeee
+        active_workspace      #a9a9a9 #434343 #eeeeee
         inactive_workspace    #a9a9a9 #222222 #a9a9a9
         urgent_workspace      #a9a9a9 #d42121 #FFFFFF
         }
