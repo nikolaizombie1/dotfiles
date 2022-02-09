@@ -89,8 +89,6 @@
 (use-package dap-mode :after lsp-mode :config (dap-auto-configure-mode))
 (use-package dap-java :ensure nil)
 (use-package helm-lsp)
-(use-package helm
-  :config (helm-mode))
 (use-package lsp-treemacs)
 (add-hook 'dap-stopped-hook
           (lambda (arg) (call-interactively #'dap-hydra)))
@@ -120,3 +118,9 @@
        :request "launch"
        :debugger "debugpy"
        :name "Python :: Run pytest"))
+(after! org
+  (setq org-directory "~/Documents/Emacs/org")
+  (setq org-log-done 'time)
+  (require 'org-bullets)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  )

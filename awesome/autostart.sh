@@ -6,5 +6,6 @@ then
     redshift-gtk &
 fi
 nitrogen --restore &
-picom --config ~/.config/i3/picom.conf &
+picom --config ~/.config/awesome/picom.conf --experimental-backends &
 /usr/bin/emacs --daemon &
+fcitx -d &

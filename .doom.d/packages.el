@@ -63,3 +63,4 @@
 (package! lsp-treemacs)
 (package! helm-lsp)
 (package! lsp-python-ms)
+(package! org-bullets)
