@@ -18,10 +18,6 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- Load Debian menu entries
-local debian = require("debian.menu")
-local has_fdo, freedesktop = pcall(require, "freedesktop")
-
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -52,9 +48,8 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "x-terminal-emulator"
-editor = "emacs"
--- editor = os.getenv("EDITOR") or "editor"
+terminal = "terminator"
+editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -95,24 +90,10 @@ myawesomemenu = {
    { "quit", function() awesome.quit() end },
 }
 
-local menu_awesome = { "awesome", myawesomemenu, beautiful.awesome_icon }
-local menu_terminal = { "open terminal", terminal }
-
-if has_fdo then
-    mymainmenu = freedesktop.menu.build({
-        before = { menu_awesome },
-        after =  { menu_terminal }
-    })
-else
-    mymainmenu = awful.menu({
-        items = {
-                  menu_awesome,
-                  { "Debian", debian.menu.Debian_menu.Debian },
-                  menu_terminal,
-                }
-    })
-end
-
+mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+                                    { "open terminal", terminal }
+                                  }
+                        })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                      menu = mymainmenu })
@@ -126,7 +107,8 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+mytextclock = wibox.widget.textclock("%a %b %d %T ",1)
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -208,28 +190,28 @@ awful.screen.connect_for_each_screen(function(s)
     }
 
     -- Create a tasklist widget
-    --s.mytasklist = awful.widget.tasklist {
-    --    screen  = s,
+    -- s.mytasklist = awful.widget.tasklist {
+    --     screen  = s,
     --    filter  = awful.widget.tasklist.filter.currenttags,
     --    buttons = tasklist_buttons
-    --}
+--    }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "bottom", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --mylauncher,
+        --    mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            mykeyboardlayout,
+            --mykeyboardlayout,
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
@@ -283,7 +265,7 @@ globalkeys = gears.table.join(
               {description = "focus the previous screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
-    awful.key({ modkey, "Shift" }, "l", function () client.focus:move_to_screen(screen.count()) end,
+              awful.key({ modkey, "Shift" }, "l", function () client.focus:move_to_screen(screen.count()) end,
                 {description = "move to right monitor", group = "client"}),
     awful.key({ modkey, "Shift" }, "h", function () client.focus:move_to_screen(screen.count() - 1) end,
                 {description = "move to left monitor", group = "client"}),
@@ -332,13 +314,12 @@ globalkeys = gears.table.join(
                   end
               end,
               {description = "restore minimized", group = "client"}),
+        -- Prompt
+        awful.key({ modkey , "Shift" },            "Return",     function () awful.util.spawn("rofi -show run") end,
+                {description = "run rofi", group = "launcher"}),
 
-    -- Prompt
-    awful.key({ modkey , "Shift" },            "Return",     function () awful.util.spawn("rofi -show run") end,
-              {description = "run rofi", group = "launcher"}),
-
-    -- System Shutdown
-    awful.key({ modkey }, "x", function () awful.spawn.with_shell("systemctl poweroff") end,
+        -- System Shutdown
+        awful.key({ modkey }, "x", function () awful.spawn.with_shell("systemctl poweroff") end,
                 { description = "shutdown system", group = "client" }),
 
     -- System Restart
@@ -347,33 +328,42 @@ globalkeys = gears.table.join(
 
     -- Nautilus
     awful.key({ modkey, "Shift" }, "n", function () awful.util.spawn("nautilus") end,
-                { description = "open nautilus", group = "client" }),
+                { description = "open nautilus", group = "Application" }),
 
     -- Emacs
     awful.key({ modkey, "Shift" }, "e", function() awful.util.spawn("emacsclient -c -a 'emacs'") end,
                 { description = "open emacs", group = "Application" }),
-
-    --awful.key({ modkey }, "x",
-    --          function ()
-    --              awful.prompt.run {
-    --                prompt       = "Run Lua code: ",
-    --                textbox      = awful.screen.focused().mypromptbox.widget,
-    --                exe_callback = awful.util.eval,
-    --                history_path = awful.util.get_cache_dir() .. "/history_eval"
-    --              }
-    --          end,
-    --          {description = "lua execute prompt", group = "awesome"}),
-    -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"}),
-
+                
     -- Move Screen Focus
     awful.key({ modkey }, "r", function() awful.screen.focus_relative(1) end,
               {description = "move focus to right monitor", group = "launcher"}),
 
-    -- Brave Browser
+    -- Launch speedcrunch
+    awful.key({ modkey, "Shift" }, "s" , function () awful.util.spawn("speedcrunch") end,
+            {description = "open speedcrunch", group = "Application"}),
+              
+        -- Brave Browser
     awful.key({ modkey, "Shift" }, "f" , function () awful.util.spawn("brave-browser") end,
-            {description = "open brave bowser", group = "client"})
+            {description = "open brave bowser", group = "Application"}),
+
+
+    -- Prompt
+    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+              {description = "run prompt", group = "launcher"}),
+
+    awful.key({ modkey }, "x",
+              function ()
+                  awful.prompt.run {
+                    prompt       = "Run Lua code: ",
+                    textbox      = awful.screen.focused().mypromptbox.widget,
+                    exe_callback = awful.util.eval,
+                    history_path = awful.util.get_cache_dir() .. "/history_eval"
+                  }
+              end,
+              {description = "lua execute prompt", group = "awesome"}),
+    -- Menubar
+    awful.key({ modkey }, "p", function() menubar.show() end,
+              {description = "show the menubar", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
@@ -456,6 +446,7 @@ for i = 1, 9 do
                      end
                   end,
                   {description = "move focused client to tag #"..i, group = "tag"}),
+
         -- Toggle tag on focused client.
         awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
                   function ()
@@ -505,35 +496,35 @@ awful.rules.rules = {
     },
 
     -- Floating clients.
-    --{ rule_any = {
-    --    instance = {
-    --      "DTA",  -- Firefox addon DownThemAll.
-    --      "copyq",  -- Includes session name in class.
-    --      "pinentry",
-    --    },
-    --    class = {
-    --      "Arandr",
-    --      "Blueman-manager",
-    --      "Gpick",
-    --      "Kruler",
-    --      "MessageWin",  -- kalarm.
-    --      "Sxiv",
-    --      "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
-    --      "Wpa_gui",
-    --      "veromix",
-    --      "xtightvncviewer"},
+    { rule_any = {
+        instance = {
+          "DTA",  -- Firefox addon DownThemAll.
+          "copyq",  -- Includes session name in class.
+          "pinentry",
+        },
+        class = {
+          "Arandr",
+          "Blueman-manager",
+          "Gpick",
+          "Kruler",
+          "MessageWin",  -- kalarm.
+          "Sxiv",
+          "Tor Browser", -- Needs a fixed window size to avoid fingerprinting by screen size.
+          "Wpa_gui",
+          "veromix",
+          "xtightvncviewer"},
 
-    --    -- Note that the name property shown in xprop might be set slightly after creation of the client
-    --    -- and the name shown there might not match defined rules here.
-    --    name = {
-    --      "Event Tester",  -- xev.
-    --    },
-    --    role = {
-    --      "AlarmWindow",  -- Thunderbird's calendar.
-    --      "ConfigManager",  -- Thunderbird's about:config.
-    --      "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
-    --    }
-    --  }, properties = { floating = true }},
+        -- Note that the name property shown in xprop might be set slightly after creation of the client
+        -- and the name shown there might not match defined rules here.
+        name = {
+          "Event Tester",  -- xev.
+        },
+        role = {
+          "AlarmWindow",  -- Thunderbird's calendar.
+          "ConfigManager",  -- Thunderbird's about:config.
+          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+        }
+      }, properties = { floating = true }},
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
@@ -563,7 +554,7 @@ end)
 
 -- Add a titlebar if titlebars_enabled is set to true in the rules.
 --client.connect_signal("request::titlebars", function(c)
---    -- buttons for the titlebar
+    -- buttons for the titlebar
 --    local buttons = gears.table.join(
 --        awful.button({ }, 1, function()
 --            c:emit_signal("request::activate", "titlebar", {raise = true})
@@ -574,7 +565,7 @@ end)
 --            awful.mouse.client.resize(c)
 --        end)
 --    )
-    --
+
 --    awful.titlebar(c) : setup {
 --        { -- Left
 --            awful.titlebar.widget.iconwidget(c),
@@ -585,7 +576,7 @@ end)
 --            { -- Title
 --                align  = "center",
 --                widget = awful.titlebar.widget.titlewidget(c)
---            },
+--
 --            buttons = buttons,
 --            layout  = wibox.layout.flex.horizontal
 --        },
@@ -603,11 +594,11 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_/nter", {raise = false})
+    c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
     -- Autostart aplications
-awful.spawn.with_shell("~/.config/awesome/autostart.sh")
+    awful.spawn.with_shell("~/.config/awesome/autostart.sh")
