@@ -48,7 +48,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "terminator"
+terminal = "alacritty --config-file /home/uwu/alacritty.yml --config-file /home/uwu/alacritty.yml"
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -315,7 +315,7 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
         -- Prompt
-        awful.key({ modkey , "Shift" },            "Return",     function () awful.util.spawn("rofi -show run") end,
+        awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn("rofi -show run") end,
                 {description = "run rofi", group = "launcher"}),
 
         -- System Shutdown
@@ -327,11 +327,11 @@ globalkeys = gears.table.join(
                 { description = "reboot system", group = "client" }),
 
     -- Nautilus
-    awful.key({ modkey, "Shift" }, "n", function () awful.util.spawn("nautilus") end,
+    awful.key({ modkey, "Shift" }, "n", function () awful.spawn("nautilus") end,
                 { description = "open nautilus", group = "Application" }),
 
     -- Emacs
-    awful.key({ modkey, "Shift" }, "e", function() awful.util.spawn("emacsclient -c -a 'emacs'") end,
+    awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
                 { description = "open emacs", group = "Application" }),
                 
     -- Move Screen Focus
@@ -339,11 +339,18 @@ globalkeys = gears.table.join(
               {description = "move focus to right monitor", group = "launcher"}),
 
     -- Launch speedcrunch
-    awful.key({ modkey, "Shift" }, "s" , function () awful.util.spawn("speedcrunch") end,
+    awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
             {description = "open speedcrunch", group = "Application"}),
-              
+
+    -- Launch pulsemixer
+     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
+            {description = "open pulsemixer", group = "Application"}),
+    --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn({"alacritty", "-e", "pulsemixer"}) end,
+    --        {description = "open pulsemixer", group = "Application"}),
+       -- awful.key({ modkey, "Shift" }, "p" , function () awful.spawn("alacritty -e pulsemixer") end,
+    --{description = "open pulsemixer", group = "Application"}),
         -- Brave Browser
-    awful.key({ modkey, "Shift" }, "f" , function () awful.util.spawn("brave-browser") end,
+    awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave-browser") end,
             {description = "open brave bowser", group = "Application"}),
 
 
@@ -360,10 +367,10 @@ globalkeys = gears.table.join(
                     history_path = awful.util.get_cache_dir() .. "/history_eval"
                   }
               end,
-              {description = "lua execute prompt", group = "awesome"}),
+              {description = "lua execute prompt", group = "awesome"})
     -- Menubar
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+    --awful.key({ modkey }, "p", function() menubar.show() end,
+    --          {description = "show the menubar", group = "launcher"})
 )
 
 clientkeys = gears.table.join(
