@@ -48,7 +48,7 @@ end
 beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty --config-file /home/uwu/alacritty.yml --config-file /home/uwu/alacritty.yml"
+terminal = "alacritty --config-file /home/uwu/alacritty.yml "
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -343,9 +343,9 @@ globalkeys = gears.table.join(
             {description = "open speedcrunch", group = "Application"}),
 
     -- Launch pulsemixer
-     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
-            {description = "open pulsemixer", group = "Application"}),
-    --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn({"alacritty", "-e", "pulsemixer"}) end,
+     --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
+       --     {description = "open pulsemixer", group = "Application"}),
+    --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn({"alacritty", "-e", "top"}) end,
     --        {description = "open pulsemixer", group = "Application"}),
        -- awful.key({ modkey, "Shift" }, "p" , function () awful.spawn("alacritty -e pulsemixer") end,
     --{description = "open pulsemixer", group = "Application"}),

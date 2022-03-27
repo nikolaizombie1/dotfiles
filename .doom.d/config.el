@@ -55,9 +55,9 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(set-frame-parameter (selected-frame) 'alpha '(98 . 98))
-(add-to-list 'default-frame-alist '(alpha . (98 . 98)))
-(setq zone-timer (run-with-idle-timer 120 t 'zone-rainbow))
+(set-frame-parameter (selected-frame) 'alpha '(90 . 90))
+(add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+(setq zone-timer (run-with-idle-timer 600 t 'zone-rainbow))
 (require 'emms-setup)
 (emms-all)
 (emms-default-players)
