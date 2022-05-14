@@ -64,3 +64,4 @@
 (package! helm-lsp)
 (package! lsp-python-ms)
 (package! org-bullets)
+(package! format-all)

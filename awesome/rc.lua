@@ -343,12 +343,8 @@ globalkeys = gears.table.join(
             {description = "open speedcrunch", group = "Application"}),
 
     -- Launch pulsemixer
-     --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
-       --     {description = "open pulsemixer", group = "Application"}),
-    --awful.key({ modkey, "Shift" }, "p" , function () awful.spawn({"alacritty", "-e", "top"}) end,
-    --        {description = "open pulsemixer", group = "Application"}),
-       -- awful.key({ modkey, "Shift" }, "p" , function () awful.spawn("alacritty -e pulsemixer") end,
-    --{description = "open pulsemixer", group = "Application"}),
+     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e /home/uwu/.local/bin/pulsemixer") end,
+    {description = "open pulsemixer", group = "Application"}),
         -- Brave Browser
     awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave-browser") end,
             {description = "open brave bowser", group = "Application"}),
