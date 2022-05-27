@@ -25,5 +25,5 @@ if [ -d ~/.bashrc.d ]; then
 fi
 
 unset rc
-#export PS1="\[$(tput bold)\]\[\033[38;5;201m\]\u\[$(tput sgr0)\] \[$(tput sgr0)\]\[$(tput bold)\]\[\033[38;5;33m\]\t\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;39m\]\\$\[$(tput sgr0)\] \[$(tput sgr0)\]\[\033[38;5;9m\]\w\[$(tput sgr0)\] \[$(tput sgr0)\]"
+
 eval "$(starship init bash)"

@@ -258,7 +258,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
-              {description = "swap with previous client by index", group = "client"}),
+              {description = "swap window with previous client by index", group = "client"}),
+    awful.key({ modkey, }, "l", function () awful.screen.focus_relative (1)    end,
+              {description = "swap the focus of a screen with previous client by index", group = "client"}),
     awful.key({ modkey, "Control" }, "j", function () awful.screen.focus_relative( 1) end,
               {description = "focus the next screen", group = "screen"}),
     awful.key({ modkey, "Control" }, "k", function () awful.screen.focus_relative(-1) end,
@@ -286,8 +288,8 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Shift"   }, "c", awesome.quit,
               {description = "quit awesome", group = "awesome"}),
 
-    awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
-              {description = "increase master width factor", group = "layout"}),
+    -- awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
+              -- {description = "increase master width factor", group = "layout"}),
     awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
               {description = "decrease master width factor", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1, nil, true) end,
@@ -326,9 +328,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function () awful.spawn.with_shell("reboot") end,
                 { description = "reboot system", group = "client" }),
 
-    -- Nautilus
-    awful.key({ modkey, "Shift" }, "n", function () awful.spawn("nautilus") end,
-                { description = "open nautilus", group = "Application" }),
+    -- Pcmanfm
+    awful.key({ modkey, "Shift" }, "n", function () awful.spawn("pcmanfm") end,
+                { description = "open pcmanfm", group = "Application" }),
 
     -- Emacs
     awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
