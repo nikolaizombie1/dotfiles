@@ -36,6 +36,8 @@ alias install='sudo pacman -S'
 alias remove='sudo pacman -Rns'
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias doom="./.emacs.d/bin/doom"
+alias wd="wol 44:8A:5B:CE:75:8A"
+alias vim="nvim"
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
@@ -46,10 +48,15 @@ zle -N down-line-or-beginning-search
 
 path+=(~/Scripts/)
 path+=(~/.emacs.d/bin/)
-path+=(~/Programs/)
+path+=(~/Scripts/)
 path+=(~/'.local'/bin/)
+path+=(~/.cargo/bin/)
 
 # Load zsh-syntax-highlighting; should be last.
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
+if [[ "$(tty)" = "/dev/tty1" ]]; then
+	pgrep awesome || startx
+fi
+colorscripts -r
