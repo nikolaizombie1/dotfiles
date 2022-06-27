@@ -8,3 +8,4 @@ cp ~/.zshenv .
 cp ~/.zshrc .
 cp ~/alacritty.yml .
 cp ~/.config/starship.toml .
+cp ~/.xinitrc .
