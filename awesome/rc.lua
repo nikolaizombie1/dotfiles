@@ -285,8 +285,8 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "c", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ modkey, "Shift"   }, "c", awesome.quit,
+    --           {description = "quit awesome", group = "awesome"}),
 
     -- awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               -- {description = "increase master width factor", group = "layout"}),
@@ -347,6 +347,9 @@ globalkeys = gears.table.join(
     -- Launch pulsemixer
      awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
     {description = "open pulsemixer", group = "Application"}),
+    -- Launch Visual Studio Code
+     awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
+    {description = "open VS Code", group = "Application"}),
         -- Brave Browser
     awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
             {description = "open brave bowser", group = "Application"}),
