@@ -45,7 +45,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_themes_dir() .. "default/theme.lua")
+beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty --config-file /home/uwu/alacritty.yml "
@@ -317,7 +317,7 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
         -- Prompt
-        awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn("rofi -show run") end,
+        awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn.with_shell("~/.config/awesome/rofiRun.bash") end,
                 {description = "run rofi", group = "launcher"}),
 
         -- System Shutdown
@@ -345,27 +345,27 @@ globalkeys = gears.table.join(
             {description = "open speedcrunch", group = "Application"}),
 
     -- Launch pulsemixer
-     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e /home/uwu/.local/bin/pulsemixer") end,
+     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
     {description = "open pulsemixer", group = "Application"}),
         -- Brave Browser
-    awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave-browser") end,
+    awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
             {description = "open brave bowser", group = "Application"}),
 
 
     -- Prompt
     awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+              {description = "run prompt", group = "launcher"})
 
-    awful.key({ modkey }, "x",
-              function ()
-                  awful.prompt.run {
-                    prompt       = "Run Lua code: ",
-                    textbox      = awful.screen.focused().mypromptbox.widget,
-                    exe_callback = awful.util.eval,
-                    history_path = awful.util.get_cache_dir() .. "/history_eval"
-                  }
-              end,
-              {description = "lua execute prompt", group = "awesome"})
+    --awful.key({ modkey }, "x",
+    --          function ()
+    --              awful.prompt.run {
+    --                prompt       = "Run Lua code: ",
+    --                textbox      = awful.screen.focused().mypromptbox.widget,
+    --                exe_callback = awful.util.eval,
+    --                history_path = awful.util.get_cache_dir() .. "/history_eval"
+    --              }
+    --          end,
+    --          {description = "lua execute prompt", group = "awesome"})
     -- Menubar
     --awful.key({ modkey }, "p", function() menubar.show() end,
     --          {description = "show the menubar", group = "launcher"})
