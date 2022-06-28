@@ -1,16 +1,6 @@
 #source ~/powerlevel10k/powerlevel10k.zsh-theme
 eval "$(starship init zsh)"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Luke's config for the Zoomer Shell
-
-# Enable colors and change prompt:
-autoload -U colors && colors
-#PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-
-
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -26,7 +16,7 @@ _comp_options+=(globdots)		# Include hidden files.
 alias LS="cd /home/uwu/Linux-Storage/"
 alias Downloads="cd /home/uwu/Linux-Storage/Downloads/"
 alias update="yay -Syu"
-alias ls="ls -lah -t"
+alias ls="ls -lah -t --color"
 alias zshrc="vim /home/uwu/.zshrc"
 alias waifu2x="waifu2x-ncnn-vulkan"
 alias Music="cd /home/uwu/Linux-Storage/Downloads/Music/"
