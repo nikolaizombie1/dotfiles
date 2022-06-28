@@ -10,6 +10,7 @@ cp ~/alacritty.yml .
 cp ~/.config/starship.toml .
 cp ~/.xinitrc .
 
-git pull
-git commit -a -m "$1"
-git push
+if git pull; then
+    git commit -a -m "$1"
+    git push
+fi
