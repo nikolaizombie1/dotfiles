@@ -320,44 +320,51 @@ globalkeys = gears.table.join(
         awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn.with_shell("~/.config/awesome/rofiRun.bash") end,
                 {description = "run rofi", group = "launcher"}),
 
+        -- Spectacle
+        awful.key({modkey, "Shift"}, "a", function() awful.spawn("spectacle -r -c -b") end, {description = "screenshot area", group="apps"}),
+
+        awful.key({"Mod1"}, "Print", function() awful.spawn("spectacle -m -c -b") end, {description = "screenshot monitor", group="apps"}),
+
+        awful.key({}, "Print", function() awful.spawn("spectacle -f -c -b") end, {description = "screenshot all monitors", group="apps"}),
+
         -- System Shutdown
         awful.key({ modkey }, "x", function () awful.spawn.with_shell("systemctl poweroff") end,
                 { description = "shutdown system", group = "client" }),
 
-    -- System Restart
-    awful.key({ modkey }, "p", function () awful.spawn.with_shell("reboot") end,
-                { description = "reboot system", group = "client" }),
+        -- System Restart
+        awful.key({ modkey }, "p", function () awful.spawn.with_shell("reboot") end,
+            { description = "reboot system", group = "client" }),
 
-    -- Pcmanfm
-    awful.key({ modkey, "Shift" }, "n", function () awful.spawn("pcmanfm") end,
-                { description = "open pcmanfm", group = "Application" }),
+        -- Pcmanfm
+        awful.key({ modkey, "Shift" }, "n", function () awful.spawn("pcmanfm") end,
+            { description = "open pcmanfm", group = "Application" }),
 
-    -- Emacs
-    awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
-                { description = "open emacs", group = "Application" }),
-                
-    -- Move Screen Focus
-    awful.key({ modkey }, "r", function() awful.screen.focus_relative(1) end,
-              {description = "move focus to right monitor", group = "launcher"}),
+        -- Emacs
+        awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
+            { description = "open emacs", group = "Application" }),
 
-    -- Launch speedcrunch
-    awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
+        -- Move Screen Focus
+        awful.key({ modkey }, "r", function() awful.screen.focus_relative(1) end,
+            {description = "move focus to right monitor", group = "launcher"}),
+
+        -- Launch speedcrunch
+        awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
             {description = "open speedcrunch", group = "Application"}),
 
-    -- Launch pulsemixer
-     awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
-    {description = "open pulsemixer", group = "Application"}),
-    -- Launch Visual Studio Code
-     awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
-    {description = "open VS Code", group = "Application"}),
+        -- Launch pulsemixer
+        awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
+            {description = "open pulsemixer", group = "Application"}),
+        -- Launch Visual Studio Code
+        awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
+            {description = "open VS Code", group = "Application"}),
         -- Brave Browser
-    awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
+        awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
             {description = "open brave bowser", group = "Application"}),
 
 
-    -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"})
+        -- Prompt
+        awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+            {description = "run prompt", group = "launcher"})
 
     --awful.key({ modkey }, "x",
     --          function ()
