@@ -13,18 +13,12 @@ zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
 
-alias LS="cd /home/uwu/Linux-Storage/"
-alias Downloads="cd /home/uwu/Linux-Storage/Downloads/"
-alias update="yay -Syu"
+bindkey -v
+
 alias ls="ls -lah -t --color"
-alias zshrc="vim /home/uwu/.zshrc"
 alias waifu2x="waifu2x-ncnn-vulkan"
 alias Music="cd /home/uwu/Linux-Storage/Downloads/Music/"
 alias c='clear'
-alias ff='firefox'
-alias install='sudo pacman -S'
-alias remove='sudo pacman -Rns'
-alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 alias doom="./.emacs.d/bin/doom"
 alias wd="wol 44:8A:5B:CE:75:8A"
 alias vim="nvim"
@@ -47,7 +41,7 @@ path+=(~/.cargo/bin/)
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
 
-if [[ "$(tty)" = "/dev/tty1" ]]; then
-	pgrep awesome || startx
-fi
+#if [[ "$(tty)" = "/dev/tty1" ]]; then
+#	pgrep awesome || startx
+#fi
 colorscripts -r
