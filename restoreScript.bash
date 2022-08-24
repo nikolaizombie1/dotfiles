@@ -7,6 +7,7 @@ cp .bashrc ~/
 cp .zshenv ~/
 cp .zshrc ~/
 cp alacritty.yml ~/
-cp starship.toml ~/.config
+cp starship.toml ~/.config/
 cp .xinitrc ~/
+cp -r fish ~/.config/
 sudo mkdir "/etc/systemd/system/getty@tty1.service.d/" ; sudo mv override.conf /etc/systemd/system/getty@tty1.service.d/
