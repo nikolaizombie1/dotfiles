@@ -22,7 +22,6 @@ alias c='clear'
 alias doom="./.emacs.d/bin/doom"
 alias wd="wol 44:8A:5B:CE:75:8A"
 alias vim="nvim"
-alias wd="wol 44:8A:5B:CE:75:8A"
 
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search

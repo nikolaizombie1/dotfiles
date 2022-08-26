@@ -66,3 +66,4 @@
 (package! org-bullets)
 (package! format-all)
 (package! ayu-theme)
+(package! fish-mode)

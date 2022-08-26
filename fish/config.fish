@@ -5,7 +5,18 @@ end
 fish_vi_key_bindings
 starship init fish | source
 
-# Start X at login
+alias ls="exa --icons -s=modified -T -L 1 -s=name --group-directories-first"
+alias la="exa --icons -s=modified -T -L 1 -s=name --group-directories-first -a"
+alias waifu2x="waifu2x-ncnn-vulkan"
+alias Music="cd /home/uwu/Linux-Storage/Downloads/Music/"
+alias c='clear'
+alias doom="./.emacs.d/bin/doom"
+alias wd="wol 44:8A:5B:CE:75:8A"
+alias vim="nvim"
+
+export DEBUGINFOD_URLS='https://debuginfod.archlinux.org'
+
+#Start X at login
 if status is-login
     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
         exec startx -- -keeptty
