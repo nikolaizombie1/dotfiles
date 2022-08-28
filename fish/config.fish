@@ -5,9 +5,9 @@ end
 fish_vi_key_bindings
 starship init fish | source
 
-alias ls="exa --icons -s=modified -T -L 1 --group-directories-first"
-alias la="exa --icons -s=modified -T -L 1 --group-directories-first -a"
-alias ll="exa -lma -s=modified --icons"
+alias ls="exa --icons -s=changed -T -L 1 --group-directories-first"
+alias la="exa --icons -s=changed -T -L 1 --group-directories-first -a"
+alias ll="exa -lma -s=changed --icons"
 alias waifu2x="waifu2x-ncnn-vulkan"
 alias Music="cd /home/uwu/Linux-Storage/Downloads/Music/"
 alias c='clear'
