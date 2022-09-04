@@ -3,7 +3,7 @@
 
 {
     if (model ~/Master/ && percentage != "") {
-        print percentage;
+	    {print percentage" "};
         exit 0;
     }
 }
