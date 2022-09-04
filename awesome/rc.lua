@@ -109,6 +109,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%a %b %d %T ",1)
 
+mousebat = awful.widget.watch('fish -c "~/.config/awesome/mouseEmoji.fish"',60)
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -212,6 +213,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             --mykeyboardlayout,
+            mousebat,
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
