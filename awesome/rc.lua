@@ -358,7 +358,7 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
             {description = "open pulsemixer", group = "Application"}),
         -- Switch Audio Output
-        awful.key({ modkey }, "F12", function () awful.spawn.with_shell("~/./.config/awesome/change_sinks") end,
+        awful.key({ modkey }, "0", function () awful.spawn.with_shell("~/./.config/awesome/change_sinks") end,
             { description = "reboot system", group = "client" }),
 
         -- Launch Visual Studio Code
