@@ -108,8 +108,9 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%a %b %d %T ",1)
+currsink = awful.widget.watch("bash -c '~/./.config/awesome/current_sink'",0.1)
 
-mousebat = awful.widget.watch('fish -c "~/.config/awesome/mouseEmoji.fish"',60)
+
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -214,7 +215,7 @@ awful.screen.connect_for_each_screen(function(s)
             layout = wibox.layout.fixed.horizontal,
             --mykeyboardlayout,
             wibox.widget.systray(),
-            mousebat,
+            currsink,
             mytextclock,
             s.mylayoutbox,
         },
@@ -356,6 +357,10 @@ globalkeys = gears.table.join(
         -- Launch pulsemixer
         awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
             {description = "open pulsemixer", group = "Application"}),
+        -- Switch Audio Output
+        awful.key({ modkey }, "F12", function () awful.spawn.with_shell("~/./.config/awesome/change_sinks") end,
+            { description = "reboot system", group = "client" }),
+
         -- Launch Visual Studio Code
         awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
             {description = "open VS Code", group = "Application"}),

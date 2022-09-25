@@ -67,3 +67,6 @@
 (package! format-all)
 (package! ayu-theme)
 (package! fish-mode)
+(package! peep-dired)
+(package! matlab-mode)
+(package! rustic)
