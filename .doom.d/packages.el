@@ -52,5 +52,5 @@
 (package! format-all)
 (package! ayu-theme)
 (package! fish-mode)
-(package! lsp-mode)
-(package! ccls)
+(package! dap-mode)
+(package! posframe)

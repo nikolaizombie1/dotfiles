@@ -65,5 +65,5 @@
 (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
 (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 (setq confirm-kill-emacs nil)
-(require 'ccls)
-(setq ccls-executable "/usr/bin/ccls")
+(setq dap-auto-configure-features '(sessions locals controls tooltip))
+(require 'dap-lldb)
