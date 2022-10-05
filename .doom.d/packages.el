@@ -52,5 +52,8 @@
 (package! format-all)
 (package! ayu-theme)
 (package! fish-mode)
-(package! dap-mode)
 (package! posframe)
+(package! dap-mode :recipe
+  (:host github
+   :repo "emacs-lsp/dap-mode"
+   :files ("*.el")))

@@ -340,11 +340,11 @@ globalkeys = gears.table.join(
 
         -- Pcmanfm
         awful.key({ modkey, "Shift" }, "n", function () awful.spawn("pcmanfm") end,
-            { description = "open pcmanfm", group = "Application" }),
+            { description = "open pcmanfm", group = "apps" }),
 
         -- Emacs
         awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
-            { description = "open emacs", group = "Application" }),
+            { description = "open emacs", group = "apps" }),
 
         -- Move Screen Focus
         awful.key({ modkey }, "r", function() awful.screen.focus_relative(1) end,
@@ -352,21 +352,21 @@ globalkeys = gears.table.join(
 
         -- Launch speedcrunch
         awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
-            {description = "open speedcrunch", group = "Application"}),
+            {description = "open speedcrunch", group = "apps"}),
 
         -- Launch pulsemixer
         awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
-            {description = "open pulsemixer", group = "Application"}),
+            {description = "open pulsemixer", group = "apps"}),
         -- Switch Audio Output
         awful.key({ modkey }, "0", function () awful.spawn.with_shell("~/./.config/awesome/change_sinks") end,
-            { description = "reboot system", group = "client" }),
+            { description = "switch audio source", group = "client" }),
 
         -- Launch Visual Studio Code
         awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
-            {description = "open VS Code", group = "Application"}),
+            {description = "open VS Code", group = "apps"}),
         -- Brave Browser
         awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
-            {description = "open brave bowser", group = "Application"}),
+            {description = "open brave bowser", group = "apps"}),
 
 
         -- Prompt

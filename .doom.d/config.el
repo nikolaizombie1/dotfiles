@@ -17,7 +17,8 @@
 ;;   presentations or streaming.
 ;;
 (setq doom-font (font-spec :family "mononoki Nerd Font" :size 16)
-      doom-variable-pitch-font (font-spec :family "mononoki Nerd Font" :size 16))
+      doom-variable-pitch-font (font-spec :family "mononoki Nerd Font" :size 16)
+      doom-big-font (font-spec :family "mononoki Nerd Font" :size 32))
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
@@ -31,8 +32,6 @@
   "Returns a random doom-theme from a hardcoded list"
   (seq-random-elt
         '(doom-Iosvkem doom-horizon doom-molokai doom-old-hope doom-laserwave doom-tomorrow-night doom-challenger-deep doom-monokai-classic doom-outrun-electric doom-shades-of-purple)))
-
-(random-doom-theme)
 
 (setq doom-theme (random-doom-theme))
 
@@ -65,5 +64,5 @@
 (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
 (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 (setq confirm-kill-emacs nil)
-(setq dap-auto-configure-features '(sessions locals controls tooltip))
-(require 'dap-lldb)
+(setq dap-auto-configure-mode t)
+(require 'dap-cpptools)
