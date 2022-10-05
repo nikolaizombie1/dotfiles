@@ -31,7 +31,16 @@
 (defun random-doom-theme ()
   "Returns a random doom-theme from a hardcoded list"
   (seq-random-elt
-        '(doom-Iosvkem doom-horizon doom-molokai doom-old-hope doom-laserwave doom-tomorrow-night doom-challenger-deep doom-monokai-classic doom-outrun-electric doom-shades-of-purple)))
+        '(doom-Iosvkem
+          doom-horizon
+          doom-molokai
+          doom-old-hope
+          doom-laserwave
+          doom-tomorrow-night
+          doom-challenger-deep
+          doom-monokai-classic
+          doom-outrun-electric
+          doom-shades-of-purple)))
 
 (setq doom-theme (random-doom-theme))
 
