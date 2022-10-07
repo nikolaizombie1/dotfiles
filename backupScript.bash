@@ -10,6 +10,7 @@ cp ~/alacritty.yml .
 cp ~/.config/starship.toml .
 cp ~/.xinitrc .
 cp -r ~/.config/fish .
+cp ~/.gitconfig .
 
 if git pull; then
     git commit -a -m "$1"
