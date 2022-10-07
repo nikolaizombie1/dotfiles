@@ -1,0 +1,13 @@
+[includeIf "gitdir:~/Github\ Repos/University/"]
+    [user]
+        name = fabiomatos999
+        email = "fabio.matos@upr.edu"
+    [core]
+        sshCommand = "ssh -i ~/.ssh/id_ed25519_uni"
+
+[includeIf "gitdir:~/Github\ Repos/Personal/"]
+    [user]
+        name = nikolaizombie1
+        email = "fabio.matos999@gmail.com"
+    [core]
+        sshCommand = "ssh -i ~/.ssh/id_ed25519_personal"
