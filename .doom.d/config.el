@@ -76,3 +76,4 @@
 (setq confirm-kill-emacs nil)
 (setq dap-auto-configure-mode t)
 (require 'dap-cpptools)
+(setq default-input-method "japanese-mozc")
