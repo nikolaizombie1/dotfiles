@@ -54,3 +54,5 @@
 (package! fish-mode)
 (package! posframe)
 (package! dap-mode)
+(package! mozc)
+(package! mozc-im)
