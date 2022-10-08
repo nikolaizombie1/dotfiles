@@ -72,6 +72,7 @@
 
 (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
 (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+(setq confirm-kill-processes nil)
 (setq confirm-kill-emacs nil)
 (setq dap-auto-configure-mode t)
 (require 'dap-cpptools)
