@@ -10,5 +10,5 @@ picom --config ~/.config/awesome/picom.conf --experimental-backends &
 /usr/bin/emacs --daemon &
 fcitx -d &
 /usr/bin/numlockx on
-sshfs -p 39801 weeb@weeb:/home/weeb/Mass-Storage/ Debian\ Server -C &
+sshfs -p 39801 weeb@weeb:/home/weeb/Mass-Storage/ Debian\ Server -sshfs -p 39801 weeb@weeb:/home/weeb/Mass-Storage/ Debian\ Server -C -o IdentityFile=~/.ssh/id_ed25519_personal &
 blueberry-tray &
