@@ -56,3 +56,4 @@
 (package! dap-mode)
 (package! mozc)
 (package! mozc-im)
+(package! fzf)
