@@ -15,6 +15,7 @@ alias doom="./.emacs.d/bin/doom"
 alias wd="wol 44:8A:5B:CE:75:8A"
 alias vim="nvim"
 
+set PATH $PATH "/var/lib/snapd/snap/bin"
 set -x DEBUGINFOD_URLS 'https://debuginfod.archlinux.org'
 
 #Start X at login
