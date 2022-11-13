@@ -10,5 +10,6 @@ cp alacritty.yml ~/
 cp starship.toml ~/.config/
 cp .xinitrc ~/
 cp -r fish ~/.config/
+cp -r wireplumber ~/.config/
 cp .gitconfig ~/
 #sudo mkdir "/etc/systemd/system/getty@tty1.service.d/" ; sudo mv override.conf /etc/systemd/system/getty@tty1.service.d/

@@ -10,6 +10,7 @@ cp ~/alacritty.yml .
 cp ~/.config/starship.toml .
 cp ~/.xinitrc .
 cp -r ~/.config/fish .
+cp -r ~/.config/wireplumber .
 cp ~/.gitconfig .
 
 if git pull; then
