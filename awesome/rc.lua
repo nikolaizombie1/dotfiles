@@ -48,7 +48,7 @@ end
 beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "alacritty --config-file /home/uwu/alacritty.yml "
+terminal = "/home/uwu/.cargo/bin/alacritty --config-file /home/uwu/alacritty.yml "
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -320,8 +320,10 @@ globalkeys = gears.table.join(
               end,
               {description = "restore minimized", group = "client"}),
         -- Prompt
-        awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn.with_shell("~/.config/awesome/rofiRun.bash") end,
-                {description = "run rofi", group = "launcher"}),
+        -- awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn.with_shell("dmenu_run -h 30 -c -l 10") end,
+        --         {description = "run dmenu", group = "launcher"}),
+         awful.key({ modkey , "Shift" },            "Return",     function () awful.spawn.with_shell("~/.config/awesome/rofiRun.bash") end,
+                 {description = "run rofi", group = "launcher"}),
 
         -- Spectacle
         awful.key({modkey, "Shift"}, "a", function() awful.spawn("spectacle -r -c -b") end, {description = "screenshot area", group="apps"}),
@@ -351,8 +353,8 @@ globalkeys = gears.table.join(
             {description = "move focus to right monitor", group = "launcher"}),
 
         -- Launch speedcrunch
-        awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
-            {description = "open speedcrunch", group = "apps"}),
+        --awful.key({ modkey, "Shift" }, "s" , function () awful.spawn("speedcrunch") end,
+        --    {description = "open speedcrunch", group = "apps"}),
 
         -- Launch pulsemixer
         awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
@@ -370,6 +372,12 @@ globalkeys = gears.table.join(
         -- Toggle Play-Pause
         awful.key({}, "XF86AudioPlay" , function () awful.spawn("playerctl play-pause -a") end,
             {description = "toggle play pause", group = "apps"}),
+        -- screenshot region and copy to clipboard
+        awful.key({ modkey, "Shift" }, "s", function () awful.spawn.with_shell("~/./.config/awesome/run_scrot.bash -r") end,
+            { description = "screenshot region", group = "client" }),
+        -- screenshot window and copy to clipboard
+        awful.key({}, "Print", function () awful.spawn.with_shell("~/./.config/awesome/run_scrot.bash -w") end,
+            { description = "screenshot window", group = "client" }),
 
         -- Prompt
         awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,

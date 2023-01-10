@@ -77,3 +77,19 @@
 (setq dap-auto-configure-mode t)
 (require 'dap-cpptools)
 (setq default-input-method "japanese")
+(evil-define-key 'normal dired-mode-map
+  (kbd "h") 'dired-up-directory
+  (kbd "l") 'dired-find-file)
+(map! :leader
+ (:after dired
+         (:map dired-mode-map
+               :desc "Peep-dired image previews" "d p" #'peep-dired
+               :desc "Dired view file" "d v" #'dired-view-file)))
+(evil-define-key 'normal peep-dired-mode-map (kbd "<SPC>") 'peep-dired-scroll-page-down
+                                             (kbd "C-<SPC>") 'peep-dired-scroll-page-up
+                                             (kbd "<backspace>") 'peep-dired-scroll-page-up
+                                             (kbd "j") 'peep-dired-next-file
+                                             (kbd "k") 'peep-dired-prev-file)
+(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+(setq dired-listing-switches "-ahlt -v --group-directories-first")
+(setq peep-dired-cleanup-on-disable t)

@@ -12,8 +12,4 @@ cp ~/.xinitrc .
 cp -r ~/.config/fish .
 cp -r ~/.config/wireplumber .
 cp ~/.gitconfig .
-
-if git pull; then
-    git commit -a -m "$1"
-    git push
-fi
+cp /etc/systemd/system/getty@tty1.service.d/autologin.conf .

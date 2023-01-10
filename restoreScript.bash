@@ -12,4 +12,4 @@ cp .xinitrc ~/
 cp -r fish ~/.config/
 cp -r wireplumber ~/.config/
 cp .gitconfig ~/
-#sudo mkdir "/etc/systemd/system/getty@tty1.service.d/" ; sudo mv override.conf /etc/systemd/system/getty@tty1.service.d/
+sudo mkdir -p "/etc/systemd/system/getty@tty1.service.d/" && sudo cp autologin.conf /etc/systemd/system/getty@tty1.service.d/ && sudo systemctl daemon-reload && sudo systemctl enable getty@tty1.service
