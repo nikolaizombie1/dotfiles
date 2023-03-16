@@ -93,3 +93,5 @@
 (add-hook 'peep-dired-hook 'evil-normalize-keymaps)
 (setq dired-listing-switches "-ahlt -v --group-directories-first")
 (setq peep-dired-cleanup-on-disable t)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.

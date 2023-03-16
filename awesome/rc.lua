@@ -348,6 +348,10 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift" }, "e", function() awful.spawn("emacsclient -c -a 'emacs'") end,
             { description = "open emacs", group = "apps" }),
 
+        -- Eagle
+        awful.key({ modkey,  }, "e", function() awful.spawn.with_shell("~/Scripts/launch_eagle.sh") end,
+            { description = "Open Eagle", group = "apps" }),
+
         -- Move Screen Focus
         awful.key({ modkey }, "r", function() awful.screen.focus_relative(1) end,
             {description = "move focus to right monitor", group = "launcher"}),

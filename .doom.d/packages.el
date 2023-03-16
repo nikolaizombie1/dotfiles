@@ -54,3 +54,4 @@
 (package! fish-mode)
 (package! peep-dired)
 (package! dap-mode)
+(package! emmet-mode)

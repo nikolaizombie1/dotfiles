@@ -4,7 +4,7 @@
         email = "fabio.matos@upr.edu"
     [core]
         sshCommand = "ssh -i ~/.ssh/id_ed25519_uni"
-
+	
 [includeIf "gitdir:~/Github\ Repos/Personal/"]
     [user]
         name = nikolaizombie1

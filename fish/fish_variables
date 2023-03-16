@@ -1,7 +1,8 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
-SETUVAR --export SSH_AGENT_PID:994
-SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2dXXXXXX1XyEK9/agent\x2e993
+SETUVAR --export PYENV_ROOT:/home/uwu/\x2epyenv
+SETUVAR --export SSH_AGENT_PID:1424
+SETUVAR --export SSH_AUTH_SOCK:/tmp/ssh\x2dXXXXXXuzMS2A/agent\x2e1420
 SETUVAR __fish_initialized:3400
 SETUVAR fish_color_autosuggestion:666
 SETUVAR fish_color_cancel:\x2d\x2dreverse
@@ -43,4 +44,4 @@ SETUVAR fish_pager_color_selected_background:\x2d\x2dbackground\x3d333
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
-SETUVAR fish_user_paths:/home/uwu/\x2elocal/bin\x1e/home/uwu/\x2ecargo/bin
+SETUVAR fish_user_paths:/home/uwu/\x2epyenv/bin\x1e/home/uwu/\x2enix\x2dprofile/bin\x1e/home/uwu/\x2elocal/bin\x1e/home/uwu/\x2ecargo/bin

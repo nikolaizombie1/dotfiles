@@ -14,10 +14,12 @@ alias c='clear'
 alias doom="~/./.emacs.d/bin/doom"
 alias wd="wakeonlan 44:8A:5B:CE:75:8A"
 alias vim="nvim"
+alias mktex="rm *.out *.toc *.aux *.log *.pdf *.blg *.bbl ; pdflatex *.tex && bibtex *.aux && pdflatex *.tex && pdflatex *.tex"
 
 set PATH $PATH "/var/lib/snapd/snap/bin"
 set PATH $PATH "/usr/sbin"
 set PATH $PATH "~/.cargo/bin/"
+set PATH $PATH $HOME"/Scripts"
 set -gx DEBUGINFOD_URLS 'https://debuginfod.archlinux.org'
 set -gx GTK_IM_MODULE 'fcitx'
 set -gx QT_IM_MODULE 'fcitx'

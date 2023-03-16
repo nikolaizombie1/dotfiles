@@ -44,3 +44,4 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev
 #	pgrep awesome || startx
 #fi
 colorscripts -r
+
