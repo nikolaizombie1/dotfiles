@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cp ~/.config/redshift.conf .
-cp -r ~/.doom.d .
+cp -r ~/.config/doom .
 cp -r ~/.config/awesome .
 cp ~/.bashrc .
 cp ~/.zshenv .

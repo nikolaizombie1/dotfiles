@@ -55,3 +55,5 @@
 (package! peep-dired)
 (package! dap-mode)
 (package! emmet-mode)
+(package! arduino-cli-mode)
+(package! arduino-mode)
