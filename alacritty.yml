@@ -94,9 +94,9 @@
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark`
   # and `light`. Set this to `None` to use the default theme variant.
-  #gtk_theme_variant: None
+  #window.decorations_theme_vatiant: None
 window:
-  opacity: 0.85
+  opacity: 0.90
 
 
 scrolling:

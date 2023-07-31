@@ -48,7 +48,7 @@ end
 beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "/home/uwu/.cargo/bin/alacritty --config-file /home/uwu/alacritty.yml "
+terminal = "alacritty --config-file /home/uwu/.config/alacritty/alacritty.yml "
 editor = os.getenv("EDITOR") or "emacs"
 editor_cmd = terminal .. " -e " .. editor
 
@@ -371,7 +371,7 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
             {description = "open VS Code", group = "apps"}),
         -- Brave Browser
-        awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave-browser") end,
+        awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
             {description = "open brave bowser", group = "apps"}),
         -- Toggle Play-Pause
         awful.key({}, "XF86AudioPlay" , function () awful.spawn("playerctl play-pause -a") end,

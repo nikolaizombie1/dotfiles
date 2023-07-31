@@ -11,7 +11,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "Mononoki NF 16"
+theme.font          = "Mononoki Nerd Font 16"
 
 theme.bg_normal     = "#000000"
 theme.bg_focus      = "#202020"

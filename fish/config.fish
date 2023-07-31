@@ -30,8 +30,8 @@ set -gx XMODIFIERS '@im=fcitx'
 #set -gx XDG_CONFIG_HOME "~/.config/"
 set -gx GTK_THEME 'Sweet-Dark-v40'
 set -gx GTK_THEME 'Sweet-Dark-v40'
-keychain --eval (command ls ~/.ssh/ | awk '/^id[_a-z0-9]*$/') -q | source
-. /home/uwu/.nix-profile/etc/profile.d/nix.fish
+#keychain --eval (command ls ~/.ssh/ | awk '/^id[_a-z0-9]*$/') -q | source
+#. /home/uwu/.nix-profile/etc/profile.d/nix.fish
 
 #Start X at login
 if status is-login
