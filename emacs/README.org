@@ -1,6 +1,29 @@
 #+TITLE: Emacs Literate Config
 
-* Table of Contents :TOC:
+* Table Of Contents                                                     :TOC:
+- [[#straight-bootstrap][Straight Bootstrap]]
+- [[#frame-settings][Frame Settings]]
+- [[#evil-mode-setup][Evil Mode Setup]]
+- [[#themes-and-icons][Themes and Icons]]
+- [[#font-configuration][Font Configuration]]
+- [[#frame-transperancy][Frame Transperancy]]
+- [[#dashboard][Dashboard]]
+- [[#lsp-setup][LSP Setup]]
+- [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
+- [[#vterm-setup][Vterm Setup]]
+- [[#exec-path-from-shell][Exec Path From Shell]]
+- [[#mode-line-theming][Mode Line Theming]]
+- [[#magit-git-client][Magit (Git Client)]]
+- [[#fish-mode-fish-shell-language-support][Fish Mode (Fish Shell Language Support)]]
+- [[#lua-mode-luage-language-support][Lua Mode (Luage Language Support)]]
+- [[#recent-file-mode-setup][Recent File Mode Setup]]
+- [[#line-numbers][Line Numbers]]
+- [[#electric-pair-mode-automatic-brace-insertion][Electric Pair Mode (Automatic Brace Insertion)]]
+- [[#evil-set-leader-key][Evil Set Leader Key]]
+- [[#evil-define-key-vim-emulation-keybinding][Evil Define Key (Vim Emulation Keybinding)]]
+- [[#warning-minimum-level-suppress-comp-warnings][Warning Minimum Level (Suppress Comp Warnings)]]
+- [[#tab-always-indent-tab-indentation][Tab Always Indent (Tab Indentation)]]
+- [[#org-mode-extentions][Org Mode Extentions]]
 
 * Straight Bootstrap
 #+BEGIN_SRC emacs-lisp
