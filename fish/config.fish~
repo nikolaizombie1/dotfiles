@@ -33,6 +33,9 @@ set -gx GTK_THEME 'Sweet-Dark-v40'
 set -gx HOSTNAME (hostname)
 set -gx UGIT "ssh -i $HOME/.ssh/id_ed25519_university -o IdentitiesOnly=yes"
 set -gx PGIT "ssh -i $HOME/.ssh/id_ed25519_personal -o IdentitiesOnly=yes"
+function ugit_clone
+    GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_ed25519_university -o IdentitiesOnly=yes" git clone $argv
+end
 
 if status --is-interactive;
     keychain --nogui --clear ~/.ssh/id_ed25519_personal ~/.ssh/id_ed25519_university -q

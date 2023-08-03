@@ -13,6 +13,6 @@ cp -r fish ~/.config/
 cp -r wireplumber ~/.config/
 cp .gitconfig ~/
 cp mimeapps.list ~/.local/share/applications/
-sudo mkdir -p "/etc/systemd/system/getty@tty1.service.d/" && sudo cp autologin.conf /etc/systemd/system/getty@tty1.service.d/ && sudo systemctl daemon-reload && sudo systemctl enable getty@tty1.service
+# sudo mkdir -p "/etc/systemd/system/getty@tty1.service.d/" && sudo cp autologin.conf /etc/systemd/system/getty@tty1.service.d/ && sudo systemctl daemon-reload && sudo systemctl enable getty@tty1.service
 cp -r emacs ~/.config
 cp -r terminator ~/.config/
