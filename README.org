@@ -1,0 +1,207 @@
+#+TITLE: Emacs Literate Config
+
+* Table of Contents :TOC:
+
+* Straight Bootstrap
+#+BEGIN_SRC emacs-lisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+#+END_SRC
+
+* Frame Settings
+#+BEGIN_SRC emacs-lisp
+  (tool-bar-mode -1)
+  (menu-bar-mode -1)
+  (setq confirm-kill-processes nil)
+  (global-font-lock-mode)
+#+END_SRC
+
+* Evil Mode Setup
+#+BEGIN_SRC emacs-lisp
+  (setq evil-overriding-maps nil)
+  (setq evil-want-keybinding nil)
+  (straight-use-package 'evil)
+  (evil-mode t)
+  (straight-use-package 'evil-collection)
+  (evil-collection-init)
+  (setq evil-want-keybinding t)
+  (straight-use-package 'undo-tree)
+  (evil-set-undo-system 'undo-tree)
+  (global-undo-tree-mode 1)
+#+END_SRC
+
+* Themes and Icons
+#+BEGIN_SRC emacs-lisp
+  (defun random-doom-theme ()
+    "Returns a random doom-theme from a hardcoded list"
+    (seq-random-elt
+	  '(doom-Iosvkem
+	    doom-horizon
+	    doom-molokai
+	    doom-old-hope
+	    doom-laserwave
+	    doom-tomorrow-night
+	    doom-challenger-deep
+	    doom-monokai-classic
+	    doom-outrun-electric
+	    doom-shades-of-purple
+	    doom-ayu-dark)))
+  (straight-use-package 'doom-themes)
+  (straight-use-package 'all-the-icons)
+  (straight-use-package 'all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t)
+  (load-theme (random-doom-theme) t)
+  (doom-themes-org-config)
+  (straight-use-package 'nerd-icons)
+#+END_SRC
+
+* Font Configuration
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(font . "Mononoki Nerd Font-18" ))
+  (set-face-attribute 'default t :font "Mononoki Nerd Font-18" )
+#+END_SRC
+
+* Frame Transperancy
+#+BEGIN_SRC emacs-lisp
+  (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
+  (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
+#+END_SRC
+
+* Dashboard
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'dashboard)
+  (dashboard-setup-startup-hook)
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+#+END_SRC
+
+* LSP Setup
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'lsp-mode)
+  (straight-use-package 'projectile)
+  (straight-use-package 'helm)
+  (straight-use-package 'helm-lsp)
+  (straight-use-package 'helm-projectile)
+  (straight-use-package 'lsp-ui)
+  (setq lsp-inlay-hint-enable t)
+  (straight-use-package 'company)
+  (straight-use-package 'company-mode)
+  (global-company-mode)
+  (straight-use-package 'lsp-treemacs)
+  (lsp-treemacs-sync-mode 1)
+  (straight-use-package 'treemacs)
+  (straight-use-package 'dap-mode)
+  (require 'dap-cpptools)
+  (require 'dap-gdb-lldb)
+#+END_SRC
+
+* Rustic (Rust Language Support)
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'rustic)
+  (setq rustic-cargo-check-exec-command "clippy")
+  (setq rustic-rustfmt-args "--edition 2021")
+#+END_SRC
+
+* Vterm Setup
+#+BEGIN_SRC emacs-lisp
+ (straight-use-package 'vterm)
+ (setq vterm-shell "/usr/bin/fish")
+#+END_SRC
+
+* Exec Path From Shell 
+Ensures that the user path is the same as the `exec-path` variable at startup.
+#+BEGIN_SRC emacs-lisp
+ (straight-use-package 'exec-path-from-shell)
+ (exec-path-from-shell-initialize)
+#+END_SRC
+
+* Mode Line Theming
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'doom-modeline)
+  (doom-modeline-mode 1)
+#+END_SRC
+
+* Magit (Git Client)
+#+BEGIN_SRC emacs-lisp
+ (straight-use-package 'magit)
+#+END_SRC
+
+* Fish Mode (Fish Shell Language Support)
+#+BEGIN_SRC emacs-lisp
+ (straight-use-package 'fish-mode)
+#+END_SRC
+
+* Lua Mode (Luage Language Support)
+#+BEGIN_SRC emacs-lisp
+ (straight-use-package 'lua-mode)
+#+END_SRC
+
+* Recent File Mode Setup
+#+BEGIN_SRC emacs-lisp
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+#+END_SRC
+
+* Line Numbers
+#+BEGIN_SRC emacs-lisp
+ (global-display-line-numbers-mode)
+#+END_SRC
+
+* Electric Pair Mode (Automatic Brace Insertion)
+#+BEGIN_SRC emacs-lisp
+ (electric-pair-mode)
+#+END_SRC
+
+* Evil Set Leader Key
+#+BEGIN_SRC emacs-lisp
+  (evil-set-leader 'normal (kbd "SPC"))
+#+END_SRC
+
+* Evil Define Key (Vim Emulation Keybinding)
+#+BEGIN_SRC emacs-lisp
+  (evil-define-key 'normal 'global (kbd "<leader>.") 'find-file
+    (kbd "<leader> o t") 'vterm
+    (kbd "<leader> f r") 'recentf-open-files
+    (kbd "<leader> b p") 'previous-buffer
+    (kbd "<leader> b n") 'next-buffer
+    (kbd "<leader> SPC") 'projectile-find-file
+    (kbd "<leader> w w") 'evil-window-next
+    (kbd "<leader> w v") 'evil-window-vsplit
+    (kbd "<leader> w h") 'evil-window-split
+    (kbd "<leader> w c") 'evil-window-delete
+    (kbd "<leader> c l") 'org-store-link
+    (kbd "<leader> c a") 'org-agenda
+    (kbd "<leader> c c") 'org-capture)
+ (evil-define-key 'normal dired-mode-map
+   (kbd "h") 'dired-up-directory
+   (kbd "l") 'dired-find-file)
+#+END_SRC
+
+* Warning Minimum Level (Suppress Comp Warnings)
+#+BEGIN_SRC emacs-lisp
+ (setq warning-minimum-level-level ":error")
+#+END_SRC
+
+* Tab Always Indent (Tab Indentation)
+#+BEGIN_SRC emacs-lisp
+  (setq tab-always-indent 'complete)
+#+END_SRC
+
+* Org Mode Extentions
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'toc-org)
+  (add-hook 'org-mode-hook 'toc-org-mode)
+#+END_SRC

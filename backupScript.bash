@@ -15,4 +15,5 @@ cp ~/.gitconfig .
 cp /etc/systemd/system/getty@tty1.service.d/autologin.conf .
 cp ~/.local/share/applications/mimeapps.list .
 cp ~/.config/emacs/init.el .
+cp ~/.config/emacs/README.org .
 cp -r ~/.config/terminator/ .
