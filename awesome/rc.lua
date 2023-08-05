@@ -49,7 +49,7 @@ beautiful.init("~/.config/awesome/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "terminator "
-editor = os.getenv("EDITOR") or "emacs"
+editor = os.getenv("EDITOR") or "emacsclient -c -a 'emacs'"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
@@ -108,7 +108,7 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock("%a %b %d %T ",1)
-currsink = awful.widget.watch("bash -c '~/./.config/awesome/current_sink'",0.1)
+currsink = awful.widget.watch("bash -c '~/./.config/awesome/audio_output_switcher -v -f ~/.config/awesome/devices.json'",0.1)
 
 
 
@@ -364,7 +364,7 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift" }, "p" , function () awful.spawn(terminal.." -e pulsemixer") end,
             {description = "open pulsemixer", group = "apps"}),
         -- Switch Audio Output
-        awful.key({ modkey }, "0", function () awful.spawn.with_shell("~/./.config/awesome/change_sinks") end,
+        awful.key({ modkey }, "0", function () awful.spawn.with_shell("~/./.config/awesome/audio_output_switcher -c -f ~/.config/awesome/devices.json") end,
             { description = "switch audio source", group = "client" }),
 
         -- Launch Visual Studio Code
