@@ -20,8 +20,6 @@
   - [[#electric-pair-mode-automatic-delimiter-insertion][Electric Pair Mode (Automatic Delimiter Insertion)]]
   - [[#rainbow-delimiters][Rainbow Delimiters]]
   - [[#emacs-keybindings][Emacs Keybindings]]
-  - [[#evil-set-leader-key][Evil Set Leader Key]]
-  - [[#evil-define-key-vim-emulation-keybinding][Evil Define Key (Vim Emulation Keybinding)]]
   - [[#warning-minimum-level-suppress-comp-warnings][Warning Minimum Level (Suppress Comp Warnings)]]
   - [[#tab-always-indent-tab-indentation][Tab Always Indent (Tab Indentation)]]
   - [[#org-mode-extensions][Org Mode Extensions]]
@@ -31,6 +29,7 @@
   - [[#dashboard][Dashboard]]
   - [[#syntax-checking-flycheck][Syntax Checking (flycheck)]]
   - [[#mode-line-theming][Mode Line Theming]]
+  - [[#async-extensions][Async Extensions]]
 
 ** Straight Bootstrap
 #+BEGIN_SRC emacs-lisp
@@ -61,39 +60,40 @@
 #+BEGIN_SRC emacs-lisp
   (setq evil-overriding-maps nil)
   (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   (straight-use-package 'evil)
   (evil-mode t)
   (straight-use-package 'evil-collection)
   (evil-collection-init)
-  (setq evil-want-keybinding t)
   (evil-set-undo-system 'undo-redo)
 #+END_SRC
 
 ** Themes and Icons
 #+BEGIN_SRC emacs-lisp
-  (defun random-doom-theme ()
-    "Returns a random doom-theme from a hardcoded list"
-    (seq-random-elt
-     '(doom-Iosvkem
-       doom-horizon
-       doom-molokai
-       doom-old-hope
-       doom-laserwave
-       doom-tomorrow-night
-       doom-challenger-deep
-       doom-monokai-classic
-       doom-outrun-electric
-       doom-shades-of-purple
-       doom-ayu-dark)))
-  (straight-use-package 'doom-themes)
-  (straight-use-package 'all-the-icons)
-  (straight-use-package 'all-the-icons-dired)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t)
-  (load-theme (random-doom-theme) t)
-  (doom-themes-org-config)
-  (straight-use-package 'nerd-icons)
+    (defun random-doom-theme ()
+      "Returns a random doom-theme from a hardcoded list"
+      (seq-random-elt
+       '(doom-Iosvkem
+	 doom-horizon
+	 doom-molokai
+	 doom-old-hope
+	 doom-laserwave
+	 doom-tomorrow-night
+	 doom-challenger-deep
+	 doom-monokai-classic
+	 doom-outrun-electric
+	 doom-shades-of-purple
+	 doom-ayu-dark
+         doom-dracula)))
+    (straight-use-package 'doom-themes)
+    (straight-use-package 'all-the-icons)
+    (straight-use-package 'all-the-icons-dired)
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (setq doom-themes-enable-bold t)
+    (setq doom-themes-enable-italic t)
+    (load-theme (random-doom-theme) t)
+    (doom-themes-org-config)
+    (straight-use-package 'nerd-icons)
 #+END_SRC
 
 ** Font Configuration
@@ -226,42 +226,31 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Emacs Keybindings
 #+begin_src emacs-lisp 
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (straight-use-package 'general)
+  (general-create-definer global-definer
+     :keymaps 'override
+     :states '(insert emacs normal hybrid motion visual operator)
+     :prefix "SPC"
+     :non-normal-prefix "S-SPC")
+  (global-definer
+    "."   '(counsel-find-file :which-key "find-file")
+    "o"   '(nil :which-key "open")
+    "o t" '(vterm :which-key "vterm")
+    "f"   '(nil :which-key "file")
+    "f r" '(counsel-recentf :which-key "recent files")
+    "b"   '(nil :which-key "buffer")
+    "b p" '(previous-buffer :which-key "previous buffer")
+    "b n" '(next-buffer :which-key "next buffer")
+    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
+    "SPC" '(projectile-find-file :which-key "search project")
+    "w"   '(nil :which-key "window")
+    "w w" '(evil-window-next :which-key "next window")
+    "w v" '(evil-window-vsplit :which-key "verticle split")
+    "w h" '(evil-window-split :which-key "horizontal split")
+    "w c" '(evil-window-delete :which-key "close window")
+    "g"   '(nil :which-key "magit")
+    "g g" '(magit :which-key "magit-status"))
 #+end_src
-
-** Evil Set Leader Key
-#+BEGIN_SRC emacs-lisp
-    (evil-set-leader 'normal (kbd "SPC"))
-#+END_SRC
-
-** Evil Define Key (Vim Emulation Keybinding)
-#+BEGIN_SRC emacs-lisp
-    (evil-define-key 'normal 'global
-      (kbd "<leader> o t") 'vterm
-      (kbd "<leader> f r") 'counsel-recentf
-      (kbd "<leader> b p") 'previous-buffer
-      (kbd "<leader> b n") 'next-buffer
-      (kbd "<leader> SPC") 'projectile-find-file
-      (kbd "<leader> w w") 'evil-window-next
-      (kbd "<leader> w v") 'evil-window-vsplit
-      (kbd "<leader> w h") 'evil-window-split
-      (kbd "<leader> w c") 'evil-window-delete
-      (kbd "<leader> c l") 'org-store-link
-      (kbd "<leader> c a") 'org-agenda
-      (kbd "<leader> c c") 'org-capture
-      (kbd "<leader> .") 'counsel-find-file
-      (kbd "<leader> b i") 'ivy-switch-buffer-other-window)
-    (evil-define-key 'normal dired-mode-map
-      (kbd "h") 'dired-up-directory
-      (kbd "l") 'dired-find-file
-      (kbd "<SPC>") 'nil
-      (kbd ".") 'nil)
-    (evil-define-key 'normal help-mode-map
-      (kbd "<SPC>") 'nil
-      (kbd ".") 'nil
-      (kbd "w") 'nil
-      (kbd "q") 'nil)
-#+END_SRC
 
 ** Warning Minimum Level (Suppress Comp Warnings)
 #+BEGIN_SRC emacs-lisp
@@ -322,4 +311,10 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 #+begin_src emacs-lisp
   (straight-use-package 'spaceline)
   (spaceline-spacemacs-theme)
+#+end_src
+
+** Async Extensions
+#+begin_src emacs-lisp
+  (straight-use-package 'async)
+  (dired-async-mode 1)
 #+end_src
