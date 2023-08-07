@@ -230,6 +230,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (add-hook 'LaTeX-mode-hook 'lsp-mode)
   (straight-use-package 'latex-preview-pane)
   (latex-preview-pane-enable)
+  (setq doc-view-continuous t)
 #+end_src
 
 ** Line Numbers
