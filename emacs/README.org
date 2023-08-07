@@ -3,12 +3,14 @@
 * Table Of Contents                                                     :TOC:
   - [[#straight-bootstrap][Straight Bootstrap]]
   - [[#frame-settings][Frame Settings]]
+  - [[#prompt-settings][Prompt Settings]]
   - [[#evil-mode-setup][Evil Mode Setup]]
   - [[#themes-and-icons][Themes and Icons]]
   - [[#font-configuration][Font Configuration]]
   - [[#frame-transperancy][Frame Transperancy]]
   - [[#yasnippet-code-snippets][Yasnippet (Code Snippets)]]
   - [[#which-key-keybing-suggestions][Which Key (Keybing Suggestions)]]
+  - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
   - [[#lsp-and-dap-setup][LSP and DAP Setup]]
   - [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
   - [[#vterm-setup][Vterm Setup]]
@@ -16,10 +18,12 @@
   - [[#magit-git-client][Magit (Git Client)]]
   - [[#fish-mode-fish-shell-language-support][Fish Mode (Fish Shell Language Support)]]
   - [[#lua-mode-luage-language-support][Lua Mode (Luage Language Support)]]
+  - [[#latex-language-support][LaTeX Language Support]]
   - [[#line-numbers][Line Numbers]]
   - [[#electric-pair-mode-automatic-delimiter-insertion][Electric Pair Mode (Automatic Delimiter Insertion)]]
   - [[#rainbow-delimiters][Rainbow Delimiters]]
   - [[#emacs-keybindings][Emacs Keybindings]]
+  - [[#evil-mode-configuration-vim-emulation][Evil Mode Configuration (Vim Emulation)]]
   - [[#warning-minimum-level-suppress-comp-warnings][Warning Minimum Level (Suppress Comp Warnings)]]
   - [[#tab-always-indent-tab-indentation][Tab Always Indent (Tab Indentation)]]
   - [[#org-mode-extensions][Org Mode Extensions]]
@@ -55,6 +59,11 @@
   (scroll-bar-mode -1)
   (set-fringe-mode 10)
 #+END_SRC
+
+** Prompt Settings
+#+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+end_src
 
 ** Evil Mode Setup
 #+BEGIN_SRC emacs-lisp
@@ -122,10 +131,16 @@
   (setq which-key-idle-delay 0.3)
 #+END_SRC
 
+** Fullframe (Maximize buffer)
+#+begin_src emacs-lisp
+  (straight-use-package 'fullframe)
+  (fullframe magit-status magit-mode-quit-window)
+#+end_src
 ** LSP and DAP Setup
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'lsp-mode)
   (straight-use-package 'projectile)
+  (projectile-mode +1)
   (straight-use-package 'ivy)
   (ivy-mode 1)
   (straight-use-package 'lsp-ivy)
@@ -200,6 +215,23 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (straight-use-package 'lua-mode)
 #+END_SRC
 
+** LaTeX Language Support
+#+begin_src emacs-lisp
+  (straight-use-package 'auctex)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil)
+  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-plug-into-AUCTeX t)
+  (setq TeX-PDF-mode t)
+  (add-hook 'LaTeX-mode-hook 'lsp-mode)
+  (straight-use-package 'latex-preview-pane)
+  (latex-preview-pane-enable)
+#+end_src
+
 ** Line Numbers
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
@@ -228,14 +260,21 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 #+begin_src emacs-lisp 
   (straight-use-package 'general)
   (general-create-definer global-definer
-     :keymaps 'override
-     :states '(insert emacs normal hybrid motion visual operator)
-     :prefix "SPC"
-     :non-normal-prefix "S-SPC")
+    :keymaps 'override
+    :states '(insert emacs normal hybrid motion visual operator)
+    :prefix "SPC"
+    :non-normal-prefix "S-SPC")
   (global-definer
     "."   '(counsel-find-file :which-key "find-file")
     "o"   '(nil :which-key "open")
-    "o t" '(vterm :which-key "vterm")
+    "o t" '((lambda () (interactive)
+	      (evil-window-split) 
+	      (evil-window-next 0)
+	      (evil-window-decrease-height 6)
+	      (if (projectile-project-p)
+		  (projectile-run-vterm 1)
+		(vterm))
+	      ) :which-key "vterm")
     "f"   '(nil :which-key "file")
     "f r" '(counsel-recentf :which-key "recent files")
     "b"   '(nil :which-key "buffer")
@@ -250,6 +289,14 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
     "w c" '(evil-window-delete :which-key "close window")
     "g"   '(nil :which-key "magit")
     "g g" '(magit :which-key "magit-status"))
+#+end_src
+
+** Evil Mode Configuration (Vim Emulation)
+#+begin_src emacs-lisp
+  (evil-set-initial-state 'vterm-mode 'insert)
+  (evil-define-key 'normal dired-mode-map
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file)
 #+end_src
 
 ** Warning Minimum Level (Suppress Comp Warnings)

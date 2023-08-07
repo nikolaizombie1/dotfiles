@@ -5,3 +5,5 @@
 	sshCommand = "ssh -i ~/.ssh/id_ed25519_personal -o IdentitiesOnly=yes"
 [includeIf "gitdir:~/Github_Repos/University/"]
 	   path = ~/.gitconfig-university
+[init]
+	defaultBranch = main
