@@ -13,6 +13,7 @@
   - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
   - [[#lsp-and-dap-setup][LSP and DAP Setup]]
   - [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
+  - [[#cc-mode-setup-cc-language-support][CC Mode Setup (C/C++ Language Support)]]
   - [[#vterm-setup][Vterm Setup]]
   - [[#exec-path-from-shell][Exec Path From Shell]]
   - [[#magit-git-client][Magit (Git Client)]]
@@ -58,6 +59,7 @@
   (setq confirm-kill-processes nil)
   (scroll-bar-mode -1)
   (set-fringe-mode 10)
+  (setq global-font-lock-mode t)
 #+END_SRC
 
 ** Prompt Settings
@@ -186,6 +188,12 @@
 				     :arguments "-v -f /home/uwu/Documents/Rust_Stuff/audio_output_switcher/devices.json"
 				     :cwd nil))
 #+END_SRC
+
+** CC Mode Setup (C/C++ Language Support)
+#+begin_src emacs-lisp
+  (setq company-clang-executable "/usr/bin/clang-16")
+  (add-hook 'c-mode-hook 'lsp-mode)
+#+end_src
 
 ** Vterm Setup
 #+BEGIN_SRC emacs-lisp
