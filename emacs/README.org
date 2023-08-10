@@ -320,10 +320,10 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Evil Mode Configuration (Vim Emulation)
 #+begin_src emacs-lisp
-  (evil-set-initial-state 'vterm-mode 'insert)
-  (evil-define-key 'normal dired-mode-map
-    (kbd "h") 'dired-up-directory
-    (kbd "l") 'dired-find-file)
+    (evil-set-initial-state 'vterm-mode 'insert)
+    (evil-define-key 'normal dired-mode-map
+      (kbd "h") 'dired-up-directory
+      (kbd "l") 'dired-find-file)
 #+end_src
 
 ** Warning Minimum Level (Suppress Comp Warnings)
@@ -355,6 +355,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook 'flyspell-prog-mode)
   (add-hook 'after-save-hook 'flyspell-buffer)
+  (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
   (setq flyspell-issue-message-flag nil)
 #+end_src
 
