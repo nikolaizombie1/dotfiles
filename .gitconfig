@@ -3,6 +3,7 @@
 	email = fabio.matos999@gmail.com
 [core]
 	sshCommand = "ssh -i ~/.ssh/id_ed25519_personal -o IdentitiesOnly=yes"
+	editor = emacs
 [includeIf "gitdir:~/Github_Repos/University/"]
 	   path = ~/.gitconfig-university
 [init]
