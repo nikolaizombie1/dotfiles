@@ -2,6 +2,7 @@
 
 * Table Of Contents                                                     :TOC:
   - [[#straight-bootstrap][Straight Bootstrap]]
+  - [[#use-package-integration][Use Package Integration]]
   - [[#frame-settings][Frame Settings]]
   - [[#prompt-settings][Prompt Settings]]
   - [[#evil-mode-setup][Evil Mode Setup]]
@@ -11,6 +12,7 @@
   - [[#yasnippet-code-snippets][Yasnippet (Code Snippets)]]
   - [[#which-key-keybing-suggestions][Which Key (Keybing Suggestions)]]
   - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
+  - [[#ivy-setup][Ivy Setup]]
   - [[#lsp-and-dap-setup][LSP and DAP Setup]]
   - [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
   - [[#cc-mode-setup-cc-language-support][CC Mode Setup (C/C++ Language Support)]]
@@ -52,6 +54,11 @@
     (load bootstrap-file nil 'nomessage))
 #+END_SRC
 
+** Use Package Integration
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'use-package)
+#+END_SRC
+
 ** Frame Settings
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
@@ -81,30 +88,30 @@
 
 ** Themes and Icons
 #+BEGIN_SRC emacs-lisp
-    (defun random-doom-theme ()
-      "Returns a random doom-theme from a hardcoded list"
-      (seq-random-elt
-       '(doom-Iosvkem
-	 doom-horizon
-	 doom-molokai
-	 doom-old-hope
-	 doom-laserwave
-	 doom-tomorrow-night
-	 doom-challenger-deep
-	 doom-monokai-classic
-	 doom-outrun-electric
-	 doom-shades-of-purple
-	 doom-ayu-dark
-         doom-dracula)))
-    (straight-use-package 'doom-themes)
-    (straight-use-package 'all-the-icons)
-    (straight-use-package 'all-the-icons-dired)
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-    (setq doom-themes-enable-bold t)
-    (setq doom-themes-enable-italic t)
-    (load-theme (random-doom-theme) t)
-    (doom-themes-org-config)
-    (straight-use-package 'nerd-icons)
+  (defun random-doom-theme ()
+    "Returns a random doom-theme from a hardcoded list"
+    (seq-random-elt
+     '(doom-Iosvkem
+       doom-horizon
+       doom-molokai
+       doom-old-hope
+       doom-laserwave
+       doom-tomorrow-night
+       doom-challenger-deep
+       doom-monokai-classic
+       doom-outrun-electric
+       doom-shades-of-purple
+       doom-ayu-dark
+       doom-dracula)))
+  (straight-use-package 'doom-themes)
+  (straight-use-package 'all-the-icons)
+  (straight-use-package 'all-the-icons-dired)
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (setq doom-themes-enable-bold t)
+  (setq doom-themes-enable-italic t)
+  (load-theme (random-doom-theme) t)
+  (doom-themes-org-config)
+  (straight-use-package 'nerd-icons)
 #+END_SRC
 
 ** Font Configuration
@@ -138,11 +145,9 @@
   (straight-use-package 'fullframe)
   (fullframe magit-status magit-mode-quit-window)
 #+end_src
-** LSP and DAP Setup
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'lsp-mode)
-  (straight-use-package 'projectile)
-  (projectile-mode +1)
+
+** Ivy Setup
+#+begin_src emacs-lisp
   (straight-use-package 'ivy)
   (ivy-mode 1)
   (straight-use-package 'lsp-ivy)
@@ -154,10 +159,26 @@
   (straight-use-package 'counsel-projectile)
   (straight-use-package 'ivy-yasnippet)
   (straight-use-package 'flyspell-correct-ivy)
-  (setq flyspell-correct-interface #'flyspell-correct-ivy)
-  (straight-use-package 'smex)
-  (smex-initialize)
+#+end_src
+
+** LSP and DAP Setup
+#+BEGIN_SRC emacs-lisp
+  (straight-use-package 'lsp-mode
+			:config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
   (straight-use-package 'lsp-ui)
+  (straight-use-package 'treemacs)
+  (straight-use-package 'lsp-treemacs)
+  (straight-use-package 'dap-mode)
+  (setq dap-auto-configure-features '(sessions locals controls tooltip))
+  (dap-auto-configure-mode)
+  (require 'dap-lldb)
+  (require 'dap-gdb-lldb)
+  (require 'dap-cpptools)
+  (dap-gdb-lldb-setup)
+  (dap-cpptools-setup)
+  (straight-use-package 'projectile)
+  (projectile-mode +1)
+  (setq flyspell-correct-interface #'flyspell-correct-ivy)
   (setq lsp-inlay-hint-enable t)
   (straight-use-package 'company)
   (straight-use-package 'company-mode)
@@ -167,11 +188,6 @@
   (add-hook 'after-init-hook 'global-company-mode)
   (straight-use-package 'lsp-treemacs)
   (lsp-treemacs-sync-mode 1)
-  (straight-use-package 'treemacs)
-  (straight-use-package 'dap-mode)
-  (dap-auto-configure-mode)
-  (require 'dap-cpptools)
-  (require 'dap-gdb-lldb)
 #+END_SRC
 
 ** Rustic (Rust Language Support)
@@ -184,7 +200,7 @@
 				     :request "launch"
 				     :name "GDB::Run"
 				     :gdbpath "rust-gdb"
-				     :target "/home/uwu/Documents/Rust_Stuff/audio_output_switcher/target/debug/audio_output_switcher"
+				     :target "/home/uwu/Documents/Rust_Stuff/atbash/target/debug/atbash"
 				     :arguments "-v -f /home/uwu/Documents/Rust_Stuff/audio_output_switcher/devices.json"
 				     :cwd nil))
 #+END_SRC
@@ -267,6 +283,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Emacs Keybindings
 #+begin_src emacs-lisp 
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (straight-use-package 'general)
   (general-create-definer global-definer
     :keymaps 'override
@@ -284,6 +301,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 		  (projectile-run-vterm 1)
 		(vterm))
 	      ) :which-key "vterm")
+    "o e" '(lsp-treemacs-errors-list :which-key "project errors")
     "f"   '(nil :which-key "file")
     "f r" '(counsel-recentf :which-key "recent files")
     "b"   '(nil :which-key "buffer")
@@ -368,10 +386,8 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Mode Line Theming
 #+begin_src emacs-lisp
-  ;; (straight-use-package 'spaceline)
-  ;; (spaceline-spacemacs-theme)
-  (straight-use-package 'doom-modeline)
-  (add-hook 'dashboard-after-initialize-hook #'doom-modeline-mode)
+  (straight-use-package 'spaceline)
+  (spaceline-spacemacs-theme)
 #+end_src
 
 ** Async Extensions
