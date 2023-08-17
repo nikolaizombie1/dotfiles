@@ -231,6 +231,10 @@ root.buttons(gears.table.join(
 ))
 -- }}}
 
+function restart()
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator")
+end
+
 -- {{{ Key bindings
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
@@ -283,10 +287,11 @@ globalkeys = gears.table.join(
         end,
         {description = "go back", group = "client"}),
 
+
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "r", awesome.restart,
+    awful.key({ modkey, "Control" }, "r", awful.restart,
               {description = "reload awesome", group = "awesome"}),
     -- awful.key({ modkey, "Shift"   }, "c", awesome.quit,
     --           {description = "quit awesome", group = "awesome"}),

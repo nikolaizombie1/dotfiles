@@ -5,6 +5,7 @@
   - [[#use-package-integration][Use Package Integration]]
   - [[#frame-settings][Frame Settings]]
   - [[#prompt-settings][Prompt Settings]]
+  - [[#undo-tree-setup][Undo-Tree Setup]]
   - [[#evil-mode-setup][Evil Mode Setup]]
   - [[#themes-and-icons][Themes and Icons]]
   - [[#font-configuration][Font Configuration]]
@@ -74,6 +75,12 @@
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
 
+** Undo-Tree Setup
+#+begin_src emacs-lisp
+  (straight-use-package 'undo-tree)
+  (global-undo-tree-mode)
+#+end_src
+
 ** Evil Mode Setup
 #+BEGIN_SRC emacs-lisp
   (setq evil-overriding-maps nil)
@@ -83,7 +90,7 @@
   (evil-mode t)
   (straight-use-package 'evil-collection)
   (evil-collection-init)
-  (evil-set-undo-system 'undo-redo)
+  (evil-set-undo-system 'undo-tree)
 #+END_SRC
 
 ** Themes and Icons
