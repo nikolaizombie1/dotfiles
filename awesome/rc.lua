@@ -199,7 +199,7 @@ awful.screen.connect_for_each_screen(function(s)
 --    }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    s.mywibox = awful.wibar({ position = "top", screen = s, bg = beautiful.bg_normal .. "E5" })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -291,7 +291,7 @@ globalkeys = gears.table.join(
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
               {description = "open a terminal", group = "launcher"}),
-    awful.key({ modkey, "Control" }, "r", awful.restart,
+    awful.key({ modkey, "Control" }, "r", restart,
               {description = "reload awesome", group = "awesome"}),
     -- awful.key({ modkey, "Shift"   }, "c", awesome.quit,
     --           {description = "quit awesome", group = "awesome"}),
