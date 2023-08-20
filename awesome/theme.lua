@@ -13,8 +13,8 @@ local theme = {}
 
 theme.font          = "Mononoki Nerd Font 16"
 
-theme.bg_normal = "#BC8F90"
-theme.bg_focus = "#8FBCBB"
+theme.bg_normal = "#93A0B0"
+theme.bg_focus = "#B0A393"
 theme.bg_urgent = "#ff0000"
 theme.bg_minimize = "#444444"
 theme.bg_systray = theme.bg_normal

@@ -232,7 +232,7 @@ root.buttons(gears.table.join(
 -- }}}
 
 function restart()
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 1 -m")
 end
 
 -- {{{ Key bindings
@@ -574,6 +574,15 @@ awful.rules.rules = {
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
+    { rule = { class = "steam_app_2420510" },
+      properties = {
+          focus = true,
+          raise = true,
+          border_width = 0,
+          size_hints_honor = false,
+          placement = awful.placement.centered
+      }
+    },
     --   properties = { screen = 1, tag = "2" } },
 }
 -- }}}

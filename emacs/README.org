@@ -38,6 +38,8 @@
   - [[#syntax-checking-flycheck][Syntax Checking (flycheck)]]
   - [[#mode-line-theming][Mode Line Theming]]
   - [[#async-extensions][Async Extensions]]
+  - [[#dired-configuration][Dired Configuration]]
+  - [[#emms-setup-multimedia-support][Emms Setup (Multimedia Support)]]
 
 ** Straight Bootstrap
 #+BEGIN_SRC emacs-lisp
@@ -155,17 +157,18 @@
 
 ** Ivy Setup
 #+begin_src emacs-lisp
-  (straight-use-package 'ivy)
-  (ivy-mode 1)
-  (straight-use-package 'lsp-ivy)
-  (straight-use-package 'counsel)
-  (straight-use-package 'ivy-rich)
-  (ivy-rich-mode 1)
-  (straight-use-package 'all-the-icons-ivy-rich)
-  (all-the-icons-ivy-rich-mode 1)
-  (straight-use-package 'counsel-projectile)
-  (straight-use-package 'ivy-yasnippet)
-  (straight-use-package 'flyspell-correct-ivy)
+    (straight-use-package 'ivy)
+    (ivy-mode 1)
+    (straight-use-package 'lsp-ivy)
+    (straight-use-package 'counsel)
+    (counsel-mode)
+    (straight-use-package 'ivy-rich)
+    (ivy-rich-mode 1)
+    (straight-use-package 'all-the-icons-ivy-rich)
+    (all-the-icons-ivy-rich-mode 1)
+    (straight-use-package 'counsel-projectile)
+    (straight-use-package 'ivy-yasnippet)
+    (straight-use-package 'flyspell-correct-ivy)
 #+end_src
 
 ** LSP and DAP Setup
@@ -396,10 +399,35 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 #+begin_src emacs-lisp
   (straight-use-package 'spaceline)
   (spaceline-spacemacs-theme)
+  (spaceline-toggle-minor-modes-off)
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-buffer-position-off)
+  (spaceline-toggle-buffer-modified-off)
+  (spaceline-toggle-buffer-encoding-abbrev-off)
+  (spaceline-toggle-point-position-off)
+  (spaceline-toggle-line-column-off)
+  (spaceline-toggle-hud-off)
+  (spaceline-toggle-evil-state-off)
 #+end_src
 
 ** Async Extensions
 #+begin_src emacs-lisp
   (straight-use-package 'async)
   (dired-async-mode 1)
+#+end_src
+
+** Dired Configuration
+#+begin_src emacs-lisp
+  (setq dired-listing-switches "-Al --group-directories-first")
+  (add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
+#+end_src
+
+** Emms Setup (Multimedia Support)
+#+begin_src emacs-lisp
+  (straight-use-package 'emms)
+  (emms-all)
+  (setq emms-player-list '(emms-player-mpv)
+	emms-info-functions '(emms-info-native))
+  (setq emms-source-file-default-directory "~/Music/")
+  (add-to-list emms-browser-covers "cover")
 #+end_src
