@@ -429,5 +429,5 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (setq emms-player-list '(emms-player-mpv)
 	emms-info-functions '(emms-info-native))
   (setq emms-source-file-default-directory "~/Music/")
-  (add-to-list emms-browser-covers "cover")
+  (setq emms-browser-covers 'emms-browser-cache-thumbnail-async)
 #+end_src
