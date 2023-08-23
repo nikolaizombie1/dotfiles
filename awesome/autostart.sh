@@ -3,7 +3,7 @@ dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XA
 redshiftpid=$(pgrep redshift)
 if [[ "$redshiftpid" == $(echo "")  ]]
 then
-    redshift &
+    redshift -t 6500:3000 &
 fi
 nitrogen --restore
 picom --config ~/.config/awesome/picom.conf &
