@@ -167,6 +167,9 @@ end
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+local bar_1 = require("bar_1")
+local bar_2 = require("bar_2")
+
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -199,7 +202,11 @@ awful.screen.connect_for_each_screen(function(s)
 --    }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s, bg = beautiful.bg_normal .. "E5" })
+    if s.index == 1 then
+       s.mywibox = awful.wibar({ position = "top", screen = s, bg = bar_1.bg_normal .. "E5", fg = bar_1.fg_normal })
+    else
+       s.mywibox = awful.wibar({ position = "top", screen = s, bg = bar_2.bg_normal .. "E5", fg = bar_2.fg_normal })
+    end
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -232,7 +239,9 @@ root.buttons(gears.table.join(
 -- }}}
 
 function restart()
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 1 -m")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 0 -m")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_1.lua -w 0 -m")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_2.lua -w 1 -m -r")
 end
 
 -- {{{ Key bindings
