@@ -354,8 +354,8 @@ globalkeys = gears.table.join(
         awful.key({ modkey }, "p", function () awful.spawn.with_shell("reboot") end,
             { description = "reboot system", group = "client" }),
 
-        -- Pcmanfm
-        awful.key({ modkey, "Shift" }, "n", function () awful.spawn("pcmanfm") end,
+        -- Nautilus
+        awful.key({ modkey, "Shift" }, "n", function () awful.spawn("nautilus") end,
             { description = "open pcmanfm", group = "apps" }),
 
         -- Emacs
