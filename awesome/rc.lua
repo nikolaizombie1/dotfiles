@@ -239,9 +239,9 @@ root.buttons(gears.table.join(
 -- }}}
 
 function restart()
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 0 -m")
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_1.lua -w 0 -m")
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_2.lua -w 1 -m -r")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 0 -p")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_1.lua -w 0 -p")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/bar_2.lua -w 1 -p -r")
 end
 
 -- {{{ Key bindings
