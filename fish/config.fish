@@ -35,6 +35,9 @@ set -gx PGIT "ssh -i $HOME/.ssh/id_ed25519_personal -o IdentitiesOnly=yes"
 function ugit_clone
     GIT_SSH_COMMAND="ssh -i $HOME/.ssh/id_ed25519_university -o IdentitiesOnly=yes" git clone $argv
 end
+function gwa
+    nmap 10.0.0.1-100 -p 8089 -q > /dev/null && ip neigh | awk '/44:8a:5b:ce:75:8a/ {print $1}'
+end
 
 if status --is-interactive;
     keychain --nogui --clear ~/.ssh/id_ed25519_personal ~/.ssh/id_ed25519_university -q

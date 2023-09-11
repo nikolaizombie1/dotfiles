@@ -24,6 +24,7 @@
   - [[#lua-mode-luage-language-support][Lua Mode (Luage Language Support)]]
   - [[#latex-language-support][LaTeX Language Support]]
   - [[#html-language-support][HTML Language Support]]
+  - [[#plantuml-language-support][PlantUML Language Support]]
   - [[#line-numbers][Line Numbers]]
   - [[#electric-pair-mode-automatic-delimiter-insertion][Electric Pair Mode (Automatic Delimiter Insertion)]]
   - [[#rainbow-delimiters][Rainbow Delimiters]]
@@ -280,6 +281,15 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 #+end_src
 
+** PlantUML Language Support
+#+begin_src emacs-lisp
+  (straight-use-package 'plantuml-mode)
+  (setq plantuml-jar-path '(expand-file-name "~/Downloads/plantuml-1.2023.10.jar"))
+  (setq plantuml-default-exec-mode 'jar)
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode))
+#+end_src
+
 ** Line Numbers
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
@@ -458,7 +468,6 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 ** Zone Mode Setup (Screen Saver)
 #+begin_src emacs-lisp
   (straight-use-package 'zone-nyan)
-  (zone-when-idle 120)
 #+end_src
 
 ** Bluetooth Setup
