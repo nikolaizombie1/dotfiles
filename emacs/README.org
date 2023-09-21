@@ -1,69 +1,217 @@
-#+TITLE: Emacs Literate Config
-
-* Table Of Contents                                                     :TOC:
-  - [[#straight-bootstrap][Straight Bootstrap]]
-  - [[#use-package-integration][Use Package Integration]]
-  - [[#frame-settings][Frame Settings]]
-  - [[#prompt-settings][Prompt Settings]]
-  - [[#undo-tree-setup][Undo-Tree Setup]]
-  - [[#evil-mode-setup][Evil Mode Setup]]
-  - [[#themes-and-icons][Themes and Icons]]
-  - [[#font-configuration][Font Configuration]]
-  - [[#frame-transperancy][Frame Transperancy]]
-  - [[#yasnippet-code-snippets][Yasnippet (Code Snippets)]]
-  - [[#which-key-keybing-suggestions][Which Key (Keybing Suggestions)]]
-  - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
-  - [[#ivy-setup][Ivy Setup]]
-  - [[#lsp-and-dap-setup][LSP and DAP Setup]]
-  - [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
-  - [[#cc-mode-setup-cc-language-support][CC Mode Setup (C/C++ Language Support)]]
-  - [[#vterm-setup][Vterm Setup]]
-  - [[#exec-path-from-shell][Exec Path From Shell]]
-  - [[#magit-git-client][Magit (Git Client)]]
-  - [[#fish-mode-fish-shell-language-support][Fish Mode (Fish Shell Language Support)]]
-  - [[#lua-mode-luage-language-support][Lua Mode (Luage Language Support)]]
-  - [[#latex-language-support][LaTeX Language Support]]
-  - [[#html-language-support][HTML Language Support]]
-  - [[#plantuml-language-support][PlantUML Language Support]]
-  - [[#line-numbers][Line Numbers]]
-  - [[#electric-pair-mode-automatic-delimiter-insertion][Electric Pair Mode (Automatic Delimiter Insertion)]]
-  - [[#rainbow-delimiters][Rainbow Delimiters]]
-  - [[#emacs-keybindings][Emacs Keybindings]]
-  - [[#evil-mode-configuration-vim-emulation][Evil Mode Configuration (Vim Emulation)]]
-  - [[#warning-minimum-level-suppress-comp-warnings][Warning Minimum Level (Suppress Comp Warnings)]]
-  - [[#tab-always-indent-tab-indentation][Tab Always Indent (Tab Indentation)]]
-  - [[#org-mode-extensions][Org Mode Extensions]]
-  - [[#format-all-format-code][Format All (format code)]]
-  - [[#flyspell-spellcheck][Flyspell (Spellcheck)]]
-  - [[#pdf-tools-pdf-viewer][PDF Tools (PDF Viewer)]]
-  - [[#dashboard][Dashboard]]
-  - [[#syntax-checking-flycheck][Syntax Checking (flycheck)]]
-  - [[#mode-line-theming][Mode Line Theming]]
-  - [[#async-extensions][Async Extensions]]
-  - [[#dired-configuration][Dired Configuration]]
-  - [[#emms-setup-multimedia-support][Emms Setup (Multimedia Support)]]
-  - [[#zone-mode-setup-screen-saver][Zone Mode Setup (Screen Saver)]]
-  - [[#bluetooth-setup][Bluetooth Setup]]
-
-** Straight Bootstrap
+** Use-Package Setup
 #+BEGIN_SRC emacs-lisp
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	(bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; Initialize package sources
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
 #+END_SRC
 
-** Use Package Integration
+** Evil (Vim Emulation)
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package 'use-package)
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+#+END_SRC
+
+** Which-Key (Key-Suggestions)
+#+BEGIN_SRC emacs-lisp
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+#+END_SRC
+
+** Ivy (Search Engine)
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-rich
+    :init
+    (ivy-rich-mode 1))
+
+  (use-package all-the-icons-ivy-rich
+    :after ivy-rich
+    :config (all-the-icons-ivy-rich-mode 1))
+
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x b" . counsel-ibuffer)
+	   ("C-x C-f" . counsel-find-file)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history)))
+#+END_SRC
+
+** Electric Pair Mode (Automatic Delimiter Insertion)
+#+BEGIN_SRC emacs-lisp
+  (electric-pair-mode)
+#+END_SRC
+
+** Rainbow Delimiters
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook
+  (prog-mode . rainbow-delimiters-mode))
+#+END_SRC
+
+** Helpful (Enhanced Help Functions)
+#+BEGIN_SRC emacs-lisp
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+END_SRC
+
+** LSP Mode (LSP Support)
+#+BEGIN_SRC emacs-lisp
+     (use-package lsp-mode
+       :commands (lsp lsp-deferred)
+       :init
+       (setq lsp-inlay-hint-enable t)
+       :config
+       (lsp-enable-which-key-integration t))
+
+     (use-package lsp-ui
+       :hook (lsp-mode . lsp-ui-mode)
+	 :custom
+	 (lsp-ui-doc-position 'bottom))
+
+     (use-package lsp-treemacs
+       :after lsp)
+
+     (use-package lsp-ivy)
+#+END_SRC
+
+** Company (Autosuggestions)
+#+BEGIN_SRC emacs-lisp
+	(use-package company
+	  :hook (lsp-mode . company-mode)
+	  :bind (:map company-active-map
+		 ("<tab>" . company-complete-selection))
+		(:map lsp-mode-map
+		 ("<tab>" . company-indent-or-complete-common))
+	  :custom
+	  (company-minimum-prefix-length 1)
+	  (company-idle-delay 0.0)
+	  (global-company-mode))
+         
+	(use-package company-box
+	  :hook (company-mode . company-box-mode))
+#+END_SRC
+
+** Projectile
+#+BEGIN_SRC emacs-lisp
+    (use-package projectile
+      :config (projectile-mode)
+      :custom ((projectile-completion-system 'ivy)))
+    (use-package counsel-projectile
+      :config (counsel-projectile-mode))
+#+END_SRC
+
+** Format All (format code)
+#+begin_src emacs-lisp 
+  (use-package format-all
+    :hook
+  (prog-mode . format-all-mode)
+  (LaTeX-mode . format-all-mode))
+#+end_src
+
+** Rustic (Rust Language Support)
+#+BEGIN_SRC emacs-lisp
+(use-package rustic)
+(setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+#+END_SRC
+
+** Fullframe (Maximize buffer)
+#+begin_src emacs-lisp
+  (use-package fullframe
+    :config
+  (fullframe magit-status magit-mode-quit-window))
+#+end_src
+
+** Magit (Git Client)
+#+BEGIN_SRC emacs-lisp
+  (use-package magit)
+#+END_SRC
+
+
+** General
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (use-package general
+    :config
+  (general-create-definer global-definer
+    :keymaps 'override
+    :states '(insert emacs normal hybrid motion visual operator)
+    :prefix "SPC"
+    :non-normal-prefix "S-SPC")
+  (global-definer
+    "."   '(counsel-find-file :which-key "find-file")
+    "o"   '(nil :which-key "open")
+    "o t" '((lambda () (interactive)
+	      (evil-window-split) 
+	      (evil-window-next 0)
+	      (evil-window-decrease-height 6)
+	      (if (projectile-project-p)
+		  (projectile-run-vterm 1)
+		(vterm))
+	      ) :which-key "vterm")
+    "o T" '((lambda () (interactive)
+	       (if (projectile-project-p)
+		  (projectile-run-vterm 1)
+		(vterm))) :which-key "vterm fullscreen")
+    "o e" '(lsp-treemacs-errors-list :which-key "project errors")
+    "f"   '(nil :which-key "file")
+    "f r" '(counsel-recentf :which-key "recent files")
+    "b"   '(nil :which-key "buffer")
+    "b p" '(previous-buffer :which-key "previous buffer")
+    "b n" '(next-buffer :which-key "next buffer")
+    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
+    "SPC" '(projectile-find-file :which-key "search project")
+    "w"   '(nil :which-key "window")
+    "w w" '(evil-window-next :which-key "next window")
+    "w v" '(evil-window-vsplit :which-key "verticle split")
+    "w h" '(evil-window-split :which-key "horizontal split")
+    "w c" '(evil-window-delete :which-key "close window")
+    "g"   '(nil :which-key "magit")
+    "g g" '(magit :which-key "magit-status")
+    "d e" '(emms-play-dired :which-key "dired play emms")))
 #+END_SRC
 
 ** Frame Settings
@@ -80,24 +228,6 @@
 #+begin_src emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
-
-** Undo-Tree Setup
-#+begin_src emacs-lisp
-  (straight-use-package 'undo-tree)
-  (global-undo-tree-mode)
-#+end_src
-
-** Evil Mode Setup
-#+BEGIN_SRC emacs-lisp
-  (setq evil-overriding-maps nil)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-integration t)
-  (straight-use-package 'evil)
-  (evil-mode t)
-  (straight-use-package 'evil-collection)
-  (evil-collection-init)
-  (evil-set-undo-system 'undo-tree)
-#+END_SRC
 
 ** Themes and Icons
 #+BEGIN_SRC emacs-lisp
@@ -116,15 +246,15 @@
        doom-shades-of-purple
        doom-ayu-dark
        doom-dracula)))
-  (straight-use-package 'doom-themes)
-  (straight-use-package 'all-the-icons)
-  (straight-use-package 'all-the-icons-dired)
+  (use-package doom-themes)
+  (use-package all-the-icons)
+  (use-package all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
   (setq doom-themes-enable-bold t)
   (setq doom-themes-enable-italic t)
   (load-theme (random-doom-theme) t)
   (doom-themes-org-config)
-  (straight-use-package 'nerd-icons)
+  (use-package nerd-icons)
 #+END_SRC
 
 ** Font Configuration
@@ -139,339 +269,49 @@
   (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
 #+END_SRC
 
-** Yasnippet (Code Snippets)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'yasnippet)
-  (straight-use-package 'yasnippet-snippets)
-  (yas-global-mode 1)
-#+END_SRC
-
-** Which Key (Keybing Suggestions)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'which-key)
-  (which-key-mode)
-  (setq which-key-idle-delay 0.3)
-#+END_SRC
-
-** Fullframe (Maximize buffer)
+** PDF Tools (PDF Viewer)
 #+begin_src emacs-lisp
-  (straight-use-package 'fullframe)
-  (fullframe magit-status magit-mode-quit-window)
+  (use-package pdf-tools
+    :config
+  (pdf-tools-install)  ; Standard activation command
+  (pdf-loader-install)) ; On demand loading, leads to faster startup time
 #+end_src
 
-** Ivy Setup
+** LaTeX Language Support
 #+begin_src emacs-lisp
-    (straight-use-package 'ivy)
-    (ivy-mode 1)
-    (straight-use-package 'lsp-ivy)
-    (straight-use-package 'counsel)
-    (counsel-mode)
-    (straight-use-package 'ivy-rich)
-    (ivy-rich-mode 1)
-    (straight-use-package 'all-the-icons-ivy-rich)
-    (all-the-icons-ivy-rich-mode 1)
-    (straight-use-package 'counsel-projectile)
-    (straight-use-package 'ivy-yasnippet)
-    (straight-use-package 'flyspell-correct-ivy)
-#+end_src
-
-** LSP and DAP Setup
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'lsp-mode
-			:config (add-hook 'lsp-mode-hook 'lsp-ui-mode))
-  (straight-use-package 'lsp-ui)
-  (straight-use-package 'treemacs)
-  (straight-use-package 'lsp-treemacs)
-  (straight-use-package 'dap-mode)
-  (setq dap-auto-configure-features '(sessions locals controls tooltip))
-  (dap-auto-configure-mode)
-  (require 'dap-lldb)
-  (require 'dap-gdb-lldb)
-  (require 'dap-cpptools)
-  (dap-gdb-lldb-setup)
-  (dap-cpptools-setup)
-  (straight-use-package 'projectile)
-  (projectile-mode +1)
-  (setq flyspell-correct-interface #'flyspell-correct-ivy)
-  (setq lsp-inlay-hint-enable t)
-  (straight-use-package 'company)
-  (straight-use-package 'company-mode)
-  (global-company-mode)
-  (setq company-minimum-prefix-length 1
-	company-idle-delay 0.0) 
-  (add-hook 'after-init-hook 'global-company-mode)
-  (straight-use-package 'lsp-treemacs)
-  (lsp-treemacs-sync-mode 1)
-#+END_SRC
-
-** Rustic (Rust Language Support)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'rustic)
-  (setq rustic-cargo-check-exec-command "clippy")
-  (setq rustic-rustfmt-args "--edition 2021")
-  (dap-register-debug-template "Rust::GDB Run Configuration"
-			       (list :type "gdb"
-				     :request "launch"
-				     :name "GDB::Run"
-				     :gdbpath "rust-gdb"
-				     :target "/home/uwu/Documents/Rust_Stuff/atbash/target/debug/atbash"
-				     :arguments "-v -f /home/uwu/Documents/Rust_Stuff/audio_output_switcher/devices.json"
-				     :cwd nil))
-#+END_SRC
-
-** CC Mode Setup (C/C++ Language Support)
-#+begin_src emacs-lisp
-  (setq company-clang-executable "/usr/bin/clang-16")
-  (add-hook 'c-mode-hook 'lsp-mode)
+   (use-package auctex
+     :hook
+   (LaTeX-mode . visual-line-mode)
+   (LaTeX-mode . flyspell-mode)
+   (LaTeX-mode . LaTeX-math-mode)
+   (LaTeX-mode . turn-on-reftex)
+   (LaTeX-mode . lsp-mode)
+   :config
+   (setq TeX-auto-save t)
+   (setq TeX-parse-self t)
+   (setq-default TeX-master nil)
+   (setq reftex-plug-into-AUCTeX t)
+   (setq TeX-PDF-mode t)
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+     TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+     TeX-source-correlate-start-server t) 
+  (setq shell-escape-mode "-shell-escape"))
+   (use-package latex-preview-pane
+     :config
+   (latex-preview-pane-enable))
 #+end_src
 
 ** Vterm Setup
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package 'vterm)
-  (setq vterm-shell "/usr/bin/fish")
+  (use-package vterm
+    :custom
+  (setq vterm-shell "/usr/bin/fish"))
 #+END_SRC
 
 ** Exec Path From Shell 
 Ensures that the user path is the same as the `exec-path` variable at startup.
 #+BEGIN_SRC emacs-lisp
-  (straight-use-package 'exec-path-from-shell)
-  (exec-path-from-shell-initialize)
+  (use-package exec-path-from-shell
+    :config
+  (exec-path-from-shell-initialize))
 #+END_SRC
-
-** Magit (Git Client)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'magit)
-#+END_SRC
-
-** Fish Mode (Fish Shell Language Support)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'fish-mode)
-#+END_SRC
-
-** Lua Mode (Luage Language Support)
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'lua-mode)
-#+END_SRC
-
-** LaTeX Language Support
-#+begin_src emacs-lisp
-   (straight-use-package 'auctex)
-   (setq TeX-auto-save t)
-   (setq TeX-parse-self t)
-   (setq-default TeX-master nil)
-   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-   (setq reftex-plug-into-AUCTeX t)
-   (setq TeX-PDF-mode t)
-   (add-hook 'LaTeX-mode-hook 'lsp-mode)
-   (straight-use-package 'latex-preview-pane)
-   (latex-preview-pane-enable)
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-     TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-     TeX-source-correlate-start-server t) 
-  (setq shell-escape-mode "-shell-escape")
-#+end_src
-
-** HTML Language Support
-#+begin_src emacs-lisp
-  (straight-use-package 'emmet-mode)
-  (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-  (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
-#+end_src
-
-** PlantUML Language Support
-#+begin_src emacs-lisp
-  (straight-use-package 'plantuml-mode)
-  (setq plantuml-jar-path '(expand-file-name "~/Downloads/plantuml-1.2023.10.jar"))
-  (setq plantuml-default-exec-mode 'jar)
-  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-  (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode))
-#+end_src
-
-** Line Numbers
-#+BEGIN_SRC emacs-lisp
-  (global-display-line-numbers-mode)
-  (column-number-mode)
-  (dolist (mode '(org-mode-hook
-		  term-mode-hook
-		  vterm-mode-hook
-		  shell-mode-hook
-		  treemacs-mode-hook
-		  eshell-mode-hook
-		  pdf-view-mode))
-    (add-hook mode (lambda() (display-line-numbers-mode 0))))
-  (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode 0)))
-#+END_SRC
-
-** Electric Pair Mode (Automatic Delimiter Insertion)
-#+BEGIN_SRC emacs-lisp
-  (electric-pair-mode)
-#+END_SRC
-
-** Rainbow Delimiters
-#+begin_src emacs-lisp
-  (straight-use-package 'rainbow-delimiters)
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-#+end_src
-
-** Emacs Keybindings
-#+begin_src emacs-lisp 
-   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-   (straight-use-package 'general)
-   (general-create-definer global-definer
-     :keymaps 'override
-     :states '(insert emacs normal hybrid motion visual operator)
-     :prefix "SPC"
-     :non-normal-prefix "S-SPC")
-   (global-definer
-     "."   '(counsel-find-file :which-key "find-file")
-     "o"   '(nil :which-key "open")
-     "o t" '((lambda () (interactive)
-	       (evil-window-split) 
-	       (evil-window-next 0)
-	       (evil-window-decrease-height 6)
-	       (if (projectile-project-p)
-		   (projectile-run-vterm 1)
-		 (vterm))
-	       ) :which-key "vterm")
-     "o T" '((lambda () (interactive)
-                (if (projectile-project-p)
-		   (projectile-run-vterm 1)
-		 (vterm))) :which-key "vterm fullscreen")
-     "o e" '(lsp-treemacs-errors-list :which-key "project errors")
-     "f"   '(nil :which-key "file")
-     "f r" '(counsel-recentf :which-key "recent files")
-     "b"   '(nil :which-key "buffer")
-     "b p" '(previous-buffer :which-key "previous buffer")
-     "b n" '(next-buffer :which-key "next buffer")
-     "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
-     "SPC" '(projectile-find-file :which-key "search project")
-     "w"   '(nil :which-key "window")
-     "w w" '(evil-window-next :which-key "next window")
-     "w v" '(evil-window-vsplit :which-key "verticle split")
-     "w h" '(evil-window-split :which-key "horizontal split")
-     "w c" '(evil-window-delete :which-key "close window")
-     "g"   '(nil :which-key "magit")
-     "g g" '(magit :which-key "magit-status")
-     "d e" '(emms-play-dired :which-key "dired play emms"))
-#+end_src
-
-** Evil Mode Configuration (Vim Emulation)
-#+begin_src emacs-lisp
-    (evil-set-initial-state 'vterm-mode 'insert)
-    (evil-define-key 'normal dired-mode-map
-      (kbd "h") 'dired-up-directory
-      (kbd "l") 'dired-find-file)
-#+end_src
-
-** Warning Minimum Level (Suppress Comp Warnings)
-#+BEGIN_SRC emacs-lisp
-  (setq warning-minimum-level-level ":error")
-#+END_SRC
-
-** Tab Always Indent (Tab Indentation)
-#+BEGIN_SRC emacs-lisp
-  (setq tab-always-indent 'complete)
-#+END_SRC
-
-** Org Mode Extensions
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'toc-org)
-  (add-hook 'org-mode-hook 'toc-org-mode)
-  (straight-use-package 'org-bullets)
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-#+END_SRC
-
-** Format All (format code)
-#+begin_src emacs-lisp 
-  (straight-use-package 'format-all)
-  (add-hook 'prog-mode-hook 'format-all-mode)
-  (add-hook 'LaTeX-mode-hook 'format-all-mode)
-#+end_src
-
-** Flyspell (Spellcheck)
-#+begin_src emacs-lisp
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'after-save-hook 'flyspell-buffer)
-  (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
-  (setq flyspell-issue-message-flag nil)
-#+end_src
-
-** PDF Tools (PDF Viewer)
-#+begin_src emacs-lisp
-  (straight-use-package 'pdf-tools)
-  (pdf-tools-install)  ; Standard activation command
-  (pdf-loader-install) ; On demand loading, leads to faster startup time
-#+end_src
-
-** Dashboard
-#+BEGIN_SRC emacs-lisp
-  (straight-use-package 'dashboard)
-  (dashboard-setup-startup-hook)
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
-  (setq dashboard-banner-logo-title nil)
-  (setq dashboard-startup-banner "~/.config/emacs/GNU_Emacs-Logo.wine.svg")
-  (setq dashboard-icon-type 'all-the-icons)
-  (setq dashboard-show-shortcuts nil)
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents  . 10)))
-#+END_SRC
-
-** Syntax Checking (flycheck)
-#+begin_src emacs-lisp
-  (straight-use-package 'flycheck)
-  (add-hook 'after-init-hook #'global-flycheck-mode)
-  (straight-use-package 'flycheck-pos-tip)
-  (flycheck-pos-tip-mode)
-#+end_src
-
-** Mode Line Theming
-#+begin_src emacs-lisp
-  (straight-use-package 'spaceline)
-  (spaceline-spacemacs-theme)
-  (spaceline-toggle-minor-modes-off)
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-buffer-position-off)
-  (spaceline-toggle-buffer-modified-off)
-  (spaceline-toggle-buffer-encoding-abbrev-off)
-  (spaceline-toggle-point-position-off)
-  (spaceline-toggle-line-column-off)
-  (spaceline-toggle-hud-off)
-  (spaceline-toggle-evil-state-off)
-#+end_src
-
-** Async Extensions
-#+begin_src emacs-lisp
-  (straight-use-package 'async)
-  (dired-async-mode 1)
-#+end_src
-
-** Dired Configuration
-#+begin_src emacs-lisp
-  (setq dired-listing-switches "-Al --group-directories-first")
-  (add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
-#+end_src
-
-** Emms Setup (Multimedia Support)
-#+begin_src emacs-lisp
-  (straight-use-package 'emms)
-  (emms-all)
-  (setq emms-player-list '(emms-player-mpv)
-	emms-info-functions '(emms-info-native))
-  (setq emms-source-file-default-directory "~/Music/")
-  (setq emms-browser-covers 'emms-browser-cache-thumbnail-async)
-#+end_src
-
-** Zone Mode Setup (Screen Saver)
-#+begin_src emacs-lisp
-  (straight-use-package 'zone-nyan)
-#+end_src
-
-** Bluetooth Setup
-#+begin_src emacs-lisp
-  (straight-use-package 'bluetooth)
-  (setq bluetooth-bluez-bus :session)
-#+end_src
