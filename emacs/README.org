@@ -66,6 +66,7 @@
     :config (all-the-icons-ivy-rich-mode 1))
 
   (use-package counsel
+    :custom (counsel-mode 1)
     :bind (("M-x" . counsel-M-x)
 	   ("C-x b" . counsel-ibuffer)
 	   ("C-x C-f" . counsel-find-file)
@@ -314,4 +315,18 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (use-package exec-path-from-shell
     :config
   (exec-path-from-shell-initialize))
+#+END_SRC
+
+** Flyspell (Spellcheck)
+#+BEGIN_SRC emacs-lisp
+(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'after-save-hook 'flyspell-buffer)
+(add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
+(setq flyspell-issue-message-flag nil)
+
+** Dired Configuration
+#+BEGIN_SRC emacs-lisp
+(setq dired-listing-switches "-Al --group-directories-first")
+(add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
 #+END_SRC
