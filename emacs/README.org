@@ -1,3 +1,5 @@
+* Emacs Literate Configuration File
+
 ** Use-Package Setup
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
@@ -66,7 +68,7 @@
     :config (all-the-icons-ivy-rich-mode 1))
 
   (use-package counsel
-    :custom (counsel-mode 1)
+    :custom (counsel-mode)
     :bind (("M-x" . counsel-M-x)
 	   ("C-x b" . counsel-ibuffer)
 	   ("C-x C-f" . counsel-find-file)
@@ -119,6 +121,12 @@
      (use-package lsp-ivy)
 #+END_SRC
 
+** Dap Mode (Debugging)
+#+begin_src emacs-lisp
+    (use-package dap-mode
+      :config (dap-auto-configure-mode))
+#+end_src
+
 ** Company (Autosuggestions)
 #+BEGIN_SRC emacs-lisp
 	(use-package company
@@ -159,6 +167,34 @@
 (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
 #+END_SRC
 
+** Python Mode (Python Language Support)
+#+begin_src emacs-lisp
+    (use-package python-mode
+      :ensure t
+      :hook (python-mode . lsp-deferred))
+    (setq python-shell-interpreter "python3")
+    (require 'dap-python)
+    (setq dap-python-debugger 'debugpy)
+    (dap-register-debug-template "My App"
+      (list :type "python"
+	    :args "-i"
+	    :cwd nil
+	    :env '(("DEBUG" . "1"))
+	    :target-module (expand-file-name "~/src/myapp/.env/bin/myapp")
+	    :request "launch"
+	    :name "My App"))
+    (use-package pyvenv
+      :config (pyvenv-mode 1))
+#+end_src
+
+** PlantUML Language Support
+#+begin_src emacs-lisp
+  (use-package plantuml-mode
+    :config
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
+#+end_src
+
 ** Fullframe (Maximize buffer)
 #+begin_src emacs-lisp
   (use-package fullframe
@@ -170,7 +206,6 @@
 #+BEGIN_SRC emacs-lisp
   (use-package magit)
 #+END_SRC
-
 
 ** General
 #+BEGIN_SRC emacs-lisp
@@ -212,7 +247,8 @@
     "w c" '(evil-window-delete :which-key "close window")
     "g"   '(nil :which-key "magit")
     "g g" '(magit :which-key "magit-status")
-    "d e" '(emms-play-dired :which-key "dired play emms")))
+    "d e" '(emms-play-dired :which-key "dired play emms")
+    "y"   '(ivy-yasnippet :whick-key "yasnippet")))
 #+END_SRC
 
 ** Frame Settings
@@ -232,30 +268,32 @@
 
 ** Themes and Icons
 #+BEGIN_SRC emacs-lisp
-  (defun random-doom-theme ()
-    "Returns a random doom-theme from a hardcoded list"
-    (seq-random-elt
-     '(doom-Iosvkem
-       doom-horizon
-       doom-molokai
-       doom-old-hope
-       doom-laserwave
-       doom-tomorrow-night
-       doom-challenger-deep
-       doom-monokai-classic
-       doom-outrun-electric
-       doom-shades-of-purple
-       doom-ayu-dark
-       doom-dracula)))
-  (use-package doom-themes)
-  (use-package all-the-icons)
-  (use-package all-the-icons-dired)
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
-  (setq doom-themes-enable-bold t)
-  (setq doom-themes-enable-italic t)
-  (load-theme (random-doom-theme) t)
-  (doom-themes-org-config)
-  (use-package nerd-icons)
+    (defun random-doom-theme ()
+      "Returns a random doom-theme from a hardcoded list"
+      (seq-random-elt
+       '(doom-Iosvkem
+	 doom-horizon
+	 doom-molokai
+	 doom-old-hope
+	 doom-laserwave
+	 doom-tomorrow-night
+	 doom-challenger-deep
+	 doom-monokai-classic
+	 doom-outrun-electric
+	 doom-shades-of-purple
+	 doom-ayu-dark
+	 doom-dracula)))
+    (use-package doom-themes)
+    (use-package all-the-icons)
+    (use-package nerd-icons
+      :custom (nerd-icons-font-family "Mononoki Nerd Font"))
+    (use-package all-the-icons-dired)
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    (setq doom-themes-enable-bold t)
+    (setq doom-themes-enable-italic t)
+    (load-theme (random-doom-theme) t)
+    (doom-themes-org-config)
+    (use-package nerd-icons)
 #+END_SRC
 
 ** Font Configuration
@@ -319,14 +357,60 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Flyspell (Spellcheck)
 #+BEGIN_SRC emacs-lisp
-(add-hook 'text-mode-hook 'flyspell-mode)
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(add-hook 'after-save-hook 'flyspell-buffer)
-(add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
-(setq flyspell-issue-message-flag nil)
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'after-save-hook 'flyspell-buffer)
+  (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
+  (setq flyspell-issue-message-flag nil)
+  (use-package flyspell-correct-ivy)
+#+END_SRC
 
 ** Dired Configuration
 #+BEGIN_SRC emacs-lisp
 (setq dired-listing-switches "-Al --group-directories-first")
 (add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
 #+END_SRC
+
+** Line Numbers
+#+BEGIN_SRC emacs-lisp
+  (global-display-line-numbers-mode)
+  (column-number-mode)
+  (dolist (mode '(org-mode-hook
+		    term-mode-hook
+		    vterm-mode-hook
+		    shell-mode-hook
+		    treemacs-mode-hook
+		    eshell-mode-hook
+		    pdf-view-mode))
+    (add-hook mode (lambda() (display-line-numbers-mode 0))))
+  (add-hook 'pdf-view-mode-hook (lambda() (display-line-numbers-mode 0)))
+#+END_SRC
+
+** Org Mode Extensions
+#+BEGIN_SRC emacs-lisp
+  (use-package toc-org
+  :hook
+  (org-mode . toc-org-mode))
+  (use-package org-bullets
+    :hook
+  (org-mode . (lambda () (org-bullets-mode 1))))
+#+END_SRC
+
+** Yasnippet (Code Snippets)
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :config (yas-global-mode 1))
+  (use-package yasnippet-snippets)
+  (use-package ivy-yasnippet)
+#+END_SRC
+
+** Suppress Warnings
+#+begin_src emacs-lisp
+  (setq warning-minimum-level-level ":error")
+#+end_src
+
+** Mode Line Customication
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
+#+end_src
