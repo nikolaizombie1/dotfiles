@@ -48,6 +48,15 @@
   (evil-collection-init))
 #+END_SRC
 
+** Undo Tree (Persistent Undo History)
+#+begin_src emacs-lisp 
+      (use-package undo-tree
+	:config
+	(setq undo-tree-auto-save-history t)
+	(setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo")))
+	(global-undo-tree-mode)
+	(evil-set-undo-system 'undo-tree))
+#+end_src
 ** Which-Key (Key-Suggestions)
 #+BEGIN_SRC emacs-lisp
 (use-package which-key
@@ -127,7 +136,7 @@
       :config (dap-auto-configure-mode))
 #+end_src
 
-** Company (Autosuggestions)
+** Company (Autosuggestion)
 #+BEGIN_SRC emacs-lisp
 	(use-package company
 	  :hook (lsp-mode . company-mode)
@@ -163,8 +172,11 @@
 
 ** Rustic (Rust Language Support)
 #+BEGIN_SRC emacs-lisp
-(use-package rustic)
-(setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+  (use-package rustic)
+  (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+  (setq rustic-rustfmt-args "--edition 2021")
+  (setq rustic-cargo-check-exec-command "clippy")
 #+END_SRC
 
 ** Python Mode (Python Language Support)
@@ -187,12 +199,28 @@
       :config (pyvenv-mode 1))
 #+end_src
 
+** Haskell Mode (Haskell Language Support)
+#+begin_src emacs-lisp
+(require 'lsp)
+(use-package lsp-haskell)
+;; Hooks so haskell and literate haskell major modes trigger LSP setup
+(add-hook 'haskell-mode-hook #'lsp)
+(add-hook 'haskell-literate-mode-hook #'lsp)
+#+end_src
+
 ** PlantUML Language Support
 #+begin_src emacs-lisp
   (use-package plantuml-mode
     :config
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package yaml-mode
+    	:config
+    (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+    (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
 ** Fullframe (Maximize buffer)
@@ -207,7 +235,7 @@
   (use-package magit)
 #+END_SRC
 
-** General
+** General (Global Hot Keys)
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
@@ -239,7 +267,10 @@
     "b p" '(previous-buffer :which-key "previous buffer")
     "b n" '(next-buffer :which-key "next buffer")
     "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
-    "SPC" '(projectile-find-file :which-key "search project")
+    "SPC" '(projectile-find-file :which-key "search file")
+    "p f" '(counsel-projectile-rg :which-key "search string")
+    "p r" '(projectile-replace :which-key "replace string")
+    "p R" '(projectile-replace-regexp :which-key "replace regex")
     "w"   '(nil :which-key "window")
     "w w" '(evil-window-next :which-key "next window")
     "w v" '(evil-window-vsplit :which-key "verticle split")
@@ -345,6 +376,7 @@
   (use-package vterm
     :custom
   (setq vterm-shell "/usr/bin/fish"))
+  (evil-set-initial-state 'vterm-mode 'insert)
 #+END_SRC
 
 ** Exec Path From Shell 
@@ -367,8 +399,12 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Dired Configuration
 #+BEGIN_SRC emacs-lisp
-(setq dired-listing-switches "-Al --group-directories-first")
-(add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
+  (setq dired-listing-switches "-Al --group-directories-first")
+  (add-hook 'dired-mode-hook 'dired-sort-toggle-or-edit)
+  (setq dired-dwim-target t)
+  (evil-define-key 'normal dired-mode-map
+    (kbd "h") 'dired-up-directory
+    (kbd "l") 'dired-find-file)
 #+END_SRC
 
 ** Line Numbers
