@@ -3,10 +3,13 @@ dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XA
 redshiftpid=$(pgrep redshift)
 if [[ "$redshiftpid" == $(echo "")  ]]
 then
-    redshift -t 6500:3000 &
+    redshift &
 fi
-nitrogen --restore
+nitrogen --restore 
 picom --config ~/.config/awesome/picom.conf &
 emacs --daemon &
-fcitx -d &
+fcitx5 -d &
+nm-applet &
 /./usr/bin/lxqt-policykit-agent &
+sleep 5s && nmap 10.0.0.0/24 && sshfs weeb@$(ip neigh | awk '/44:8a:5b:ce:75:8a/ {print $1}'):/home/weeb/Mass-Storage ~/Debian\ Server/ -p 39801 -C -o IdentityFile=~/.ssh/id_ed25519_personal &
+xmodmap ~/.Xmodmap &
