@@ -12,7 +12,6 @@ cp ~/.xinitrc .
 cp -r ~/.config/fish .
 cp -r ~/.config/wireplumber .
 cp ~/.gitconfig .
-cp /etc/systemd/system/getty@tty1.service.d/autologin.conf .
 cp ~/.local/share/applications/mimeapps.list .
 cp ~/.config/emacs/init.el emacs/
 cp ~/.config/emacs/README.org emacs/
