@@ -17,6 +17,7 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
+local theme_lua = require("theme")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -200,7 +201,9 @@ awful.screen.connect_for_each_screen(function(s)
 --    }
 
     -- Create the wibox
-    s.mywibox = awful.wibar({ position = "top", screen = s })
+    if s.index == 1 then
+       s.mywibox = awful.wibar({ position = "top", screen = s, bg = theme_lua.bar1.bg_normal, fg = theme_lua.bar1.fg_normal })
+    end
 
     -- Add widgets to the wibox
     s.mywibox:setup {
@@ -234,7 +237,7 @@ root.buttons(gears.table.join(
 -- }}}
 
 function restart()
-   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -w 0 -p -r")
+   awful.spawn.with_shell("~/./.config/awesome/awesome_theme_generator -n ~/.config/nitrogen/bg-saved.cfg -t ~/.config/awesome/theme.lua -p -r")
 end
 
 -- {{{ Key bindings

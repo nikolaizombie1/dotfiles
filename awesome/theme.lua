@@ -126,6 +126,10 @@ theme.awesome_icon = theme_assets.awesome_icon(
 -- from /usr/share/icons and /usr/share/icons/hicolor will be used.
 theme.icon_theme = nil
 
+local bar1 = {}
+theme.bar1 = bar1
+theme.bar1.fg_normal = "#3c3c3c"
+theme.bar1.bg_normal = "#16284c"
 return theme
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80
