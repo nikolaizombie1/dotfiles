@@ -43,91 +43,98 @@
 
 ** Use-Package Setup
 #+BEGIN_SRC emacs-lisp
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 
-;; Initialize package sources
-(require 'package)
+  ;; Initialize package sources
+  (require 'package)
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
 
-(package-initialize)
-(unless package-archive-contents
- (package-refresh-contents))
+  (package-initialize)
+  (unless package-archive-contents
+   (package-refresh-contents))
 
 
-(unless (package-installed-p 'use-package)
-   (package-install 'use-package))
+  (unless (package-installed-p 'use-package)
+     (package-install 'use-package))
 
-(require 'use-package)
-(setq use-package-always-ensure t)
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+  (setq use-package-verbose t)
 
 #+END_SRC
 
 ** Evil (Vim Emulation)
 #+BEGIN_SRC emacs-lisp
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
+  (use-package evil
+    :init
+    (setq evil-want-keybinding nil)
+    :custom
+    (setq evil-want-integration t)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode 1)
 
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
 
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
 #+END_SRC
 
 ** Undo Tree (Persistent Undo History)
 #+begin_src emacs-lisp 
-      (use-package undo-tree
-	:config
-	(setq undo-tree-auto-save-history t)
-	(setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo")))
-	(global-undo-tree-mode)
-	(evil-set-undo-system 'undo-tree))
+  (use-package undo-tree
+    :after evil
+    :config
+    (setq undo-tree-auto-save-history t)
+    (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo")))
+    (global-undo-tree-mode)
+    (evil-set-undo-system 'undo-tree))
 #+end_src
 ** Which-Key (Key-Suggestions)
 #+BEGIN_SRC emacs-lisp
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 1))
+  (use-package which-key
+    :after general
+    :diminish which-key-mode
+    :config
+    (which-key-mode)
+    (setq which-key-idle-delay 1))
 #+END_SRC
 
 ** Ivy (Search Engine)
 #+BEGIN_SRC emacs-lisp
-      (use-package ivy-rich
-	:init
-	(ivy-rich-mode 1))
+  (use-package ivy-rich
+    :after counsel
+    :config
+    (ivy-rich-mode 1))
 
-      (use-package all-the-icons-ivy-rich
-	:after ivy-rich
-	:config (all-the-icons-ivy-rich-mode 1))
+  (use-package all-the-icons-ivy-rich
+    :after ivy-rich
+    :config (all-the-icons-ivy-rich-mode 1))
 
-      (use-package counsel
-	:custom (counsel-mode)
-	:bind (("M-x" . counsel-M-x)
-	       ("C-x b" . counsel-ibuffer)
-	       ("C-x C-f" . counsel-find-file)
-	       :map minibuffer-local-map
-	       ("C-r" . 'counsel-minibuffer-history)))
+  (use-package counsel
+    :defer
+    :custom (counsel-mode)
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x b" . counsel-ibuffer)
+	   ("C-x C-f" . counsel-find-file)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history)))
 
-      (use-package ivy-prescient
-	:init
-	(ivy-prescient-mode))
+  (use-package ivy-prescient
+    :hook
+    (counsel-M-x . ivy-prescient)
+    :config
+    (ivy-prescient-mode))
 #+END_SRC
 
 ** Electric Pair Mode (Automatic Delimiter Insertion)
@@ -162,60 +169,65 @@
 
 ** LSP Mode (LSP Support)
 #+BEGIN_SRC emacs-lisp
-     (use-package lsp-mode
-       :commands (lsp lsp-deferred)
-       :init
-       (setq lsp-inlay-hint-enable t)
-       :config
-       (lsp-enable-which-key-integration t))
+       (use-package lsp-mode
+	 :commands (lsp lsp-deferred)
+	 :config
+	 (setq lsp-inlay-hint-enable t)
+	 (lsp-enable-which-key-integration t))
 
-     (use-package lsp-ui
-       :hook (lsp-mode . lsp-ui-mode)
-	 :custom
-	 (lsp-ui-doc-position 'bottom))
+       (use-package lsp-ui
+	 :hook (lsp-mode . lsp-ui-mode)
+	   :custom
+	   (lsp-ui-doc-position 'bottom))
 
-     (use-package lsp-treemacs
-       :after lsp)
+       (use-package lsp-treemacs
+	 :after lsp)
 
-     (use-package lsp-ivy)
+       (use-package lsp-ivy
+         :after lsp)
 #+END_SRC
 
 ** Dap Mode (Debugging)
 #+begin_src emacs-lisp
-    (use-package dap-mode
-      :config (dap-auto-configure-mode))
+  (use-package dap-mode
+    :after lsp-mode
+    :config (dap-auto-configure-mode))
 #+end_src
 
 ** Evil Nerd Commenter (Better Line Commenting)
 #+begin_src emacs-lisp
-    (use-package evil-nerd-commenter
-      :init (evilnc-default-hotkeys))
+  (use-package evil-nerd-commenter
+    :after lsp-mode
+    :config (evilnc-default-hotkeys))
 #+end_src
 
 ** Company (Autosuggestion)
 #+BEGIN_SRC emacs-lisp
-	(use-package company
-	  :hook (lsp-mode . company-mode)
-	  :bind (:map company-active-map
-		 ("<tab>" . company-complete-selection))
-		(:map lsp-mode-map
-		 ("<tab>" . company-indent-or-complete-common))
-	  :custom
-	  (company-minimum-prefix-length 1)
-	  (company-idle-delay 0.0)
-	  (global-company-mode))
-         
-	(use-package company-box
-	  :hook (company-mode . company-box-mode))
+  (use-package company
+    :after lsp-mode
+    :hook (lsp-mode . company-mode)
+    :bind (:map company-active-map
+	   ("<tab>" . company-complete-selection))
+	  (:map lsp-mode-map
+	   ("<tab>" . company-indent-or-complete-common))
+    :custom
+    (company-minimum-prefix-length 1)
+    (company-idle-delay 0.0)
+    (global-company-mode))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+END_SRC
 
 ** Projectile
 #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :config (projectile-mode)
-      :custom ((projectile-completion-system 'ivy)))
-    (use-package counsel-projectile
-      :config (counsel-projectile-mode))
+  (use-package projectile
+    :commands (projectile-find-file)
+    :config (projectile-mode)
+    :custom ((projectile-completion-system 'ivy)))
+  (use-package counsel-projectile
+    :after projectile
+    :config (counsel-projectile-mode))
 #+END_SRC
 
 ** Format All (format code)
@@ -228,50 +240,59 @@
 
 ** Rustic (Rust Language Support)
 #+BEGIN_SRC emacs-lisp
-  (use-package rustic)
-  (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
-  (setq lsp-rust-analyzer-cargo-watch-command "clippy")
-  (setq rustic-rustfmt-args "--edition 2021")
-  (setq rustic-cargo-check-exec-command "clippy")
+	    (use-package rustic
+	       :mode "\\.rs\\'"
+	       :custom
+	    (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+	    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+	    (setq rustic-rustfmt-args "--edition 2021")
+	    (setq rustic-cargo-check-exec-command "clippy"))
 #+END_SRC
 
 ** Python Mode (Python Language Support)
 #+begin_src emacs-lisp
-    (use-package python-mode
-      :ensure t
-      :hook (python-mode . lsp-deferred))
-    (setq python-shell-interpreter "python3")
-    (require 'dap-python)
-    (setq dap-python-debugger 'debugpy)
-    (dap-register-debug-template "My App"
-      (list :type "python"
-	    :args "-i"
-	    :cwd nil
-	    :env '(("DEBUG" . "1"))
-	    :target-module (expand-file-name "~/src/myapp/.env/bin/myapp")
-	    :request "launch"
-	    :name "My App"))
-    (use-package pyvenv
-      :config (pyvenv-mode 1))
+      (use-package python-mode
+	:mode "\\.py\\'"
+	:ensure t
+	:hook
+        (python-mode . lsp-mode)
+	)
+      (setq python-shell-interpreter "python3")
+  ;    (require 'dap-python)
+  ;    (setq dap-python-debugger 'debugpy)
+  ;    (dap-register-debug-template "My App"
+  ;      (list :type "python"
+  ;	    :args "-i"
+  ;	    :cwd nil
+  ;	    :env '(("DEBUG" . "1"))
+  ;	    :target-module (expand-file-name "~/src/myapp/.env/bin/myapp")
+  ;	    :request "launch"
+  ;	    :name "My App"))
+      (use-package pyvenv
+	:after python-mode
+	:config (pyvenv-mode 1))
 #+end_src
 
 ** Haskell Mode (Haskell Language Support)
 #+begin_src emacs-lisp
-(require 'lsp)
-(use-package lsp-haskell)
-;; Hooks so haskell and literate haskell major modes trigger LSP setup
-(add-hook 'haskell-mode-hook #'lsp)
-(add-hook 'haskell-literate-mode-hook #'lsp)
+      (use-package lsp-haskell
+        :mode "\\.hs\\'")
+
+      ;; Hooks so haskell and literate haskell major modes trigger LSP setup
+      (add-hook 'haskell-mode-hook #'lsp)
+      (add-hook 'haskell-literate-mode-hook #'lsp)
 #+end_src
 
 ** Lua Mode (Lua Language Support)
 #+begin_src emacs-lisp
-  (use-package lua-mode)
+  (use-package lua-mode
+   :mode "\\.lua\\'")
 #+end_src
 
 ** PlantUML Language Support
 #+begin_src emacs-lisp
   (use-package plantuml-mode
+  :mode "\\.plantuml\\'"
     :config
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
@@ -288,19 +309,22 @@
 ** Fullframe (Maximize buffer)
 #+begin_src emacs-lisp
   (use-package fullframe
+    :after magit
     :config
   (fullframe magit-status magit-mode-quit-window))
 #+end_src
 
 ** Magit (Git Client)
 #+BEGIN_SRC emacs-lisp
-  (use-package magit)
+    (use-package magit
+     :commands (magit-status))
 #+END_SRC
 
 ** General (Global Hot Keys)
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
+    :defer
     :config
   (general-create-definer global-definer
     :keymaps 'override
@@ -353,6 +377,7 @@
   (scroll-bar-mode -1)
   (set-fringe-mode 10)
   (setq global-font-lock-mode t)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 #+END_SRC
 
 ** Prompt Settings
@@ -404,10 +429,11 @@
 
 ** PDF Tools (PDF Viewer)
 #+begin_src emacs-lisp
-  (use-package pdf-tools
-    :config
-  (pdf-tools-install)  ; Standard activation command
-  (pdf-loader-install)) ; On demand loading, leads to faster startup time
+    (use-package pdf-tools
+      :mode "\\.pdf\\'"
+      :config
+    (pdf-tools-install)  ; Standard activation command
+    (pdf-loader-install)) ; On demand loading, leads to faster startup time
 #+end_src
 
 ** LaTeX Language Support
@@ -418,7 +444,6 @@
    (LaTeX-mode . flyspell-mode)
    (LaTeX-mode . LaTeX-math-mode)
    (LaTeX-mode . turn-on-reftex)
-   (LaTeX-mode . lsp-mode)
    :config
    (setq TeX-auto-save t)
    (setq TeX-parse-self t)
@@ -429,30 +454,32 @@
      TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
      TeX-source-correlate-start-server t) 
   (setq shell-escape-mode "-shell-escape"))
-   (use-package latex-preview-pane
-     :config
-   (latex-preview-pane-enable))
 #+end_src
 
 ** Vterm Setup
 #+BEGIN_SRC emacs-lisp
   (use-package vterm
+    :commands (vterm)
     :custom
-  (setq vterm-shell "/usr/bin/fish"))
-  (evil-set-initial-state 'vterm-mode 'insert)
+  (setq vterm-shell "/usr/bin/fish")
+  (evil-set-initial-state 'vterm-mode 'insert))
+  
 #+END_SRC
 
 ** Eshell Setup
 #+begin_src emacs-lisp
   (use-package esh-autosuggest
+    :after eshell
     :hook (eshell-mode . esh-autosuggest-mode))
   (use-package eshell-syntax-highlighting
-    :init
+    :after eshell
+    :config
     (eshell-syntax-highlighting-global-mode +1))
   (use-package eshell-git-prompt
+    :after eshell
     :config
-    (eshell-git-prompt-use-theme 'powerline))
-  (setq ivy-do-completion-in-region t) ; this is the default
+    (eshell-git-prompt-use-theme 'powerline)
+  (setq ivy-do-completion-in-region t)) ; this is the default
 
   (defun setup-eshell-ivy-completion ()
     (define-key eshell-mode-map [remap eshell-pcomplete] 'completion-at-point)
@@ -470,18 +497,20 @@
 Ensures that the user path is the same as the `exec-path` variable at startup.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
+    :defer
     :config
   (exec-path-from-shell-initialize))
 #+END_SRC
 
 ** Flyspell (Spellcheck)
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook 'flyspell-mode)
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'after-save-hook 'flyspell-buffer)
-  (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
-  (setq flyspell-issue-message-flag nil)
-  (use-package flyspell-correct-ivy)
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    (add-hook 'after-save-hook 'flyspell-buffer)
+    (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
+    (setq flyspell-issue-message-flag nil)
+    (use-package flyspell-correct-ivy
+     :after flyspell)
 #+END_SRC
 
 ** Dired Configuration
@@ -511,12 +540,12 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Org Mode Extensions
 #+BEGIN_SRC emacs-lisp
-  (use-package toc-org
-  :hook
-  (org-mode . toc-org-mode))
-  (use-package org-bullets
+    (use-package toc-org
     :hook
-  (org-mode . (lambda () (org-bullets-mode 1))))
+    (org-mode . toc-org-mode))
+    (use-package org-bullets
+      :hook
+    (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
 ** Yasnippet (Code Snippets)
@@ -536,4 +565,8 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+ (message "Init Time: %s." (float-time (time-subtract after-init-time before-init-time)))
 #+end_src
