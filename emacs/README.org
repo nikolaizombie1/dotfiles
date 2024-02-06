@@ -240,13 +240,13 @@
 
 ** Rustic (Rust Language Support)
 #+BEGIN_SRC emacs-lisp
-	    (use-package rustic
-	       :mode "\\.rs\\'"
-	       :custom
-	    (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
-	    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
-	    (setq rustic-rustfmt-args "--edition 2021")
-	    (setq rustic-cargo-check-exec-command "clippy"))
+    (use-package rustic
+       :mode ("\\.rs\\'" . rustic-mode)
+       :custom
+    (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
+    (setq lsp-rust-analyzer-cargo-watch-command "clippy")
+    (setq rustic-rustfmt-args "--edition 2021")
+    (setq rustic-cargo-check-exec-command "clippy"))
 #+END_SRC
 
 ** Python Mode (Python Language Support)
@@ -276,7 +276,7 @@
 ** Haskell Mode (Haskell Language Support)
 #+begin_src emacs-lisp
       (use-package lsp-haskell
-        :mode "\\.hs\\'")
+        :mode ("\\.hs\\'" . haskell-mode))
 
       ;; Hooks so haskell and literate haskell major modes trigger LSP setup
       (add-hook 'haskell-mode-hook #'lsp)
@@ -301,7 +301,9 @@
 ** YAML Mode (YAML Language Support)
 #+begin_src emacs-lisp
   (use-package yaml-mode
-    	:config
+    :mode "\\.yaml\\'"
+    :mode "\\.yml\\'"
+	:config
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
@@ -497,7 +499,6 @@
 Ensures that the user path is the same as the `exec-path` variable at startup.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :defer
     :config
   (exec-path-from-shell-initialize))
 #+END_SRC
@@ -540,12 +541,15 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Org Mode Extensions
 #+BEGIN_SRC emacs-lisp
-    (use-package toc-org
+  (use-package org
+   :mode 
+   ("\\.pdf\\'" . org-mode))
+  (use-package toc-org
+  :hook
+  (org-mode . toc-org-mode))
+  (use-package org-bullets
     :hook
-    (org-mode . toc-org-mode))
-    (use-package org-bullets
-      :hook
-    (org-mode . (lambda () (org-bullets-mode 1))))
+  (org-mode . (lambda () (org-bullets-mode 1))))
 #+END_SRC
 
 ** Yasnippet (Code Snippets)
