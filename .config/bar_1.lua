@@ -1,1 +1,0 @@
-awesome/bar_1.lua

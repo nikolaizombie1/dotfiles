@@ -134,10 +134,6 @@ local bar2 = {}
 theme.bar2 = bar2
 theme.bar2.fg_normal = "#c3c3c3"
 theme.bar2.bg_normal = "#f6f6f6"
-local bar3 = {}
-theme.bar3 = bar3
-theme.bar3.fg_normal = "#c3c3c3"
-theme.bar3.bg_normal = "#ffffff"
 return theme
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

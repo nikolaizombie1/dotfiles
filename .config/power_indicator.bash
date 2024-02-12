@@ -1,1 +1,0 @@
-awesome/power_indicator.bash

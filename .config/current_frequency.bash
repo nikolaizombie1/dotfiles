@@ -1,1 +1,0 @@
-awesome/current_frequency.bash
