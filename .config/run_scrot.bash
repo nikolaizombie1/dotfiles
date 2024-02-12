@@ -1,0 +1,1 @@
+awesome/run_scrot.bash
