@@ -92,9 +92,7 @@
     (evil-set-initial-state 'dashboard-mode 'normal))
 
   (use-package evil-collection
-    :after evil
-    :config
-    (evil-collection-init))
+    :hook (after-init . evil-collection-setup))
 #+END_SRC
 
 ** Undo Tree (Persistent Undo History)
