@@ -1,0 +1,6 @@
+[user]
+	name = fabiomatos999
+	email = fabio.matos@upr.edu
+[core]
+	sshCommand = "ssh -i ~/.ssh/id_ed25519_university -o IdentitiesOnly=yes"
+	editor = emacs
