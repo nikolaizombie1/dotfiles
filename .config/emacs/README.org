@@ -258,11 +258,10 @@
 #+begin_src emacs-lisp
       (use-package python-mode
 	:mode "\\.py\\'"
-	:ensure t
 	:hook
-        (python-mode . lsp-mode)
-	)
-      (setq python-shell-interpreter "python3")
+	(python-mode . lsp)
+	:config
+        (setq python-shell-interpreter "python3"))
   ;    (require 'dap-python)
   ;    (setq dap-python-debugger 'debugpy)
   ;    (dap-register-debug-template "My App"
@@ -274,8 +273,9 @@
   ;	    :request "launch"
   ;	    :name "My App"))
       (use-package pyvenv
-	:after python-mode
-	:config (pyvenv-mode 1))
+	:hook (python-mode . pyvenv-mode)
+	:config (pyvenv-mode 1)
+	(pyvenv-activate (concat (file-name-directory buffer-file-name) "venv")))
 #+end_src
 
 ** Haskell Mode (Haskell Language Support)
