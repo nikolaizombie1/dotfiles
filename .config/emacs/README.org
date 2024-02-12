@@ -1,5 +1,6 @@
 * Emacs Literate Configuration File :TOC:
   - [[#use-package-setup][Use-Package Setup]]
+  - [[#gcmh-garbage-collection-optimization][GCMH (Garbage Collection Optimization)]]
   - [[#evil-vim-emulation][Evil (Vim Emulation)]]
   - [[#undo-tree-persistent-undo-history][Undo Tree (Persistent Undo History)]]
   - [[#which-key-key-suggestions][Which-Key (Key-Suggestions)]]
@@ -65,6 +66,7 @@
 
 #+END_SRC
 
+** GCMH (Garbage Collection Optimization)
 #+begin_src emacs-lisp
    (use-package gcmh
      :init (gcmh-mode 1))
@@ -98,7 +100,7 @@
 ** Undo Tree (Persistent Undo History)
 #+begin_src emacs-lisp 
   (use-package undo-tree
-    :after evil
+    :hook (after-init . global-undo-tree-mode)
     :config
     (setq undo-tree-auto-save-history t)
     (setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo")))
@@ -108,7 +110,7 @@
 ** Which-Key (Key-Suggestions)
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :after general
+    :hook (after-init . which-key-mode)
     :diminish which-key-mode
     :config
     (which-key-mode)
@@ -118,7 +120,7 @@
 ** Ivy (Search Engine)
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-rich
-    :after counsel
+    :hook (after-init . ivy-rich-mode)
     :config
     (ivy-rich-mode 1))
 
@@ -298,6 +300,7 @@
 #+begin_src emacs-lisp
   (use-package plantuml-mode
   :mode "\\.plantuml\\'"
+  :mode "\\.pu\\'"
     :config
   (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
   (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
@@ -331,7 +334,6 @@
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (use-package general
-    :defer
     :config
   (general-create-definer global-definer
     :keymaps 'override
@@ -394,32 +396,38 @@
 
 ** Themes and Icons
 #+BEGIN_SRC emacs-lisp
-    (defun random-doom-theme ()
-      "Returns a random doom-theme from a hardcoded list"
-      (seq-random-elt
-       '(doom-Iosvkem
-	 doom-horizon
-	 doom-molokai
-	 doom-old-hope
-	 doom-laserwave
-	 doom-tomorrow-night
-	 doom-challenger-deep
-	 doom-monokai-classic
-	 doom-outrun-electric
-	 doom-shades-of-purple
-	 doom-ayu-dark
-	 doom-dracula)))
-    (use-package doom-themes)
-    (use-package all-the-icons)
-    (use-package nerd-icons
-      :custom (nerd-icons-font-family "Mononoki Nerd Font"))
-    (use-package all-the-icons-dired)
-    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (defun random-doom-theme ()
+    "Returns a random doom-theme from a hardcoded list"
+    (seq-random-elt
+     '(doom-Iosvkem
+       doom-horizon
+       doom-molokai
+       doom-old-hope
+       doom-laserwave
+       doom-tomorrow-night
+       doom-challenger-deep
+       doom-monokai-classic
+       doom-outrun-electric
+       doom-shades-of-purple
+       doom-ayu-dark
+       doom-dracula)))
+  (defun setup-doom-theme ()
+    "Setup doom theme."
     (setq doom-themes-enable-bold t)
     (setq doom-themes-enable-italic t)
     (load-theme (random-doom-theme) t)
-    (doom-themes-org-config)
-    (use-package nerd-icons)
+    )
+  (use-package doom-themes
+   :after doom-modeline
+   :config (setup-doom-theme))
+  (use-package all-the-icons
+    :defer)
+  (use-package nerd-icons
+    :defer
+    :custom (nerd-icons-font-family "Mononoki Nerd Font"))
+  (use-package all-the-icons-dired
+    :hook (dired-mode . all-the-icons-dired-mode))
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 #+END_SRC
 
 ** Font Configuration
@@ -504,8 +512,8 @@
 Ensures that the user path is the same as the `exec-path` variable at startup.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :config
-  (exec-path-from-shell-initialize))
+    :hook
+  (after-init . exec-path-from-shell-initialize))
 #+END_SRC
 
 ** Flyspell (Spellcheck)
@@ -513,7 +521,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
     (add-hook 'text-mode-hook 'flyspell-mode)
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
     (add-hook 'after-save-hook 'flyspell-buffer)
-    (add-hook 'flyspell-mode-hook '(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
+    (add-hook 'flyspell-mode-hook #'(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
     (setq flyspell-issue-message-flag nil)
     (use-package flyspell-correct-ivy
      :after flyspell)
@@ -546,15 +554,17 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Org Mode Extensions
 #+BEGIN_SRC emacs-lisp
-  (use-package org
-   :mode 
-   ("\\.pdf\\'" . org-mode))
-  (use-package toc-org
-  :hook
-  (org-mode . toc-org-mode))
-  (use-package org-bullets
+    (use-package org
+     :mode 
+     ("\\.org\\'" . org-mode))
+    (use-package toc-org
     :hook
-  (org-mode . (lambda () (org-bullets-mode 1))))
+    (org-mode . toc-org-mode))
+    (use-package org-bullets
+      :hook (after-init . org-bullets-mode)
+      :config
+    (doom-themes-org-config)
+    (org-bullets-mode 1))
 #+END_SRC
 
 ** Yasnippet (Code Snippets)
@@ -576,7 +586,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 ** Mode Line Customication
 #+begin_src emacs-lisp
   (use-package doom-modeline
-    :init (doom-modeline-mode 1))
+    :hook (after-init . doom-modeline-mode))
 #+end_src
 
 #+begin_src emacs-lisp
