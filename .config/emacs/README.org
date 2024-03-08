@@ -18,6 +18,7 @@
   - [[#rustic-rust-language-support][Rustic (Rust Language Support)]]
   - [[#python-mode-python-language-support][Python Mode (Python Language Support)]]
   - [[#haskell-mode-haskell-language-support][Haskell Mode (Haskell Language Support)]]
+  - [[#racket-mode-racket-language-support][Racket Mode (Racket Language Support)]]
   - [[#lua-mode-lua-language-support][Lua Mode (Lua Language Support)]]
   - [[#plantuml-language-support][PlantUML Language Support]]
   - [[#yaml-mode-yaml-language-support][YAML Mode (YAML Language Support)]]
@@ -48,9 +49,10 @@
   ;; Initialize package sources
   (require 'package)
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")) ;; installed by default
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
   (package-initialize)
   (unless package-archive-contents
@@ -170,6 +172,7 @@
 ** Auto Revert Mode (Sync File Changes)
 #+begin_src emacs-lisp
   (global-auto-revert-mode)
+  (setq dired-auto-revert-buffer t)
 #+end_src
 
 ** LSP Mode (LSP Support)
@@ -227,7 +230,7 @@
 ** Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :commands (projectile-find-file)
+    :hook (after-init . projectile-mode)
     :config (projectile-mode)
     :custom ((projectile-completion-system 'ivy)))
   (use-package counsel-projectile
@@ -288,6 +291,13 @@
       (add-hook 'haskell-literate-mode-hook #'lsp)
 #+end_src
 
+** Racket Mode (Racket Language Support)
+#+begin_src emacs-lisp
+     (use-package racket-mode
+	  :mode "\\.rkt\\'"
+          :hook (racket-mode . lsp))
+#+end_src
+
 ** Lua Mode (Lua Language Support)
 #+begin_src emacs-lisp
   (use-package lua-mode
@@ -296,12 +306,14 @@
 
 ** PlantUML Language Support
 #+begin_src emacs-lisp
-  (use-package plantuml-mode
-  :mode "\\.plantuml\\'"
-  :mode "\\.pu\\'"
-    :config
-  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
-  (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
+    (use-package plantuml-mode
+    :mode "\\.plantuml\\'"
+    :mode "\\.pu\\'"
+      :config
+    (setq plantuml-jar-path "/home/gram/Downloads/plantuml-1.2024.0.jar")
+    (setq plantuml-default-exec-mode 'jar)
+    (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+    (add-to-list 'auto-mode-alist '("\\.pu\\'" . plantuml-mode)))
 #+end_src
 
 ** YAML Mode (YAML Language Support)
@@ -442,31 +454,32 @@
 
 ** PDF Tools (PDF Viewer)
 #+begin_src emacs-lisp
-    (use-package pdf-tools
-      :mode "\\.pdf\\'"
-      :config
-    (pdf-tools-install)  ; Standard activation command
-    (pdf-loader-install)) ; On demand loading, leads to faster startup time
+  (use-package pdf-tools)
+  (pdf-loader-install) ; On demand loading, leads to faster startup time
 #+end_src
 
 ** LaTeX Language Support
 #+begin_src emacs-lisp
-   (use-package auctex
-     :hook
-   (LaTeX-mode . visual-line-mode)
-   (LaTeX-mode . flyspell-mode)
-   (LaTeX-mode . LaTeX-math-mode)
-   (LaTeX-mode . turn-on-reftex)
-   :config
-   (setq TeX-auto-save t)
-   (setq TeX-parse-self t)
-   (setq-default TeX-master nil)
-   (setq reftex-plug-into-AUCTeX t)
-   (setq TeX-PDF-mode t)
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-     TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
-     TeX-source-correlate-start-server t) 
-  (setq shell-escape-mode "-shell-escape"))
+      (use-package auctex
+	:hook
+      (LaTeX-mode . visual-line-mode)
+      (LaTeX-mode . flyspell-mode)
+      (LaTeX-mode . LaTeX-math-mode)
+      (LaTeX-mode . turn-on-reftex)
+      :config
+      (setq TeX-auto-save t)
+      (setq TeX-parse-self t)
+      (setq-default TeX-master nil)
+      (setq reftex-plug-into-AUCTeX t)
+      (setq TeX-PDF-mode t)
+     (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+	TeX-view-program-list '(("PDF Tools" TeX-pdf-tools-sync-view))
+	TeX-source-correlate-start-server t) 
+     (setq shell-escape-mode "-shell-escape")
+     )
+     (use-package lsp-latex
+      :hook (tex-mode . lsp)
+      (latex-mode . lsp))
 #+end_src
 
 ** Vterm Setup
@@ -585,6 +598,10 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :hook (after-init . doom-modeline-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package bluetooth)
 #+end_src
 
 #+begin_src emacs-lisp
