@@ -20,6 +20,7 @@
   - [[#haskell-mode-haskell-language-support][Haskell Mode (Haskell Language Support)]]
   - [[#racket-mode-racket-language-support][Racket Mode (Racket Language Support)]]
   - [[#lua-mode-lua-language-support][Lua Mode (Lua Language Support)]]
+  - [[#sqls-sql-language-support][SQLS (SQL Language Support)]]
   - [[#plantuml-language-support][PlantUML Language Support]]
   - [[#yaml-mode-yaml-language-support][YAML Mode (YAML Language Support)]]
   - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
@@ -29,7 +30,7 @@
   - [[#prompt-settings][Prompt Settings]]
   - [[#themes-and-icons][Themes and Icons]]
   - [[#font-configuration][Font Configuration]]
-  - [[#frame-transperancy][Frame Transperancy]]
+  - [[#frame-transparency][Frame Transparency]]
   - [[#pdf-tools-pdf-viewer][PDF Tools (PDF Viewer)]]
   - [[#latex-language-support][LaTeX Language Support]]
   - [[#vterm-setup][Vterm Setup]]
@@ -41,7 +42,7 @@
   - [[#org-mode-extensions][Org Mode Extensions]]
   - [[#yasnippet-code-snippets][Yasnippet (Code Snippets)]]
   - [[#suppress-warnings][Suppress Warnings]]
-  - [[#mode-line-customication][Mode Line Customication]]
+  - [[#mode-line-customization][Mode Line Customization]]
 
 ** Use-Package Setup
 #+BEGIN_SRC emacs-lisp
@@ -304,6 +305,13 @@
    :mode "\\.lua\\'")
 #+end_src
 
+** SQLS (SQL Language Support)
+#+begin_src emacs-lisp
+    (add-hook 'sql-mode-hook 'lsp)
+    (setq lsp-sqls-workspace-config-path nil)
+    (setq lsp-sqls-connections '(((driver . "postgresql") (dataSourceName . "host=127.0.0.1 port=5432 user=uwu password=uwu dbname=db sslmode=disable"))))
+#+end_src
+
 ** PlantUML Language Support
 #+begin_src emacs-lisp
     (use-package plantuml-mode
@@ -397,6 +405,7 @@
   (set-fringe-mode 10)
   (setq global-font-lock-mode t)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  (setq mouse-autoselect-window t)
 #+END_SRC
 
 ** Prompt Settings
@@ -446,7 +455,7 @@
   (set-face-attribute 'default t :font "Mononoki Nerd Font-18" )
 #+END_SRC
 
-** Frame Transperancy
+** Frame Transparency
 #+BEGIN_SRC emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(90 . 90))
   (add-to-list 'default-frame-alist '(alpha . (90 . 90)))
@@ -454,8 +463,10 @@
 
 ** PDF Tools (PDF Viewer)
 #+begin_src emacs-lisp
-  (use-package pdf-tools)
-  (pdf-loader-install) ; On demand loading, leads to faster startup time
+    (use-package pdf-tools
+    :defer 1
+    :config
+     (pdf-loader-install)) ; On demand loading, leads to faster startup time
 #+end_src
 
 ** LaTeX Language Support
@@ -594,14 +605,15 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
   (setq warning-minimum-level-level ":error")
 #+end_src
 
-** Mode Line Customication
+** Mode Line Customization
 #+begin_src emacs-lisp
   (use-package doom-modeline
     :hook (after-init . doom-modeline-mode))
 #+end_src
 
 #+begin_src emacs-lisp
-  (use-package bluetooth)
+  (use-package bluetooth
+     :commands (bluetooth-list-devices))
 #+end_src
 
 #+begin_src emacs-lisp
