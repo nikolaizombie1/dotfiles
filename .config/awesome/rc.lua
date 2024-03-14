@@ -649,4 +649,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
     -- Autostart aplications
 awful.spawn.with_shell("~/.config/awesome/restore_screens.sh")
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
-awful.spawn.with_shell("nitrogen --restore")
+awful.spawn.with_shell("sleep 1s && nitrogen --restore")
