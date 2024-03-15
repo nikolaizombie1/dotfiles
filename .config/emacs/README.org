@@ -260,26 +260,19 @@
 
 ** Python Mode (Python Language Support)
 #+begin_src emacs-lisp
-      (use-package python-mode
-	:mode "\\.py\\'"
-	:hook
-	(python-mode . lsp)
-	:config
-        (setq python-shell-interpreter "python3"))
-  ;    (require 'dap-python)
-  ;    (setq dap-python-debugger 'debugpy)
-  ;    (dap-register-debug-template "My App"
-  ;      (list :type "python"
-  ;	    :args "-i"
-  ;	    :cwd nil
-  ;	    :env '(("DEBUG" . "1"))
-  ;	    :target-module (expand-file-name "~/src/myapp/.env/bin/myapp")
-  ;	    :request "launch"
-  ;	    :name "My App"))
-      (use-package pyvenv
-	:hook (python-mode . pyvenv-mode)
-	:config (pyvenv-mode 1)
-	(pyvenv-activate (concat (file-name-directory buffer-file-name) "venv")))
+  (use-package python-mode
+    :mode "\\.py\\'"
+    :hook
+    (python-mode . lsp)
+    :config
+    (setq python-shell-interpreter "python3"))
+  (add-hook 'python-mode-hook (lambda () (require 'dap-python)))
+
+  (setq dap-python-debugger 'debugpy)
+  (use-package pyvenv
+    :hook (python-mode . pyvenv-mode)
+    :config (pyvenv-mode 1)
+    (pyvenv-activate (concat (file-name-directory buffer-file-name) "venv")))
 #+end_src
 
 ** Haskell Mode (Haskell Language Support)
@@ -592,7 +585,7 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 ** Yasnippet (Code Snippets)
 #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
-      :defer 10
+      :defer 1
       :config (yas-global-mode 1))
     (use-package yasnippet-snippets
       :after yasnippet)
