@@ -122,26 +122,29 @@
 
 ** Ivy (Search Engine)
 #+BEGIN_SRC emacs-lisp
-       (use-package ivy-rich
-	 :after counsel
-	 :config
-	 (ivy-rich-mode 1))
+  (use-package ivy-rich
+    :after counsel
+    :config
+    (ivy-rich-mode 1))
 
-       (use-package all-the-icons-ivy-rich
-	 :after ivy-rich
-	 :config (all-the-icons-ivy-rich-mode 1))
+  (use-package all-the-icons-ivy-rich
+    :after ivy-rich
+    :config (all-the-icons-ivy-rich-mode 1))
 
-       (use-package counsel
-	 :hook (after-init . counsel-mode)
-	 :bind (("M-x" . counsel-M-x)
-		("C-x b" . counsel-ibuffer)
-		("C-x C-f" . counsel-find-file)
-		:map minibuffer-local-map
-		("C-r" . 'counsel-minibuffer-history)))
+  (use-package counsel
+    :hook (after-init . counsel-mode)
+    :bind (("M-x" . counsel-M-x)
+	   ("C-x b" . counsel-ibuffer)
+	   ("C-x C-f" . counsel-find-file)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history)))
 
-       (use-package prescient
-	  :after counsel
-	  :config (ivy-prescient-mode))
+  (use-package prescient
+     :after counsel)
+  (use-package ivy-prescient
+     :after prescient
+     :config
+     (ivy-prescient-mode))
 
 #+END_SRC
 
@@ -201,6 +204,7 @@
   (use-package dap-mode
     :after lsp-mode
     :config (dap-auto-configure-mode))
+  (defun debug-code () (interactive) (dap-delete-all-sessions) (dap-debug-last))
 #+end_src
 
 ** Evil Nerd Commenter (Better Line Commenting)
@@ -249,13 +253,23 @@
 
 ** Rustic (Rust Language Support)
 #+BEGIN_SRC emacs-lisp
-    (use-package rustic
-       :mode ("\\.rs\\'" . rustic-mode)
-       :custom
+  (use-package rustic
+    :mode ("\\.rs\\'" . rustic-mode)
+    :custom
     (setq rustic-analyzer-command '("~/.cargo/bin/rust-analyzer"))
     (setq lsp-rust-analyzer-cargo-watch-command "clippy")
     (setq rustic-rustfmt-args "--edition 2021")
     (setq rustic-cargo-check-exec-command "clippy"))
+  (add-hook 'rust-mode-hook (lambda () (require 'dap-cpptools)))
+  (add-hook 'rust-mode-hook (lambda () (require 'dap-gdb-lldb)))
+  (defun register-rust-dap-profile () (interactive) (dap-register-debug-template "Rust::GDB Run Configuration"
+								   (list :type "gdb"
+									 :request "launch"
+									 :name "GDB::Run"
+									 :gdbpath "rust-gdb"
+									 :target (concat (file-name-as-directory (projectile-project-root)) (file-name-as-directory "target") (file-name-as-directory "debug") (projectile-project-name))
+									 :cwd (concat (file-name-as-directory (projectile-project-root)) (file-name-as-directory "src") ))))
+  (add-hook 'dap-mode-hook 'register-rust-dap-profile)
 #+END_SRC
 
 ** C Mode (C/C++ Language Support)
@@ -359,17 +373,17 @@
     "."   '(counsel-find-file :which-key "find-file")
     "o"   '(nil :which-key "open")
     "o t" '((lambda () (interactive)
-	      (evil-window-split) 
-	      (evil-window-next 0)
-	      (evil-window-decrease-height 6)
-	      (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))
-	      ) :which-key "vterm")
+		(evil-window-split) 
+		(evil-window-next 0)
+		(evil-window-decrease-height 6)
+		(if (projectile-project-p)
+		    (projectile-run-vterm 1)
+		  (vterm))
+		) :which-key "vterm")
     "o T" '((lambda () (interactive)
-	       (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))) :which-key "vterm fullscreen")
+		 (if (projectile-project-p)
+		    (projectile-run-vterm 1)
+		  (vterm))) :which-key "vterm fullscreen")
     "o e" '(lsp-treemacs-errors-list :which-key "project errors")
     "f"   '(nil :which-key "file")
     "f r" '(counsel-recentf :which-key "recent files")
@@ -390,7 +404,8 @@
     "g"   '(nil :which-key "magit")
     "g g" '(magit :which-key "magit-status")
     "d e" '(emms-play-dired :which-key "dired play emms")
-    "y"   '(ivy-yasnippet :whick-key "yasnippet")))
+    "y"   '(ivy-yasnippet :which-key "yasnippet")
+    "c d" '(debug-code :which-key "debug code")))
 #+END_SRC
 
 ** Frame Settings
