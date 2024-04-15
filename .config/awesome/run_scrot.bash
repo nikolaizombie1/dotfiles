@@ -9,7 +9,7 @@ active_window_copy () {
     xclip -sel clip -t image/png ~/Pictures/"$NAME"
 }
 
-NAME=$(date '+%e-%b-%Y-%H-%S').png
+NAME=$(date '+%e-%b-%Y-%H-%M-%S').png
 while getopts "rw" opt; do
     case "${opt}" in
         r) region_copy

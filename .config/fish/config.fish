@@ -22,6 +22,7 @@ set PATH $PATH $HOME"/.cargo/bin/"
 set PATH $PATH $HOME"/Scripts"
 set PATH $PATH $HOME"/.local/bin/"
 set PATH $PATH $HOME"/.julia/bin"
+set PATH $PATH "/usr/local/go/bin"
 set -gx DEBUGINFOD_URLS 'https://debuginfod.archlinux.org'
 set -gx GTK_IM_MODULE 'fcitx'
 set -gx QT_IM_MODULE 'fcitx'

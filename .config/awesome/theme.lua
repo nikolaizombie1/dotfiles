@@ -13,14 +13,14 @@ local theme = {}
 
 theme.font          = "Mononoki Nerd Font 16"
 
-theme.bg_normal = "#ffffff"
-theme.bg_focus = "#000000"
+theme.bg_normal = "#0f060d"
+theme.bg_focus = "#f0f9f2"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
 theme.bg_systray    = theme.bg_normal
 
-theme.fg_normal = "#c3c3c3"
-theme.fg_focus = "#ffffff"
+theme.fg_normal = "#3c3c3c"
+theme.fg_focus = "#000000"
 theme.fg_urgent     = "#ffffff"
 theme.fg_minimize   = "#ffffff"
 
@@ -128,12 +128,12 @@ theme.icon_theme = nil
 
 local bar1 = {}
 theme.bar1 = bar1
-theme.bar1.fg_normal = "#c3c3c3"
-theme.bar1.bg_normal = "#ffffff"
+theme.bar1.fg_normal = "#3c3c3c"
+theme.bar1.bg_normal = "#0f060d"
 local bar2 = {}
 theme.bar2 = bar2
-theme.bar2.fg_normal = "#c3c3c3"
-theme.bar2.bg_normal = "#f6f6f6"
+theme.bar2.fg_normal = "#3c3c3c"
+theme.bar2.bg_normal = "#0f060d"
 return theme
 
 -- vim: filetype=lua:expandtab:shiftwidth=4:tabstop=8:softtabstop=4:textwidth=80

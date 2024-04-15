@@ -8,5 +8,4 @@ fi
 picom --config ~/.config/awesome/picom.conf &
 emacs --daemon &
 fcitx5 -d &
-nm-applet &
 /./usr/bin/lxqt-policykit-agent &

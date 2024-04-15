@@ -2,10 +2,11 @@
 [keybindings]
 [profiles]
   [[default]]
+    allow_bold = False
     background_color = "#282828"
     background_darkness = 0.9
     background_type = transparent
-    font = Mononoki Nerd Font Mono Bold 18
+    font = Mononoki Nerd Font 18
     foreground_color = "#ebdbb2"
     show_titlebar = False
     use_system_font = False
