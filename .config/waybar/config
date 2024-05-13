@@ -1,4 +1,10 @@
 {
+
+    "custom/sink": {
+        "format": "{}",
+	"exec": "$HOME/.config/awesome/audio_output_switcher --devices-file $HOME/.config/awesome/devices.json --view",
+	"interval": 1,
+    },
     // "layer": "top", // Waybar at top layer
     // "position": "top", // Waybar position (top|bottom|left|right)
     "height": 35, // Waybar height (to be removed for auto height)
@@ -6,8 +12,8 @@
     "spacing": 6, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
-    "modules-center": ["sink"],
-    "modules-right": ["tray", "mpd", "sink",  "network", "cpu", "memory", "backlight", "keyboard-state", "battery", "battery#bat2", "clock"],
+    "modules-center": [""],
+    "modules-right": ["tray", "custom/sink", "clock"],
     // Modules configuration
     // "sway/workspaces": {
     //     "disable-scroll": true,
@@ -32,10 +38,6 @@
             "locked": "",
             "unlocked": ""
         }
-    },
-    "sink": {
-        "format": "{}",
-	"exec": "echo UwU",
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -143,8 +145,8 @@
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
+        "format-source": "",
+        "format-source-muted": "",
         "format-icons": {
             "headphone": "",
             "hands-free": "",

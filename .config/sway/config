@@ -7,6 +7,7 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
+exec_always ~/.config/awesome/autostart.sh 
 set $mod Mod4
 # Home row direction keys, like vim
 set $left h
@@ -14,11 +15,11 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term terminator
+set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu wofi --show=drun -I | xargs swaymsg exec --
+set $menu rofi -show drun -theme DarkBlue -font "Mononoki Nerd Font 16" -show-icons -icon-theme "Flat-Remix-Red-Dark" | xargs swaymsg exec --
 
 include /etc/sway/config-vars.d/*
 
@@ -31,15 +32,15 @@ include /etc/sway/config-vars.d/*
 output DP-2 {
        resolution 2560x1440
        position 1920,0
-       bg /home/uwu/Linux_Mass_Storage/Downloads/Wallpapers/2024/Jan to Jun 2024/117183073_p0.jpg fill
        adaptive_sync on
+       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/Konachan.com - 376389 animal_ears blush bow breasts bunny_ears bunnygirl cleavage gloves headdress hololive leotard long_hair minato_aqua pantyhose twintails.jpg fill
 } 
 output HDMI-A-1 {
        resolution 1920x1080
        position 0,360
-       bg /home/uwu/Linux_Mass_Storage/Downloads/Wallpapers/2024/Jan to Jun 2024/117301432_p0.jpg fill
+       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/117251455_p0.jpg fill
+
 }
-exec ~/.config/awesome/autostart.sh &
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -84,7 +85,7 @@ exec ~/.config/awesome/autostart.sh &
     bindsym $mod+Shift+Return exec $menu
 
     bindsym $mod+Shift+e exec emacsclient -c -a 'emacs'
-    bindsym $mod+Shift+f exec brave-browser
+    bindsym $mod+Shift+f exec brave --enable-features=UseOzonePlatform --enable-gpu --ozone-platform=wayland &
     bindsym $mod+0 exec ~/.config/awesome/audio_output_switcher --devices-file ~/.config/awesome/devices.json --change
     bindsym $mod+Shift+n exec nautilus
     bindsym $mod+Shift+x exec systemctl poweroff

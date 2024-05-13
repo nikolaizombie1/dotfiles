@@ -21,7 +21,9 @@
   - [[#haskell-mode-haskell-language-support][Haskell Mode (Haskell Language Support)]]
   - [[#racket-mode-racket-language-support][Racket Mode (Racket Language Support)]]
   - [[#lua-mode-lua-language-support][Lua Mode (Lua Language Support)]]
+  - [[#go-mode-go-language-support][Go Mode (Go Language Support)]]
   - [[#sqls-sql-language-support][SQLS (SQL Language Support)]]
+  - [[#arduino-mode-arduino-development][Arduino Mode (Arduino Development)]]
   - [[#plantuml-language-support][PlantUML Language Support]]
   - [[#yaml-mode-yaml-language-support][YAML Mode (YAML Language Support)]]
   - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
@@ -318,11 +320,34 @@
    :mode "\\.lua\\'")
 #+end_src
 
+** Go Mode (Go Language Support)
+#+begin_src emacs-lisp
+  (use-package go-mode
+   :mode  "\\.go\\'"
+   (add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
+  )
+#+end_src
+
 ** SQLS (SQL Language Support)
 #+begin_src emacs-lisp
     (add-hook 'sql-mode-hook 'lsp)
     (setq lsp-sqls-workspace-config-path nil)
     (setq lsp-sqls-connections '(((driver . "postgresql") (dataSourceName . "host=127.0.0.1 port=5432 user=uwu password=uwu dbname=db sslmode=disable"))))
+#+end_src
+
+** Arduino Mode (Arduino Development)
+#+begin_src emacs-lisp
+  (use-package arduino-mode
+    :mode "\\.ino\\'"
+    :config
+    (add-to-list 'lsp-language-id-configuration '(arduino-mode . "arduino"))
+    (lsp-register-client (make-lsp-client
+		      :new-connection (lsp-stdio-connection '("arduino-language-server" "-cli-config" "/home/uwu/.arduino15/arduino-cli.yaml"))
+		      :major-modes '(arduino-mode)
+                      :activation-fn (lsp-activate-on "arduino")
+		      :server-id 'arduino-language-server))
+   )
+
 #+end_src
 
 ** PlantUML Language Support

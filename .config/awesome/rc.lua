@@ -381,7 +381,7 @@ globalkeys = gears.table.join(
         awful.key({ modkey, "Shift" }, "c" , function () awful.spawn("code") end,
             {description = "open VS Code", group = "apps"}),
         -- Brave Browser
-        awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave-browser") end,
+        awful.key({ modkey, "Shift" }, "f" , function () awful.spawn("brave") end,
             {description = "open brave bowser", group = "apps"}),
         -- Toggle Play-Pause
         awful.key({}, "XF86AudioPlay" , function () awful.spawn("playerctl play-pause -a") end,

@@ -3,7 +3,7 @@ dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XA
 redshiftpid=$(pgrep redshift)
 if [[ "$redshiftpid" == $(echo "")  ]]
 then
-    redshift -l 18.33:-67.23 &
+    gammastep -l 18.33:-67.23 &
 fi
 picom --config ~/.config/awesome/picom.conf &
 emacs --daemon &
