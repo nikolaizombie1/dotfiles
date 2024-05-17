@@ -19,7 +19,7 @@ set $term alacritty
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu rofi -show drun -theme DarkBlue -font "Mononoki Nerd Font 16" -show-icons -icon-theme "Flat-Remix-Red-Dark" | xargs swaymsg exec --
+set $menu fuzzel | xargs swaymsg exec --
 
 include /etc/sway/config-vars.d/*
 
@@ -32,13 +32,13 @@ include /etc/sway/config-vars.d/*
 output DP-2 {
        resolution 2560x1440
        position 1920,0
+       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/Konachan.com - 376912 2girls black_hair blush bra breasts choker long_hair open_shirt original pink_hair purple_eyes red_eyes shirt twintails underwear undressing.png fill
        adaptive_sync on
-       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/Konachan.com - 376389 animal_ears blush bow breasts bunny_ears bunnygirl cleavage gloves headdress hololive leotard long_hair minato_aqua pantyhose twintails.jpg fill
 } 
 output HDMI-A-1 {
        resolution 1920x1080
        position 0,360
-       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/117251455_p0.jpg fill
+       bg ~/Downloads/Wallpapers/2024/Jan to Jun 2024/Konachan.com - 376760 ass braids breasts ceres_fauna deyui flowers green_hair hololive horns long_hair no_bra panties underboob underwear yellow_eyes.png fill
 
 }
 #

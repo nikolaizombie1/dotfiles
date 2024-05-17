@@ -324,6 +324,7 @@
 #+begin_src emacs-lisp
   (use-package go-mode
    :mode  "\\.go\\'"
+   :config
    (add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
   )
 #+end_src

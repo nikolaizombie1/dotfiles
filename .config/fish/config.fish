@@ -35,7 +35,7 @@ set -gx PIXELINK_SDK_LIB $HOME"/PixeLINKSdk/lib"
 set -gx LD_LIBRARY_PATH $PIXELINK_SDK_LIB
 
 if status --is-interactive;
-    keychain --nogui --clear ~/.ssh/id_ed25519_personal ~/.ssh/id_ed25519_university -q
+    keychain --nogui --clear ~/.ssh/id_ed25519_personal -q
     [ -e $HOME/.keychain/$HOSTNAME-fish ]; and source $HOME/.keychain/$HOSTNAME-fish
 end
 
