@@ -6,8 +6,7 @@
 
 window#waybar {
     background-color: rgba(43, 48, 59, 0.8);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.8);
-    color: #ffffff;
+    color: #00ffff;
     transition-property: background-color;
     transition-duration: .5s;
 }
@@ -51,7 +50,7 @@ button:hover {
 #workspaces button {
     padding: 0 5px;
     background-color: transparent;
-    color: #ffffff;
+    color: #ffff00;
 }
 
 #workspaces button:hover {
@@ -282,3 +281,37 @@ button:hover {
 /* #scratchpad.empty { */
 /* 	background-color: transparent; */
 /* } */
+
+@define-color bar_color rgba (204,87,109,0.8);
+@define-color text_color rgba (255,255,255,1.0);
+
+window#waybar {
+    background-color: @bar_color
+}
+
+
+#workspaces button {
+   color: @text_color 
+}
+
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#wireplumber,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#scratchpad,
+#mpd,
+#custom-sink {
+    color: @text_color;
+    border-color: @text_color;
+}

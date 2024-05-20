@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+redshiftpid=$(pgrep redshift)
+if [[ "$redshiftpid" == $(echo "")  ]]
+then
+    gammastep -l 18.33:-67.23 &
+fi
+picom --config ~/.config/awesome/picom.conf &
+emacs --daemon &
+fcitx5 -d &
+/./usr/bin/lxqt-policykit-agent &

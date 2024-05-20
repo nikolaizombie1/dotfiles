@@ -2,7 +2,7 @@
 
     "custom/sink": {
         "format": "{}",
-	"exec": "$HOME/.config/awesome/audio_output_switcher --devices-file $HOME/.config/awesome/devices.json --view",
+	"exec": "$HOME/.config/hypr/audio_output_switcher --devices-file $HOME/.config/awesome/devices.json --view",
 	"interval": 1,
     },
     // "layer": "top", // Waybar at top layer
@@ -11,11 +11,11 @@
     // "width": 1280, // Waybar width
     "spacing": 6, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
+    "modules-left": ["hyprland/workspaces", "sway/mode", "sway/scratchpad", "custom/media"],
     "modules-center": [""],
     "modules-right": ["tray", "custom/sink", "clock"],
     // Modules configuration
-    // "sway/workspaces": {
+    // "hyprland/workspaces": {
     //     "disable-scroll": true,
     //     "all-outputs": true,
     //     "format": "{name}: {icon}",
@@ -39,10 +39,10 @@
             "unlocked": ""
         }
     },
-    "sway/mode": {
+    "hyprland/mode": {
         "format": "<span style=\"italic\">{}</span>"
     },
-    "sway/scratchpad": {
+    "hyprland/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
         "format-icons": ["", ""],
