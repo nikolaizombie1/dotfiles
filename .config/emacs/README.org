@@ -325,6 +325,7 @@
   (use-package go-mode
    :mode  "\\.go\\'"
    :config
+   (add-hook 'go-mode-hook #'lsp)
    (add-hook 'go-mode-hook (lambda () (require 'dap-dlv-go)))
   )
 #+end_src
@@ -371,6 +372,13 @@
 	:config
     (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+#+end_src
+
+#+begin_src emacs-lisp
+   (use-package nix-mode
+     :mode "\\.plantuml\\'"
+     :config
+  (add-hook 'nix-mode-hook #'lsp))
 #+end_src
 
 ** Fullframe (Maximize buffer)
@@ -446,6 +454,7 @@
   (setq global-font-lock-mode t)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   (setq mouse-autoselect-window t)
+ (setq large-file-warning-threshold nil)
 #+END_SRC
 
 ** Prompt Settings

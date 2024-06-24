@@ -88,17 +88,14 @@ button:hover {
 #scratchpad,
 #mpd,
 #custom-sink {
-    padding: 0 10px;
-    color: #ffffff;
-    border-style: inset;
-    border-color: #FFFFFF;
-    border-width: 3px;
+    padding: 0 5px;
+    font-weight: bold;
 }
 
-#window,
-#workspaces {
-    margin: 0 4px;
-}
+/* #window, */
+/* #workspaces { */
+/*     margin: 0 4px; */
+/* } */
 
 /* If workspaces is the leftmost module, omit left margin */
 .modules-left > widget:first-child > #workspaces {
@@ -282,36 +279,44 @@ button:hover {
 /* 	background-color: transparent; */
 /* } */
 
-@define-color bar_color rgba (204,87,109,0.8);
-@define-color text_color rgba (255,255,255,1.0);
+@define-color bar_color_DP-2 rgba (247,247,247,0.8);
+@define-color text_color_DP-2 rgba (8,8,8,1.0);
+@define-color bar_color_HDMI-A-1 rgba (253,253,253,0.8);
+@define-color text_color_HDMI-A-1 rgba (2,2,2,1.0);
 
-window#waybar {
-    background-color: @bar_color
+window#waybar.DP-2 * {
+    color: @text_color_DP-2;
 }
 
-
-#workspaces button {
-   color: @text_color 
+window#waybar.DP-2 {
+    background-color: @bar_color_DP-2;
 }
 
-
-#clock,
-#battery,
-#cpu,
-#memory,
-#disk,
-#temperature,
-#backlight,
-#network,
-#pulseaudio,
-#wireplumber,
-#custom-media,
-#tray,
-#mode,
-#idle_inhibitor,
-#scratchpad,
-#mpd,
-#custom-sink {
-    color: @text_color;
-    border-color: @text_color;
+window#waybar.HDMI-A-1 * {
+    color: @text_color_HDMI-A-1;
 }
+
+window#waybar.HDMI-A-1 {
+    background-color: @bar_color_HDMI-A-1;
+}
+
+/* #clock, */
+/* #battery, */
+/* #cpu, */
+/* #memory, */
+/* #disk, */
+/* #temperature, */
+/* #backlight, */
+/* #network, */
+/* #pulseaudio, */
+/* #wireplumber, */
+/* #custom-media, */
+/* #tray, */
+/* #mode, */
+/* #idle_inhibitor, */
+/* #scratchpad, */
+/* #mpd, */
+/* #custom-sink { */
+/*     color: @text_color; */
+/*     border-color: @text_color; */
+/* } */

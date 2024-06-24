@@ -53,3 +53,7 @@ flycheck_*.el
 
 
 # End of https://www.toptal.com/developers/gitignore/api/emacs
+
+.config/emacs/*
+!.config/emacs/init.el
+!.config/emacs/README.org
