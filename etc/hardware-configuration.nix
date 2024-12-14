@@ -14,19 +14,25 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/020e7034-35ed-4862-a95d-8962d1151865";
+    { device = "/dev/disk/by-uuid/50233661-74bf-4cff-a663-fcdf0807e8af";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/0464-6CFD";
+    { device = "/dev/disk/by-uuid/AD03-0CE7";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
+
   fileSystems."/home/uwu/Mass_Storage" = {
       device = "/dev/disk/by-uuid/d0f46174-ef95-41f7-a866-235038b5cd25";
       fsType = "ext4";
   };
+
+  # fileSystems."/home/uwu/Server_Storage" = {
+  #     device = "/dev/disk/by-uuid/38caaa51-55b5-47ad-b740-0b065ba42ade";
+  #     fsType = "ext4";
+  # };
 
   swapDevices = [ ];
 

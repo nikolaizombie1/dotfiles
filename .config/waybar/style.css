@@ -279,17 +279,17 @@ button:hover {
 /* 	background-color: transparent; */
 /* } */
 
-@define-color bar_color_DP-2 rgba (247,247,247,0.8);
-@define-color text_color_DP-2 rgba (8,8,8,1.0);
-@define-color bar_color_HDMI-A-1 rgba (253,253,253,0.8);
-@define-color text_color_HDMI-A-1 rgba (2,2,2,1.0);
+@define-color bar_color_DP-1 rgba (17,21,19,0.8);
+@define-color text_color_DP-1 rgba (238,234,236,1.0);
+@define-color bar_color_HDMI-A-1 rgba (255,255,255,0.8);
+@define-color text_color_HDMI-A-1 rgba (0,0,0,1.0);
 
-window#waybar.DP-2 * {
-    color: @text_color_DP-2;
+window#waybar.DP-1 * {
+    color: @text_color_DP-1;
 }
 
-window#waybar.DP-2 {
-    background-color: @bar_color_DP-2;
+window#waybar.DP-1 {
+    background-color: @bar_color_DP-1;
 }
 
 window#waybar.HDMI-A-1 * {

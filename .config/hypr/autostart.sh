@@ -8,3 +8,7 @@ picom --config ~/.config/awesome/picom.conf &
 emacs --daemon &
 fcitx5 -d &
 /./usr/bin/lxqt-policykit-agent &
+pkill waybar
+~/.config/hypr/set_bar_theme.bash
+waypaper --restore
+waybar &

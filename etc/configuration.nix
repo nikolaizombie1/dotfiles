@@ -9,12 +9,12 @@
     ./hardware-configuration.nix
   ];
 
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = ''
-      experimental-features = nix-command
-    '';
-  };
+  # nix = {
+  #   package = pkgs.nixFlakes;
+  #   extraOptions = ''
+  #     experimental-features = nix-command
+  #   '';
+  # };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -38,10 +38,16 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
+  ];
+
   # Enable networking
 
   # Set your time zone.
-  time.timeZone = "America/Puerto_Rico";
+  time.timeZone = "America/New_York";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -58,11 +64,13 @@
   #   LC_TIME = "en_US.UTF-8";
   # };
 
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
-  };
-  i18n.inputMethod.fcitx5.waylandFrontend = true;
+  # i18n.inputMethod.type = "fcitx5";
+  # i18n.inputMethod.enable = true;
+
+  # i18n.inputMethod = {
+  #   fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+  # };
+  # i18n.inputMethod.fcitx5.waylandFrontend = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -71,7 +79,7 @@
   services.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
 
-  virtualisation.docker.enable = true;
+  services.gvfs.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -137,6 +145,10 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  networking.firewall.checkReversePath = "loose";
+  networking.wireguard.enable = true;
+  services.mullvad-vpn.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -159,8 +171,12 @@
     gcc
     libtool
     nixfmt-classic
-    rustup
     waybar
+    cargo
+    rustc
+    rust-analyzer
+    rustfmt
+    clippy
     vscode
     grim
     slurp
@@ -173,7 +189,7 @@
     ghc
     haskell-language-server
     multimarkdown
-    gnome.nautilus
+    nautilus
     go
     hyprpaper
     python312Packages.python-lsp-server
@@ -183,8 +199,6 @@
     playerctl
     python3
     pkg-config
-    cairo
-    cairo-lang
     git
     gparted
     python312Packages.importlib-metadata
@@ -202,9 +216,22 @@
     filezilla
     mpv
     emmet-ls
+    ripgrep
+    mullvad-vpn
+    ncdu
+    waypaper
+    lutris
+    unzip
+    vim
+    prismlauncher
+    hakuneko
+    fastfetch
   ];
 
-  fonts.packages = with pkgs; [ nerdfonts ];
+fonts.packages = with pkgs; [
+	nerd-fonts.mononoki
+];
+  
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

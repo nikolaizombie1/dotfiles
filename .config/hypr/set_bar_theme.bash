@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-readarray -t AWK_OUTPUT < <(awk -F '=' '/wallpaper/ {print $2}' < ~/.config/hypr/hyprpaper.conf)
+readarray -t AWK_OUTPUT < <(waypaper --list | jq '.[] | .monitor, .wallpaper' -r | awk -F '\n' 'BEGIN {monitor=""}{if ((NR-1)%2 == 0) monitor=$NR; if ((NR-1)%2 == 1) printf("%s:%s", monitor, $0)}')
 
 
-for i in "${!AWK_OUTPUT[@]}"; do
-    WALLPAPER=$(echo "${AWK_OUTPUT[$i]}" | cut -d ',' -f 2 | cut -c 3-)
-    MONITOR=$(echo "${AWK_OUTPUT[$i]}" | cut -d ',' -f 1 | awk '{$1=$1}1')
-    JSON=$(color_scheme_generator "$HOME/$WALLPAPER")
+for ENTRY in "${AWK_OUTPUT[@]}"; do
+    MONITOR=$(echo "$ENTRY" | cut -d':' -f 1)
+    WALLPAPER=$(echo "$ENTRY" | cut -d':' -f 2)
+    JSON=$(color_scheme_generator "$WALLPAPER")
     BAR_COLOR_JSON=$(echo "$JSON" | jq '.[0].bar_color')
     BAR_RED=$(echo "$BAR_COLOR_JSON" | jq '.red')
     BAR_GREEN=$(echo "$BAR_COLOR_JSON" | jq '.green')
