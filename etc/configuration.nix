@@ -9,6 +9,11 @@
     ./hardware-configuration.nix
   ];
 
+  fileSystems."/home/uwu/Mass_Storage" = {
+      device = "/dev/disk/by-uuid/d0f46174-ef95-41f7-a866-235038b5cd25";
+      fsType = "ext4";
+  };
+
   # nix = {
   #   package = pkgs.nixFlakes;
   #   extraOptions = ''
@@ -34,6 +39,9 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
+  nixpkgs.config.allowBroken = true;
+  boot.extraModulePackages = with config.boot.kernelPackages; [ r8125 ];
+  
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -226,6 +234,8 @@
     prismlauncher
     hakuneko
     fastfetch
+    nodejs
+    vscode-extensions.vadimcn.vscode-lldb
   ];
 
 fonts.packages = with pkgs; [

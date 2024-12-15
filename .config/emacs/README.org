@@ -446,15 +446,16 @@
 
 ** Frame Settings
 #+BEGIN_SRC emacs-lisp
-  (tool-bar-mode -1)
-  (menu-bar-mode -1)
-  (setq confirm-kill-processes nil)
-  (scroll-bar-mode -1)
-  (set-fringe-mode 10)
-  (setq global-font-lock-mode t)
-  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-  (setq mouse-autoselect-window t)
- (setq large-file-warning-threshold nil)
+   (tool-bar-mode -1)
+   (menu-bar-mode -1)
+   (setq confirm-kill-processes nil)
+   (scroll-bar-mode -1)
+   (set-fringe-mode 10)
+   (setq global-font-lock-mode t)
+   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+   (setq mouse-autoselect-window t)
+  (setq large-file-warning-threshold nil)
+  (setq byte-compile-warnings nil)
 #+END_SRC
 
 ** Prompt Settings
