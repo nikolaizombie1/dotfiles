@@ -279,8 +279,8 @@ button:hover {
 /* 	background-color: transparent; */
 /* } */
 
-@define-color bar_color_DP-1 rgba (17,21,19,0.8);
-@define-color text_color_DP-1 rgba (238,234,236,1.0);
+@define-color bar_color_DP-1 rgba (249,255,253,0.8);
+@define-color text_color_DP-1 rgba (6,0,2,1.0);
 @define-color bar_color_HDMI-A-1 rgba (255,255,255,0.8);
 @define-color text_color_HDMI-A-1 rgba (0,0,0,1.0);
 

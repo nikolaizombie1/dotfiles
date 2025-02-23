@@ -10,5 +10,5 @@ fcitx5 -d &
 /./usr/bin/lxqt-policykit-agent &
 pkill waybar
 ~/.config/hypr/set_bar_theme.bash
-waypaper --restore
+waytrogen --restore
 waybar &

@@ -24,3 +24,4 @@ _darcs
 /etc/*
 copy-nix.sh
 restore-nix.sh
+*.nix

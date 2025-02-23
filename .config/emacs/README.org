@@ -26,6 +26,7 @@
   - [[#arduino-mode-arduino-development][Arduino Mode (Arduino Development)]]
   - [[#plantuml-language-support][PlantUML Language Support]]
   - [[#yaml-mode-yaml-language-support][YAML Mode (YAML Language Support)]]
+  - [[#nix-language-support][Nix Language Support]]
   - [[#fullframe-maximize-buffer][Fullframe (Maximize buffer)]]
   - [[#magit-git-client][Magit (Git Client)]]
   - [[#general-global-hot-keys][General (Global Hot Keys)]]
@@ -216,6 +217,11 @@
     :config (evilnc-default-hotkeys))
 #+end_src
 
+#+begin_src emacs-lisp
+  (use-package ripgrep
+    :defer)
+#+end_src
+
 ** Company (Autosuggestion)
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -374,11 +380,16 @@
     (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 #+end_src
 
+** Nix Language Support
 #+begin_src emacs-lisp
-   (use-package nix-mode
-     :mode "\\.plantuml\\'"
-     :config
-  (add-hook 'nix-mode-hook #'lsp))
+      (use-package nix-mode
+	:mode "\\.nix\\'"
+	:config
+     (add-hook 'nix-mode-hook #'lsp))
+     (use-package direnv
+    :hook
+  (nix-mode . direnv-mode)
+  (lsp-mode . direnv-mode))
 #+end_src
 
 ** Fullframe (Maximize buffer)
@@ -590,13 +601,15 @@ Ensures that the user path is the same as the `exec-path` variable at startup.
 
 ** Flyspell (Spellcheck)
 #+BEGIN_SRC emacs-lisp
-    (add-hook 'text-mode-hook 'flyspell-mode)
-    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-    (add-hook 'after-save-hook 'flyspell-buffer)
-    (add-hook 'flyspell-mode-hook #'(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
-    (setq flyspell-issue-message-flag nil)
-    (use-package flyspell-correct-ivy
-     :after flyspell)
+  (add-hook 'text-mode-hook 'flyspell-mode)
+  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+  (add-hook 'after-save-hook 'flyspell-buffer)
+  (add-hook 'flyspell-mode-hook #'(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
+  (setq flyspell-issue-message-flag nil)
+  (use-package flyspell-correct-ivy
+   :after flyspell)
+  (use-package auto-dictionary
+   :hook flyspell)
 #+END_SRC
 
 ** Dired Configuration

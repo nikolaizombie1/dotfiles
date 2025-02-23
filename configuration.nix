@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -10,8 +10,8 @@
   ];
 
   fileSystems."/home/uwu/Mass_Storage" = {
-      device = "/dev/disk/by-uuid/d0f46174-ef95-41f7-a866-235038b5cd25";
-      fsType = "ext4";
+    device = "/dev/disk/by-uuid/d0f46174-ef95-41f7-a866-235038b5cd25";
+    fsType = "ext4";
   };
 
   # nix = {
@@ -41,16 +41,21 @@
 
   nixpkgs.config.allowBroken = true;
   boot.extraModulePackages = with config.boot.kernelPackages; [ r8125 ];
-  
+
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    # Add any missing dynamic libraries for unpackaged programs
-    # here, NOT in environment.systemPackages
-  ];
+  programs.nix-ld.libraries = with pkgs;
+    [
+      # Add any missing dynamic libraries for unpackaged programs
+      # here, NOT in environment.systemPackages
+    ];
 
   # Enable networking
 
@@ -58,19 +63,21 @@
   time.timeZone = "America/New_York";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  # i18n.extraLocaleSettings = {
-  #   LC_ADDRESS = "en_US.UTF-8";
-  #   LC_IDENTIFICATION = "en_US.UTF-8";
-  #   LC_MEASUREMENT = "en_US.UTF-8";
-  #   LC_MONETARY = "en_US.UTF-8";
-  #   LC_NAME = "en_US.UTF-8";
-  #   LC_NUMERIC = "en_US.UTF-8";
-  #   LC_PAPER = "en_US.UTF-8";
-  #   LC_TELEPHONE = "en_US.UTF-8";
-  #   LC_TIME = "en_US.UTF-8";
-  # };
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+    supportedLocales = [ "es_ES.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_US.UTF-8";
+      LC_IDENTIFICATION = "en_US.UTF-8";
+      LC_MEASUREMENT = "en_US.UTF-8";
+      LC_MONETARY = "en_US.UTF-8";
+      LC_NAME = "en_US.UTF-8";
+      LC_NUMERIC = "en_US.UTF-8";
+      LC_PAPER = "en_US.UTF-8";
+      LC_TELEPHONE = "en_US.UTF-8";
+      LC_TIME = "en_US.UTF-8";
+    };
+  };
 
   # i18n.inputMethod.type = "fcitx5";
   # i18n.inputMethod.enable = true;
@@ -100,7 +107,7 @@
 
   # Enable sound with pipewire.
   #sound.enable = true;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -126,16 +133,13 @@
     description = "uwu";
     extraGroups = [ "wheel" "docker" ];
     shell = pkgs.fish;
-    packages = with pkgs; [
-      kate
-      stow
-      fish
-      steam
-      #  thunderbird
-    ];
+    packages = with pkgs; [ kate stow fish steam ];
   };
 
   programs.fish.enable = true;
+  programs.fish.interactiveShellInit = ''
+    ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
+  '';
 
   programs.steam = {
     enable = true;
@@ -159,6 +163,9 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
   environment.systemPackages = with pkgs; [
     emacs-gtk
     starship
@@ -199,7 +206,6 @@
     multimarkdown
     nautilus
     go
-    hyprpaper
     python312Packages.python-lsp-server
     bash-language-server
     yaml-language-server
@@ -235,13 +241,38 @@
     hakuneko
     fastfetch
     nodejs
-    vscode-extensions.vadimcn.vscode-lldb
+    gsettings-desktop-schemas
+    hyprland-qtutils
+    nwg-look
+    glib
+    ffmpeg
+    obs-studio
+    inputs.waytrogen.packages.x86_64-linux.waytrogen
+    gimp
+    inkscape
+    dconf-editor
+    glibcLocales
+    glibcLocalesUtf8
+    aspell
+    (aspellWithDicts (ds: with ds; [en en-computers en-science ca]))
+    firefox
+    hyprpaper
+    swaybg
+    mpvpaper
+    swww
   ];
 
-fonts.packages = with pkgs; [
-	nerd-fonts.mononoki
-];
   
+
+  fonts.packages = with pkgs; [ nerd-fonts.mononoki ];
+
+  programs.virt-manager.enable = true;
+
+  users.groups.libvirtd.members = [ "uwu" ];
+
+  virtualisation.libvirtd.enable = true;
+
+  virtualisation.spiceUSBRedirection.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -261,6 +292,13 @@ fonts.packages = with pkgs; [
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.ports = [ 39801 ];
+
+  services.gnome.gnome-keyring.enable = true;
+
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

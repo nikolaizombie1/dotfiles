@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
-readarray -t AWK_OUTPUT < <(waypaper --list | jq '.[] | .monitor, .wallpaper' -r | awk -F '\n' 'BEGIN {monitor=""}{if ((NR-1)%2 == 0) monitor=$NR; if ((NR-1)%2 == 1) printf("%s:%s", monitor, $0)}')
+readarray -t AWK_OUTPUT < <(waypaper --list | jq '.[1:]' | jq '.[] | .monitor, .wallpaper ' -r| awk -F '\n' 'BEGIN {monitor=""}{if ((NR-1)%2 == 0) monitor=$NR; if ((NR-1)%2 == 1) printf("%s:%s", monitor, $0)}')
 
 
 for ENTRY in "${AWK_OUTPUT[@]}"; do
+    echo "$ENTRY"
     MONITOR=$(echo "$ENTRY" | cut -d':' -f 1)
+    echo "$MONITOR"
     WALLPAPER=$(echo "$ENTRY" | cut -d':' -f 2)
+    echo "$WALLPAPER"
     JSON=$(color_scheme_generator "$WALLPAPER")
+    echo "$JSON"
     BAR_COLOR_JSON=$(echo "$JSON" | jq '.[0].bar_color')
     BAR_RED=$(echo "$BAR_COLOR_JSON" | jq '.red')
     BAR_GREEN=$(echo "$BAR_COLOR_JSON" | jq '.green')
