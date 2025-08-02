@@ -14,6 +14,11 @@
     fsType = "ext4";
   };
 
+  fileSystems."/home/uwu/NVME_Storage" = {
+    device = "/dev/disk/by-uuid/bb73e122-5e2b-4a57-a64f-6f7e4267bbb9";
+    fsType = "ext4";
+  };
+
   # nix = {
   #   package = pkgs.nixFlakes;
   #   extraOptions = ''
@@ -24,6 +29,8 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  hardware.firmware = [ pkgs.linux-firmware ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ pkgs.linux-firmware ];
 
   networking.hostName = "uwu"; # Define your hostname.
 
@@ -35,12 +42,21 @@
   # networking.defaultGateway = "10.0.0.138";
   networking.nameservers = [ "8.8.8.8" "1.1.1.1" "1.0.0.1" ];
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # systemd.services.wpa_supplicant.preStart = "touch /etc/wpa_supplicant.conf";
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    settings = {
+      General ={
+        FastConnectable = true;
+        Experimental = true;
+      };
+    };
+  };
+  services.blueman.enable = true;
 
   nixpkgs.config.allowBroken = true;
-  boot.extraModulePackages = with config.boot.kernelPackages; [ r8125 ];
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -133,7 +149,7 @@
     description = "uwu";
     extraGroups = [ "wheel" "docker" ];
     shell = pkgs.fish;
-    packages = with pkgs; [ kate stow fish steam ];
+    packages = with pkgs; [  ];
   };
 
   programs.fish.enable = true;
@@ -149,7 +165,10 @@
       true; # Open ports in the firewall for Source Dedicated Server
   };
   services.flatpak.enable = true;
-  programs.hyprland.enable = true;
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true;
+  };
 
   # Install firefox.
   # programs.firefox.enable = true;
@@ -159,7 +178,8 @@
 
   networking.firewall.checkReversePath = "loose";
   networking.wireguard.enable = true;
-  services.mullvad-vpn.enable = true;
+  networking.interfaces.eno1.wakeOnLan.enable = true;
+  # services.mullvad-vpn.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -177,18 +197,12 @@
     xwayland
     eza
     nil
-    aspell
-    aspellDicts.en
-    aspellDicts.en-computers
-    aspellDicts.es
-    cmake
-    gnumake
-    gcc
     libtool
-    nixfmt-classic
     waybar
     cargo
     rustc
+    go
+    gopls
     rust-analyzer
     rustfmt
     clippy
@@ -205,23 +219,11 @@
     haskell-language-server
     multimarkdown
     nautilus
-    go
-    python312Packages.python-lsp-server
     bash-language-server
     yaml-language-server
     jq
     playerctl
-    python3
-    pkg-config
     git
-    gparted
-    python312Packages.importlib-metadata
-    python312Packages.pillow
-    python312Packages.platformdirs
-    python312Packages.pycairo
-    python312Packages.pygobject3
-    python312Packages.zipp
-    gopls
     btop
     gamemode
     mangohud
@@ -229,30 +231,17 @@
     picard
     filezilla
     mpv
-    emmet-ls
     ripgrep
-    mullvad-vpn
-    ncdu
-    waypaper
     lutris
     unzip
-    vim
-    prismlauncher
     hakuneko
-    fastfetch
-    nodejs
-    gsettings-desktop-schemas
     hyprland-qtutils
     nwg-look
-    glib
     ffmpeg
-    obs-studio
     inputs.waytrogen.packages.x86_64-linux.waytrogen
-    gimp
-    inkscape
-    dconf-editor
-    glibcLocales
-    glibcLocalesUtf8
+    inputs.audio_output_switcher.packages.x86_64-linux.default
+    inputs.color_scheme_generator.packages.x86_64-linux.default
+    inputs.gamut-cli.packages.x86_64-linux.default
     aspell
     (aspellWithDicts (ds: with ds; [en en-computers en-science ca]))
     firefox
@@ -260,9 +249,19 @@
     swaybg
     mpvpaper
     swww
+    stow
+    fish
+    steam
+    moonlight-qt
+    virtiofsd
+    speedcrunch
+    gparted
+    python312Packages.protonup-ng
+    texlive.combined.scheme-full
+    dualsensectl
+    linuxKernel.packages.linux_zen.xpadneo
+    usbutils
   ];
-
-  
 
   fonts.packages = with pkgs; [ nerd-fonts.mononoki ];
 
@@ -274,18 +273,12 @@
 
   virtualisation.spiceUSBRedirection.enable = true;
 
+  services.udev.packages = with pkgs; [ game-devices-udev-rules ];
+  hardware.uinput.enable = true;
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-  services.udev.packages = [ pkgs.yubikey-personalization ];
-  security.pam.services = {
-    login.u2fAuth = true;
-    sudo.u2fAuth = true;
-  };
 
   # List services that you want to enable:
 
@@ -294,11 +287,6 @@
   services.openssh.ports = [ 39801 ];
 
   services.gnome.gnome-keyring.enable = true;
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

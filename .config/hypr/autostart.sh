@@ -9,6 +9,6 @@ emacs --daemon &
 fcitx5 -d &
 /./usr/bin/lxqt-policykit-agent &
 pkill waybar
-~/.config/hypr/set_bar_theme.bash
-waytrogen --restore
+#~/.config/hypr/set_bar_theme.bash
+waytrogen -s 1000 --restore &
 waybar &

@@ -12,5 +12,5 @@ set PATH $PATH "/usr/local/go/bin"
 
 if status --is-interactive;
     keychain --nogui --clear ~/.ssh/id_ed25519_personal -q
-    [ -e $HOME/.keychain/$HOSTNAME-fish ]; and source $HOME/.keychain/$HOSTNAME-fish
+    [ -e $HOME/.keychain/$hostname-fish ]; and source $HOME/.keychain/$hostname-fish
 end

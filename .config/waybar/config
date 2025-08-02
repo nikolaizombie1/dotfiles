@@ -2,7 +2,7 @@
 
     "custom/sink": {
         "format": "|{}|",
-	"exec": "$HOME/.config/hypr/audio_output_switcher -f $HOME/.config/hypr/devices.json --view",
+	"exec": "audio_output_switcher --view",
 	"interval": 1,
     },
     // "layer": "top", // Waybar at top layer

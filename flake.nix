@@ -3,12 +3,20 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
-    nikolaizombie1 = {
-      url = "github:nikolaizombie1/nur-packages";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     waytrogen = {
       url = "github:nikolaizombie1/waytrogen";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    audio_output_switcher = {
+      url = "github:nikolaizombie1/audio_output_switcher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    color_scheme_generator = {
+      url = "github:nikolaizombie1/color_scheme_generator";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    gamut-cli = {
+      url = "github:nikolaizombie1/gamut-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
