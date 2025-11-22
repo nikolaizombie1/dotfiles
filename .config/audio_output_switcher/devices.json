@@ -1,0 +1,18 @@
+[
+  {
+    "device_name": "Schiit Modi 3+",
+    "sink_name": "Schiit_Audio_Schiit_Modi_3"
+  },
+  {
+    "device_name": "Monitor",
+    "sink_name": "alsa_output.pci-0000_03_00.1.hdmi-stereo"
+  },
+  {
+    "device_name": "Bluetooth",
+    "sink_name": "bluez"
+  },
+  {
+    "device_name": "Built-in Speakers",
+    "sink_name": "alsa_output.pci-0000_0c_00.1.hdmi-stereo"
+  }
+]

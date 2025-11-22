@@ -15,8 +15,8 @@
       url = "github:nikolaizombie1/color_scheme_generator";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    gamut-cli = {
-      url = "github:nikolaizombie1/gamut-cli";
+    hyprland_monitor_switcher = {
+      url = "github:nikolaizombie1/hyprland_monitor_switcher";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

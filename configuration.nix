@@ -19,30 +19,13 @@
     fsType = "ext4";
   };
 
-  # nix = {
-  #   package = pkgs.nixFlakes;
-  #   extraOptions = ''
-  #     experimental-features = nix-command
-  #   '';
-  # };
-
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  hardware.firmware = [ pkgs.linux-firmware ];
-  boot.extraModulePackages = with config.boot.kernelPackages; [ pkgs.linux-firmware ];
 
   networking.hostName = "uwu"; # Define your hostname.
 
-  # networking.interfaces.enp5s0.ipv4.addresses = [{
-  #   address = "10.0.0.70";
-  #   prefixLength = 24;
-  # }];
-
-  # networking.defaultGateway = "10.0.0.138";
-  networking.nameservers = [ "8.8.8.8" "1.1.1.1" "1.0.0.1" ];
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # systemd.services.wpa_supplicant.preStart = "touch /etc/wpa_supplicant.conf";
+  #networking.nameservers = [ "8.8.8.8" "1.1.1.1" "1.0.0.1" ];
 
   hardware.bluetooth = {
     enable = true;
@@ -57,10 +40,6 @@
   services.blueman.enable = true;
 
   nixpkgs.config.allowBroken = true;
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   programs.direnv = {
     enable = true;
@@ -81,7 +60,7 @@
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    supportedLocales = [ "es_ES.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
+    extraLocales = [ "es_ES.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
     extraLocaleSettings = {
       LC_ADDRESS = "en_US.UTF-8";
       LC_IDENTIFICATION = "en_US.UTF-8";
@@ -95,19 +74,23 @@
     };
   };
 
-  # i18n.inputMethod.type = "fcitx5";
-  # i18n.inputMethod.enable = true;
+  i18n.inputMethod.type = "fcitx5";
+  i18n.inputMethod.enable = true;
 
-  # i18n.inputMethod = {
-  #   fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
-  # };
-  # i18n.inputMethod.fcitx5.waylandFrontend = true;
+  i18n.inputMethod = {
+    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+  };
+  i18n.inputMethod.fcitx5.waylandFrontend = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.displayManager.gdm.wayland = true;
+  services.displayManager.autoLogin.enable = true;
+  services.displayManager.autoLogin.user = "uwu";
+  services.displayManager.defaultSession = "hyprland-uwsm";
   # services.xserver.desktopManager.plasma5.enable = true;
 
   services.gvfs.enable = true;
@@ -130,16 +113,10 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   xdg.portal.enable = true;
 
@@ -147,7 +124,7 @@
   users.users.uwu = {
     isNormalUser = true;
     description = "uwu";
-    extraGroups = [ "wheel" "docker" ];
+    extraGroups = [ "wheel" ];
     shell = pkgs.fish;
     packages = with pkgs; [  ];
   };
@@ -186,6 +163,8 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  services.input-remapper.enable = true;
+
   environment.systemPackages = with pkgs; [
     emacs-gtk
     starship
@@ -199,9 +178,6 @@
     nil
     libtool
     waybar
-    cargo
-    rustc
-    go
     gopls
     rust-analyzer
     rustfmt
@@ -212,12 +188,7 @@
     wl-clipboard
     mako
     pulseaudio
-    brave
-    fastfetch
     pulsemixer
-    ghc
-    haskell-language-server
-    multimarkdown
     nautilus
     bash-language-server
     yaml-language-server
@@ -227,12 +198,8 @@
     btop
     gamemode
     mangohud
-    transmission_4-qt
-    picard
-    filezilla
     mpv
     ripgrep
-    lutris
     unzip
     hakuneko
     hyprland-qtutils
@@ -241,7 +208,7 @@
     inputs.waytrogen.packages.x86_64-linux.waytrogen
     inputs.audio_output_switcher.packages.x86_64-linux.default
     inputs.color_scheme_generator.packages.x86_64-linux.default
-    inputs.gamut-cli.packages.x86_64-linux.default
+    inputs.hyprland_monitor_switcher.packages.x86_64-linux.default
     aspell
     (aspellWithDicts (ds: with ds; [en en-computers en-science ca]))
     firefox
@@ -252,29 +219,20 @@
     stow
     fish
     steam
-    moonlight-qt
-    virtiofsd
     speedcrunch
-    gparted
-    python312Packages.protonup-ng
-    texlive.combined.scheme-full
-    dualsensectl
-    linuxKernel.packages.linux_zen.xpadneo
-    usbutils
+    wallust
+    cmake
+    gimp-with-plugins
+    clang
+    clang-tools
+    cmake-language-server
+    dconf-editor
+    librewolf
+    transmission_4-gtk
   ];
 
   fonts.packages = with pkgs; [ nerd-fonts.mononoki ];
 
-  programs.virt-manager.enable = true;
-
-  users.groups.libvirtd.members = [ "uwu" ];
-
-  virtualisation.libvirtd.enable = true;
-
-  virtualisation.spiceUSBRedirection.enable = true;
-
-  services.udev.packages = with pkgs; [ game-devices-udev-rules ];
-  hardware.uinput.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
