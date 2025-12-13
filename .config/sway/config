@@ -7,7 +7,7 @@
 ### Variables
 #
 # Logo key. Use Mod1 for Alt.
-exec_always ~/.config/awesome/autostart.sh 
+
 set $mod Mod4
 # Home row direction keys, like vim
 set $left h
@@ -29,14 +29,19 @@ include /etc/sway/config-vars.d/*
 #
 # Example configuration:
 #
+
+exec_always autotiling
+
+workspace 1 output DP-1
+
 output DP-1 {
-       resolution 2560x1440
-       position 1920,0
+       resolution 2560x1440@240Hz
+       position 0,0
        adaptive_sync on
 } 
 output HDMI-A-1 {
        resolution 1920x1080
-       position 0,360
+       position -1920,360
 }
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
@@ -82,12 +87,13 @@ output HDMI-A-1 {
     bindsym $mod+Shift+Return exec $menu
 
     bindsym $mod+Shift+e exec emacsclient -c -a 'emacs'
-    bindsym $mod+Shift+f exec brave --enable-features=UseOzonePlatform --enable-gpu --ozone-platform=wayland &
-    bindsym $mod+0 exec ~/.config/awesome/audio_output_switcher --devices-file ~/.config/awesome/devices.json --change
+    bindsym $mod+Shift+f exec firefox
+    bindsym $mod+0 exec audio_output_switcher --change
     bindsym $mod+Shift+n exec nautilus
     bindsym $mod+Shift+x exec systemctl poweroff
     bindsym $mod+Shift+p exec reboot
     bindsym $mod+Shift+s exec grim -g "$(slurp)" - | wl-copy -t image/png && wl-paste -t image/png > ~/Pictures/"$(date '+%e-%b-%Y-%H-%M-%S')".png
+    bindsym XF86audioplay exec playerctl play-pause -a
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -218,19 +224,25 @@ bindsym $mod+r mode "resize"
 # Status Bar:
 #
 # Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
+# bar {
+#     position top
 
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#     # When the status_command prints a new line to stdout, swaybar updates.
+#     # The default just shows the current date and time.
+#     status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
 
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
+#     colors {
+#         statusline #ffffff
+#         background #323232
+#         inactive_workspace #32323200 #32323200 #5c5c5c
+#     }
+# }
 
-include /etc/sway/config.d/*
-default_border pixel 8
+default_border pixel 4
+client.focused #00000080 #00000080 #ffffff #00000080
+client.focused_inactive #00000080 #00000080 #ffffff #00000080
+client.unfocused #00000080 #00000080 #ffffff #00000080
+blur enable
+blur_passes 2
+
+exec_always "$HOME/dotfiles/autostart.sh"

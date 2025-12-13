@@ -2,124 +2,52 @@
   "executable_script_doc": "The path to executable script used after a wallpaper is set. The script is sent the monitor identifier, wallpaper path and the serialized saved_wallpapers state.",
   "executable_script": "",
   "wallpaper_folder_doc": "The path to the currently selected wallpaper folder. Note: The path cannot have a trailing forward slash.",
-  "wallpaper_folder": "/home/uwu/NVME_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025",
+  "wallpaper_folder": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025",
   "saved_wallpapers_doc": "The collection of the currently saved wallpapers with their corresponding monitor, path and changer.",
   "saved_wallpapers": [
     {
       "monitor": "",
       "path": "",
       "changer": {
-        "Swww": [
-          "Crop",
-          {
-            "red": 0.0,
-            "green": 0.0,
-            "blue": 0.0
-          },
-          "Nearest",
-          "Simple",
-          90,
-          3,
-          30,
-          45,
-          {
-            "position": "center"
-          },
-          false,
-          {
-            "p0": 0.54,
-            "p1": 0.0,
-            "p2": 0.34,
-            "p3": 0.99
-          },
-          {
-            "width": 200,
-            "height": 200
-          }
+        "Swaybg": [
+          "Fill",
+          "000000"
         ]
       }
     },
     {
       "monitor": "DP-1",
-      "path": "/home/uwu/NVME_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 394276 blush bow brown_hair cherry_blossoms flowers harukix headband honkai_(series) long_hair petals purple_eyes shirt signed water watermark.jpg",
+      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 396400 anus blush breasts cameltoe garter long_hair navel no_bra original panties ponytail sage_joh soccer sport tegurayuki thighhighs underwear wet.png",
       "changer": {
-        "Swww": [
-          "Crop",
-          {
-            "red": 0.0,
-            "green": 0.0,
-            "blue": 0.0
-          },
-          "Nearest",
-          "Simple",
-          90,
-          3,
-          30,
-          45,
-          {
-            "position": "center"
-          },
-          false,
-          {
-            "p0": 0.54,
-            "p1": 0.0,
-            "p2": 0.34,
-            "p3": 0.99
-          },
-          {
-            "width": 200,
-            "height": 200
-          }
+        "Swaybg": [
+          "Fill",
+          "000000"
         ]
       }
     },
     {
       "monitor": "HDMI-A-1",
-      "path": "/home/uwu/NVME_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 395111 animal_ears blush bow braids catgirl dress kaenbyou_rin long_hair pantyhose pointed_ears red_eyes red_hair skirt_lift tail touhou twintails wowoguni.png",
+      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 396267 black_hair blush bow building collar flowers laosi_j long_hair paper petals purple red_eyes school_uniform shirt skirt torn_clothes wuthering_waves.png",
       "changer": {
-        "Swww": [
-          "Crop",
-          {
-            "red": 0.0,
-            "green": 0.0,
-            "blue": 0.0
-          },
-          "Nearest",
-          "Simple",
-          90,
-          3,
-          30,
-          45,
-          {
-            "position": "center"
-          },
-          false,
-          {
-            "p0": 0.54,
-            "p1": 0.0,
-            "p2": 0.34,
-            "p3": 0.99
-          },
-          {
-            "width": 200,
-            "height": 200
-          }
+        "Swaybg": [
+          "Fill",
+          "000000"
         ]
       }
     }
   ],
   "monitor_doc": "The internal numeric identifier in the monitor dropdown used by dconf for the currently selected monitor. Do not change unless you know what you are doing.",
-  "monitor": 1,
+  "monitor": 2,
   "sort_by_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected sorting option. Do not change unless you know what you are doing.",
   "sort_by": 0,
   "invert_sort_doc": "The boolean flag to invert the currently selected sort-by option in the sort dropdown used by dconf.",
   "invert_sort": false,
   "changer_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected changer. Do not change unless you know what you are doing.",
-  "changer": 3,
+  "changer": 1,
   "image_filter_doc": "The search string for the wallpapers.",
   "image_filter": "",
   "swaybg_mode_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected swaybg mode. Do not change unless you know what you are doing.",
-  "swaybg_mode": 0,
+  "swaybg_mode": 2,
   "swaybg_color_doc": "The hex color for swaybg background fill. Must be six characters long.",
   "swaybg_color": "000000",
   "mpvpaper_pause_option_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected mpvpaper pause option. Do not change unless you know what you are doing.",

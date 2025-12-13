@@ -40,7 +40,11 @@
   (evil-set-initial-state 'dashboard-mode 'normal))
 
 (use-package evil-collection
-  :hook (after-init . evil-collection-init))
+  :init
+  (evil-collection-init)
+  :config
+  (setq evil-collection-setup-minibuffer t)
+)
 
 
 ;; Undo Tree (Persistent Undo History)
@@ -227,47 +231,56 @@
 ;; General (Global Hot Keys)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (use-package general
+  :init
+  (general-evil-setup)
+  (general-auto-unbind-keys)
+
+  (setq general-override-states '(insert
+                                  emacs
+                                  hybrid
+                                  normal
+                                  visual
+                                  motion
+                                  operator
+                                  replace))
+
   :config
-  (general-create-definer global-definer
-    :keymaps 'override
-    :states '(insert emacs normal hybrid motion visual operator)
-    :prefix "SPC"
-    :non-normal-prefix "S-SPC")
-  (global-definer
-    "."   '(counsel-find-file :which-key "find-file")
-    "o"   '(nil :which-key "open")
-    "o t" '((lambda () (interactive)
-	      (evil-window-split)
-	      (evil-window-next 0)
-	      (evil-window-decrease-height 6)
-	      (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))
-	      ) :which-key "vterm")
-    "o T" '((lambda () (interactive)
-	      (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))) :which-key "vterm fullscreen")
-    "f"   '(nil :which-key "file")
-    "f r" '(counsel-recentf :which-key "recent files")
-    "b"   '(nil :which-key "buffer")
-    "b p" '(previous-buffer :which-key "previous buffer")
-    "b n" '(next-buffer :which-key "next buffer")
-    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
-    "SPC" '(projectile-find-file :which-key "search file")
-    "p f" '(counsel-projectile-rg :which-key "search string")
-    "p r" '(projectile-replace :which-key "replace string")
-    "p R" '(projectile-replace-regexp :which-key "replace regex")
-    "w"   '(nil :which-key "window")
-    "w w" '(evil-window-next :which-key "next window")
-    "w v" '(evil-window-vsplit :which-key "verticle split")
-    "w h" '(evil-window-split :which-key "horizontal split")
-    "w c" '(evil-window-delete :which-key "close window")
-    "g"   '(nil :which-key "magit")
-    "g g" '(magit :which-key "magit-status")
-    "d e" '(emms-play-dired :which-key "dired play emms")
-    "y"   '(ivy-yasnippet :which-key "yasnippet")
-    "c d" '(debug-code :which-key "debug code")))
+  (general-define-key
+   :states '(normal visual motion)
+    "SPC ."   '(counsel-find-file :which-key "find-file")
+    "SPC o"   '(nil :which-key "open")
+    "SPC o t" '((lambda () (interactive)
+          (evil-window-split)
+          (evil-window-next 0)
+          (evil-window-decrease-height 6)
+          (if (projectile-project-p)
+          (projectile-run-vterm 1)
+        (vterm)) ) :which-key "vterm")
+    "SPC o T" '((lambda () (interactive)
+          (if (projectile-project-p)
+          (projectile-run-vterm 1)
+        (vterm))) :which-key "vterm fullscreen")
+    "SPC f"   '(nil :which-key "file")
+    "SPC f r" '(counsel-recentf :which-key "recent files")
+    "SPC b"   '(nil :which-key "buffer")
+    "SPC b p" '(previous-buffer :which-key "previous buffer")
+    "SPC b n" '(next-buffer :which-key "next buffer")
+    "SPC b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
+    "SPC SPC" '(projectile-find-file :which-key "search file")
+    "SPC p f" '(counsel-projectile-rg :which-key "search string")
+    "SPC p r" '(projectile-replace :which-key "replace string")
+    "SPC p R" '(projectile-replace-regexp :which-key "replace regex")
+    "SPC w"   '(nil :which-key "window")
+    "SPC w w" '(evil-window-next :which-key "next window")
+    "SPC w v" '(evil-window-vsplit :which-key "verticle split")
+    "SPC w h" '(evil-window-split :which-key "horizontal split")
+    "SPC w c" '(evil-window-delete :which-key "close window")
+    "SPC g"   '(nil :which-key "magit")
+    "SPC g g" '(magit :which-key "magit-status")
+    "SPC d e" '(emms-play-dired :which-key "dired play emms")
+    "SPC y"   '(ivy-yasnippet :which-key "yasnippet")
+    "SPC c d" '(debug-code :which-key "debug code"))
+  )
 
 ;; Frame Settings
 (tool-bar-mode -1)
@@ -276,7 +289,6 @@
 (scroll-bar-mode -1)
 (set-fringe-mode 10)
 (setq global-font-lock-mode t)
-(global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (setq mouse-autoselect-window t)
 (setq large-file-warning-threshold nil)
 (setq byte-compile-warnings nil)

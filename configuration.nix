@@ -1,12 +1,19 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, inputs, ... }:
+let
+  username = "uwu";
+in
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports = [ # Include the results of the hardware scan.
+  nixpkgs.overlays = [ (import inputs.emacs-overlay) ];
+  imports = [
+    # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
   ];
 
   fileSystems."/home/uwu/Mass_Storage" = {
@@ -14,9 +21,12 @@
     fsType = "ext4";
   };
 
-  fileSystems."/home/uwu/NVME_Storage" = {
-    device = "/dev/disk/by-uuid/bb73e122-5e2b-4a57-a64f-6f7e4267bbb9";
-    fsType = "ext4";
+  home-manager = {
+    useGlobalPkgs = true;
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      ${username} = import ./nix/home.nix;
+    };
   };
 
   # Bootloader.
@@ -31,26 +41,32 @@
     enable = true;
     powerOnBoot = true;
     settings = {
-      General ={
+      General = {
         FastConnectable = true;
         Experimental = true;
       };
     };
   };
-  services.blueman.enable = true;
 
-  nixpkgs.config.allowBroken = true;
+  services.blueman.enable = true;
+  services.fwupd.enable = true;
 
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
   };
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+  };
+  services.pcscd.enable = true;
+  
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs;
-    [
-      # Add any missing dynamic libraries for unpackaged programs
-      # here, NOT in environment.systemPackages
-    ];
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
+  ];
 
   # Enable networking
 
@@ -60,7 +76,10 @@
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    extraLocales = [ "es_ES.UTF-8/UTF-8" "en_US.UTF-8/UTF-8" ];
+    extraLocales = [
+      "es_ES.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
     extraLocaleSettings = {
       LC_ADDRESS = "en_US.UTF-8";
       LC_IDENTIFICATION = "en_US.UTF-8";
@@ -78,7 +97,10 @@
   i18n.inputMethod.enable = true;
 
   i18n.inputMethod = {
-    fcitx5.addons = with pkgs; [ fcitx5-mozc fcitx5-gtk ];
+    fcitx5.addons = with pkgs; [
+      fcitx5-mozc
+      fcitx5-gtk
+    ];
   };
   i18n.inputMethod.fcitx5.waylandFrontend = true;
 
@@ -86,12 +108,20 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.gdm.enable = true;
-  services.displayManager.gdm.wayland = true;
+  services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
+  services.desktopManager.plasma6.enable = true;
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "uwu";
-  services.displayManager.defaultSession = "hyprland-uwsm";
-  # services.xserver.desktopManager.plasma5.enable = true;
+  services.displayManager.defaultSession = "sway";
+  security.polkit.enable = true;
+
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+    xwayland.enable = true;
+    package = pkgs.swayfx;
+  };
 
   services.gvfs.enable = true;
 
@@ -118,7 +148,10 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-desktop-portal-wlr xdg-desktop-portal ];
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.uwu = {
@@ -126,7 +159,7 @@
     description = "uwu";
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
-    packages = with pkgs; [  ];
+    packages = with pkgs; [ ];
   };
 
   programs.fish.enable = true;
@@ -136,15 +169,14 @@
 
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall =
-      true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall =
-      true; # Open ports in the firewall for Source Dedicated Server
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
   services.flatpak.enable = true;
   programs.hyprland = {
     enable = true;
     withUWSM = true;
+    xwayland.enable = true;
   };
 
   # Install firefox.
@@ -161,19 +193,28 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   services.input-remapper.enable = true;
 
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
   environment.systemPackages = with pkgs; [
-    emacs-gtk
+    (emacsWithPackagesFromUsePackage {
+      config = ./nix/emacs/init.el;
+      alwaysEnsure = true;
+      package = emacs-gtk;
+      defaultInitFile = true;
+    })
     starship
     keychain
     alacritty
     gammastep
     fuzzel
     neovim
-    xwayland
     eza
     nil
     libtool
@@ -210,7 +251,14 @@
     inputs.color_scheme_generator.packages.x86_64-linux.default
     inputs.hyprland_monitor_switcher.packages.x86_64-linux.default
     aspell
-    (aspellWithDicts (ds: with ds; [en en-computers en-science ca]))
+    (aspellWithDicts (
+      ds: with ds; [
+        en
+        en-computers
+        en-science
+        ca
+      ]
+    ))
     firefox
     hyprpaper
     swaybg
@@ -226,13 +274,18 @@
     clang
     clang-tools
     cmake-language-server
-    dconf-editor
-    librewolf
+    #librewolf
     transmission_4-gtk
+    gnumake
+    autotiling
   ];
 
-  fonts.packages = with pkgs; [ nerd-fonts.mononoki ];
+  fonts.packages = with pkgs; [
+    nerd-fonts.mononoki
+    emacs-all-the-icons-fonts
+  ];
 
+  programs.firefox.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
