@@ -226,48 +226,95 @@
 
 ;; General (Global Hot Keys)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+;; (use-package general
+;;   :config
+;;   (general-create-definer global-definer
+;;     :keymaps 'override
+;;     :states '(insert emacs normal hybrid motion visual operator)
+;;     :prefix "SPC"
+;;     :non-normal-prefix "S-SPC")
+;;   (global-definer
+;;    "."   '(counsel-find-file :which-key "find-file")
+;;    "o"   '(nil :which-key "open")
+;;    "o t" '((lambda () (interactive)
+;; 	     (evil-window-split)
+;; 	     (evil-window-next 0)
+;; 	     (evil-window-decrease-height 6)
+;; 	     (if (projectile-project-p)
+;; 		 (projectile-run-vterm 1)
+;; 	       (vterm))
+;; 	     ) :which-key "vterm")
+;;    "o T" '((lambda () (interactive)
+;; 	     (if (projectile-project-p)
+;; 		 (projectile-run-vterm 1)
+;; 	       (vterm))) :which-key "vterm fullscreen")
+;;    "f"   '(nil :which-key "file")
+;;    "f r" '(counsel-recentf :which-key "recent files")
+;;    "b"   '(nil :which-key "buffer")
+;;    "b p" '(previous-buffer :which-key "previous buffer")
+;;    "b n" '(next-buffer :which-key "next buffer")
+;;    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
+;;    "SPC" '(projectile-find-file :which-key "search file")
+;;    "p f" '(counsel-projectile-rg :which-key "search string")
+;;    "p r" '(projectile-replace :which-key "replace string")
+;;    "p R" '(projectile-replace-regexp :which-key "replace regex")
+;;    "w"   '(nil :which-key "window")
+;;    "w w" '(evil-window-next :which-key "next window")
+;;    "w v" '(evil-window-vsplit :which-key "verticle split")
+;;    "w h" '(evil-window-split :which-key "horizontal split")
+;;    "w c" '(evil-window-delete :which-key "close window")
+;;    "g"   '(nil :which-key "magit")
+;;    "g g" '(magit :which-key "magit-status")
+;;    "d e" '(emms-play-dired :which-key "dired play emms")
+;;    "y"   '(ivy-yasnippet :which-key "yasnippet")
+;;    "c d" '(debug-code :which-key "debug code")))
+
 (use-package general
   :config
-  (general-create-definer global-definer
+  (general-evil-setup t)
+  (general-create-definer uwu/leader-keys
+    :states '(normal insert visual emacs)
     :keymaps 'override
-    :states '(insert emacs normal hybrid motion visual operator)
     :prefix "SPC"
-    :non-normal-prefix "S-SPC")
-  (global-definer
-    "."   '(counsel-find-file :which-key "find-file")
-    "o"   '(nil :which-key "open")
-    "o t" '((lambda () (interactive)
-	      (evil-window-split)
-	      (evil-window-next 0)
-	      (evil-window-decrease-height 6)
-	      (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))
-	      ) :which-key "vterm")
-    "o T" '((lambda () (interactive)
-	      (if (projectile-project-p)
-		  (projectile-run-vterm 1)
-		(vterm))) :which-key "vterm fullscreen")
-    "f"   '(nil :which-key "file")
-    "f r" '(counsel-recentf :which-key "recent files")
-    "b"   '(nil :which-key "buffer")
-    "b p" '(previous-buffer :which-key "previous buffer")
-    "b n" '(next-buffer :which-key "next buffer")
-    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
-    "SPC" '(projectile-find-file :which-key "search file")
-    "p f" '(counsel-projectile-rg :which-key "search string")
-    "p r" '(projectile-replace :which-key "replace string")
-    "p R" '(projectile-replace-regexp :which-key "replace regex")
-    "w"   '(nil :which-key "window")
-    "w w" '(evil-window-next :which-key "next window")
-    "w v" '(evil-window-vsplit :which-key "verticle split")
-    "w h" '(evil-window-split :which-key "horizontal split")
-    "w c" '(evil-window-delete :which-key "close window")
-    "g"   '(nil :which-key "magit")
-    "g g" '(magit :which-key "magit-status")
-    "d e" '(emms-play-dired :which-key "dired play emms")
-    "y"   '(ivy-yasnippet :which-key "yasnippet")
-    "c d" '(debug-code :which-key "debug code")))
+    :global-prefix "C-SPC"))
+
+(uwu/leader-keys
+ "."   '(counsel-find-file :which-key "find-file")
+ "o"   '(nil :which-key "open")
+ "o t" '((lambda () (interactive)
+	   (evil-window-split)
+	   (evil-window-next 0)
+	   (evil-window-decrease-height 6)
+	   (if (projectile-project-p)
+	       (projectile-run-vterm 1)
+	     (vterm))
+	   ) :which-key "vterm")
+ "o T" '((lambda () (interactive)
+	   (if (projectile-project-p)
+	       (projectile-run-vterm 1)
+	     (vterm))) :which-key "vterm fullscreen")
+ "f"   '(nil :which-key "file")
+ "f r" '(counsel-recentf :which-key "recent files")
+ "b"   '(nil :which-key "buffer")
+ "b p" '(previous-buffer :which-key "previous buffer")
+ "b n" '(next-buffer :which-key "next buffer")
+ "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
+ "SPC" '(projectile-find-file :which-key "search file")
+ "p f" '(counsel-projectile-rg :which-key "search string")
+ "p r" '(projectile-replace :which-key "replace string")
+ "p R" '(projectile-replace-regexp :which-key "replace regex")
+ "w"   '(nil :which-key "window")
+ "w w" '(evil-window-next :which-key "next window")
+ "w v" '(evil-window-vsplit :which-key "verticle split")
+ "w h" '(evil-window-split :which-key "horizontal split")
+ "w c" '(evil-window-delete :which-key "close window")
+ "g"   '(nil :which-key "magit")
+ "g g" '(magit :which-key "magit-status")
+ "d e" '(emms-play-dired :which-key "dired play emms")
+ "y"   '(ivy-yasnippet :which-key "yasnippet")
+ "c d" '(debug-code :which-key "debug code")
+ )
 
 ;; Frame Settings
 (tool-bar-mode -1)
@@ -410,6 +457,8 @@
 ;; Bluetooth
 (use-package bluetooth
   :commands (bluetooth-list-devices))
+
+;;
 
 ;; Debug message
 (message "Init Time: %s with %d garbage collections." (float-time (time-subtract after-init-time before-init-time)) gcs-done)

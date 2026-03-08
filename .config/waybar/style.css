@@ -279,10 +279,10 @@ button:hover {
 /* 	background-color: transparent; */
 /* } */
 
-@define-color bar_color_DP-1 rgba (248,246,249,0.8);
-@define-color text_color_DP-1 rgba (7,9,6,1.0);
-@define-color bar_color_HDMI-A-1 rgba (66,66,96,0.8);
-@define-color text_color_HDMI-A-1 rgba (189,189,159,1.0);
+@define-color bar_color_DP-1 rgba (255,255,255,0.8);
+@define-color text_color_DP-1 rgba (0,0,0,1.0);
+@define-color bar_color_HDMI-A-1 rgba (22,20,24,0.8);
+@define-color text_color_HDMI-A-1 rgba (233,235,231,1.0);
 
 window#waybar.DP-1 * {
     color: @text_color_DP-1;

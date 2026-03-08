@@ -21,6 +21,11 @@ in
     fsType = "ext4";
   };
 
+  fileSystems."/home/uwu/NVME_Storage" = {
+    device = "/dev/disk/by-uuid/dbe7e37d-213a-481a-bc8f-4ea28858c239";
+    fsType = "ext4";
+  };
+
   home-manager = {
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
@@ -61,7 +66,9 @@ in
     enableSSHSupport = true;
   };
   services.pcscd.enable = true;
-  
+
+  programs.gamemode.enable = true;
+
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     # Add any missing dynamic libraries for unpackaged programs
@@ -108,12 +115,11 @@ in
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
+  services.displayManager.gdm.enable = true;
   services.desktopManager.plasma6.enable = true;
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "uwu";
-  services.displayManager.defaultSession = "sway";
+  services.displayManager.defaultSession = "hyprland";
   security.polkit.enable = true;
 
   programs.sway = {
@@ -150,14 +156,19 @@ in
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-hyprland xdg-desktop-portal-gtk xdg-desktop-portal-wlr xdg-desktop-portal ];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal
+    ];
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.uwu = {
     isNormalUser = true;
     description = "uwu";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "libvirtd" ];
     shell = pkgs.fish;
     packages = with pkgs; [ ];
   };
@@ -201,6 +212,9 @@ in
   services.input-remapper.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   environment.systemPackages = with pkgs; [
     (emacsWithPackagesFromUsePackage {
@@ -250,13 +264,14 @@ in
     inputs.audio_output_switcher.packages.x86_64-linux.default
     inputs.color_scheme_generator.packages.x86_64-linux.default
     inputs.hyprland_monitor_switcher.packages.x86_64-linux.default
-    aspell
+    inputs.gslapper.packages.x86_64-linux.default
     (aspellWithDicts (
       ds: with ds; [
         en
         en-computers
         en-science
         ca
+        es
       ]
     ))
     firefox
@@ -278,6 +293,13 @@ in
     transmission_4-gtk
     gnumake
     autotiling
+    mangohud
+    gamescope
+    heroic
+    cyanrip
+    picard
+    dnsmasq
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   fonts.packages = with pkgs; [

@@ -2,7 +2,7 @@
   "executable_script_doc": "The path to executable script used after a wallpaper is set. The script is sent the monitor identifier, wallpaper path and the serialized saved_wallpapers state.",
   "executable_script": "",
   "wallpaper_folder_doc": "The path to the currently selected wallpaper folder. Note: The path cannot have a trailing forward slash.",
-  "wallpaper_folder": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025",
+  "wallpaper_folder": "/home/uwu/Mass_Storage/Downloads/Wallpapers",
   "saved_wallpapers_doc": "The collection of the currently saved wallpapers with their corresponding monitor, path and changer.",
   "saved_wallpapers": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "monitor": "DP-1",
-      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 396400 anus blush breasts cameltoe garter long_hair navel no_bra original panties ponytail sage_joh soccer sport tegurayuki thighhighs underwear wet.png",
+      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2026/Jan to Dic 2026/Konachan.com - 398216 arknights chain choker dress elbow_gloves garter gloves horns long_hair munosuke orange_hair purple_eyes staff surtr_(arknights) torn_clothes.png",
       "changer": {
         "Swaybg": [
           "Fill",
@@ -27,7 +27,7 @@
     },
     {
       "monitor": "HDMI-A-1",
-      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2025/Jul to Dic 2025/Konachan.com - 396267 black_hair blush bow building collar flowers laosi_j long_hair paper petals purple red_eyes school_uniform shirt skirt torn_clothes wuthering_waves.png",
+      "path": "/home/uwu/Mass_Storage/Downloads/Wallpapers/2026/Jan to Dic 2026/Konachan.com - 397823 arknights arknights__endfield breasts dress gloves horns laevatein_(arknights) long_hair miaosu purple_eyes red_hair surtr_(arknights) sword weapon.png",
       "changer": {
         "Swaybg": [
           "Fill",
@@ -59,9 +59,9 @@
   "mpvpaper_additional_options_doc": "Custom options for mpvpaper passed as command line arguments.",
   "mpvpaper_additional_options": "",
   "selected_monitor_item_doc": "The currently selected monitor as a string. Note: The name must coincide with the monitor numeric identifier.",
-  "selected_monitor_item": "DP-1",
+  "selected_monitor_item": "HDMI-A-1",
   "swww_resize_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected swww resize option. Do not change unless you know what you are doing.",
-  "swww_resize": 1,
+  "swww_resize": 0,
   "swww_fill_color_doc": "The hex color for swww background fill. Must be six characters long.",
   "swww_fill_color": "000000",
   "swww_scaling_filter_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected swww scaling filter option. Do not change unless you know what you are doing.",
@@ -92,6 +92,14 @@
   "swww_transition_bezier_p3": 0.99,
   "swww_transition_fps_doc": "Frame rate for the transition effect used by swww.",
   "swww_transition_fps": 30,
+  "gslapper_scale_mode_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected gslapper scale mode. Do not change unless you know what you are doing.",
+  "gslapper_scale_mode": 0,
+  "gslapper_pause_mode_doc": "The internal numeric identifier in the changer dropdown used by dconf for the currently selected gslapper pause mode. Do not change unless you know what you are doing.",
+  "gslapper_pause_mode": 0,
+  "gslapper_loop_doc": "The boolean flag to loop video wallpapers in gslapper used by dconf.",
+  "gslapper_loop": true,
+  "gslapper_additional_options_doc": "Custom options for gslapper passed as command line arguments.",
+  "gslapper_additional_options": "",
   "hide_changer_options_box_doc": "Hide bottom bar.",
   "hide_changer_options_box": false
 }
