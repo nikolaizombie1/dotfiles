@@ -34,9 +34,25 @@ in
     };
   };
 
+  boot.kernelModules = [
+    "kvm-amd"
+    "vfio_pci"
+    "vfio"
+    "vfio_iommu_type1"
+    "vfio_virqfd"
+
+    "amdgpu"
+  ];
+  boot.kernelParams = [
+    "amd_iommu=on"
+    "vfio-pci.ids=1002:13c0,1002:1640"
+    # "vfio-pci.ids=1002:744c,1002:ab30"
+  ];
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  #boot.blacklistedKernelModules = ["amdgpu"];
 
   networking.hostName = "uwu"; # Define your hostname.
 
@@ -83,21 +99,21 @@ in
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "en_US.UTF-8";
-    extraLocales = [
-      "es_ES.UTF-8/UTF-8"
-      "en_US.UTF-8/UTF-8"
-    ];
-    extraLocaleSettings = {
-      LC_ADDRESS = "en_US.UTF-8";
-      LC_IDENTIFICATION = "en_US.UTF-8";
-      LC_MEASUREMENT = "en_US.UTF-8";
-      LC_MONETARY = "en_US.UTF-8";
-      LC_NAME = "en_US.UTF-8";
-      LC_NUMERIC = "en_US.UTF-8";
-      LC_PAPER = "en_US.UTF-8";
-      LC_TELEPHONE = "en_US.UTF-8";
-      LC_TIME = "en_US.UTF-8";
-    };
+    # extraLocales = [
+    #   "es_ES.UTF-8/UTF-8"
+    #   "en_US.UTF-8/UTF-8"
+    # ];
+    # extraLocaleSettings = {
+    #   LC_ADDRESS = "en_US.UTF-8";
+    #   LC_IDENTIFICATION = "en_US.UTF-8";
+    #   LC_MEASUREMENT = "en_US.UTF-8";
+    #   LC_MONETARY = "en_US.UTF-8";
+    #   LC_NAME = "en_US.UTF-8";
+    #   LC_NUMERIC = "en_US.UTF-8";
+    #   LC_PAPER = "en_US.UTF-8";
+    #   LC_TELEPHONE = "en_US.UTF-8";
+    #   LC_TIME = "en_US.UTF-8";
+    # };
   };
 
   i18n.inputMethod.type = "fcitx5";
@@ -213,8 +229,16 @@ in
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu = {
+      package = pkgs.qemu_kvm;
+      runAsRoot = true;
+      swtpm.enable = true;
+    };
+  };
 
   environment.systemPackages = with pkgs; [
     (emacsWithPackagesFromUsePackage {
@@ -278,7 +302,7 @@ in
     hyprpaper
     swaybg
     mpvpaper
-    swww
+    awww
     stow
     fish
     steam
@@ -300,11 +324,28 @@ in
     picard
     dnsmasq
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
+    protontricks
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-libav
   ];
 
   fonts.packages = with pkgs; [
     nerd-fonts.mononoki
     emacs-all-the-icons-fonts
+  ];
+  hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
+    libva
+    pipewire
+    gst_all_1.gstreamer
+    gst_all_1.gst-plugins-base
+    gst_all_1.gst-plugins-good
+    gst_all_1.gst-plugins-bad
+    gst_all_1.gst-plugins-ugly
+    gst_all_1.gst-libav
   ];
 
   programs.firefox.enable = true;
@@ -320,6 +361,27 @@ in
   services.openssh.ports = [ 39801 ];
 
   services.gnome.gnome-keyring.enable = true;
+  services.keyd = {
+    enable = true;
+    keyboards = {
+      # The name is just the name of the configuration file, it does not really matter
+      default = {
+        ids = [ "*" ]; # what goes into the [id] section, here we select all keyboards
+        # Everything but the ID section:
+        settings = {
+          # The main layer, if you choose to declare it in Nix
+          main = {
+            compose = "rightmeta"; # you might need to also enclose the key in quotes if it contains non-alphabetical symbols
+          };
+          otherlayer = {};
+        };
+        extraConfig = ''
+                # put here any extra-config, e.g. you can copy/paste here directly a configuration, just remove the ids part
+                      '';
+      };
+    };
+  };
+
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

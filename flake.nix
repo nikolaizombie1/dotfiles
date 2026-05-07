@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     waytrogen = {
-      url = "github:nikolaizombie1/waytrogen";
+      url = "github:nikolaizombie1/waytrogen?ref=dev";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     audio_output_switcher = {
