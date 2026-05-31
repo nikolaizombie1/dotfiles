@@ -112,8 +112,6 @@
 (global-auto-revert-mode)
 (setq dired-auto-revert-buffer t)
 
-;; Eglot (LSP Support)
-
 ;; Evil Nerd Commenter (Better Line Commenting)
 (use-package evil-nerd-commenter
   :defer
@@ -224,51 +222,11 @@
 (use-package magit
   :commands (magit-status))
 
+(use-package geiser-guile
+  :defer)
+
 ;; General (Global Hot Keys)
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
-
-;; (use-package general
-;;   :config
-;;   (general-create-definer global-definer
-;;     :keymaps 'override
-;;     :states '(insert emacs normal hybrid motion visual operator)
-;;     :prefix "SPC"
-;;     :non-normal-prefix "S-SPC")
-;;   (global-definer
-;;    "."   '(counsel-find-file :which-key "find-file")
-;;    "o"   '(nil :which-key "open")
-;;    "o t" '((lambda () (interactive)
-;; 	     (evil-window-split)
-;; 	     (evil-window-next 0)
-;; 	     (evil-window-decrease-height 6)
-;; 	     (if (projectile-project-p)
-;; 		 (projectile-run-vterm 1)
-;; 	       (vterm))
-;; 	     ) :which-key "vterm")
-;;    "o T" '((lambda () (interactive)
-;; 	     (if (projectile-project-p)
-;; 		 (projectile-run-vterm 1)
-;; 	       (vterm))) :which-key "vterm fullscreen")
-;;    "f"   '(nil :which-key "file")
-;;    "f r" '(counsel-recentf :which-key "recent files")
-;;    "b"   '(nil :which-key "buffer")
-;;    "b p" '(previous-buffer :which-key "previous buffer")
-;;    "b n" '(next-buffer :which-key "next buffer")
-;;    "b i" '(ivy-switch-buffer-other-window :which-key "list buffers")
-;;    "SPC" '(projectile-find-file :which-key "search file")
-;;    "p f" '(counsel-projectile-rg :which-key "search string")
-;;    "p r" '(projectile-replace :which-key "replace string")
-;;    "p R" '(projectile-replace-regexp :which-key "replace regex")
-;;    "w"   '(nil :which-key "window")
-;;    "w w" '(evil-window-next :which-key "next window")
-;;    "w v" '(evil-window-vsplit :which-key "verticle split")
-;;    "w h" '(evil-window-split :which-key "horizontal split")
-;;    "w c" '(evil-window-delete :which-key "close window")
-;;    "g"   '(nil :which-key "magit")
-;;    "g g" '(magit :which-key "magit-status")
-;;    "d e" '(emms-play-dired :which-key "dired play emms")
-;;    "y"   '(ivy-yasnippet :which-key "yasnippet")
-;;    "c d" '(debug-code :which-key "debug code")))
 
 (use-package general
   :config
@@ -383,7 +341,7 @@
 (use-package vterm
   :commands (vterm)
   :custom
-  (setq vterm-shell "/usr/bin/fish")
+  (setq vterm-shell "/bin/fish")
   (evil-set-initial-state 'vterm-mode 'insert))
 
 
@@ -423,9 +381,9 @@
 (add-hook 'flyspell-mode-hook #'(lambda () (evil-define-key 'normal flyspell-mode-map (kbd ";") 'flyspell-correct-wrapper)))
 (setq flyspell-issue-message-flag nil)
 (use-package flyspell-correct-ivy
-  :after flyspell)
+ :after flyspell)
 (use-package auto-dictionary
-  :hook flyspell)
+ :hook flyspell)
 
 ;; Dired Configuration
 (setq dired-listing-switches "-Al --group-directories-first")
@@ -459,15 +417,11 @@
   :commands (bluetooth-list-devices))
 
 ;;
-
-;; Debug message
-(message "Init Time: %s with %d garbage collections." (float-time (time-subtract after-init-time before-init-time)) gcs-done)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(global-company-mode nil nil nil "Customized with use-package company")
  '(package-selected-packages nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

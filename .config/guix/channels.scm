@@ -1,0 +1,20 @@
+(append (list (channel
+        (name 'nonguix)
+        (url "https://gitlab.com/nonguix/nonguix")
+        ;; Enable signature verification:
+        (introduction
+         (make-channel-introduction
+          "897c1a470da759236cc11798f4e0a5f7d4d59fbc"
+          (openpgp-fingerprint
+           "2A39 3FFF 68F4 EF7A 3D29  12AF 6F51 20A0 22FB B2D5"))))
+       (channel
+        (name 'selected-guix-works)
+        (url "https://github.com/gs-101/selected-guix-works.git")
+        (branch "main")
+        (introduction
+         (make-channel-introduction
+          "5d1270d51c64457d61cd46ec96e5599176f315a4"
+          (openpgp-fingerprint
+           "C780 21F7 34E4 07EB 9090  0CF1 4ACA 6D6F 89AB 3162"))))
+       )
+ %default-channels)

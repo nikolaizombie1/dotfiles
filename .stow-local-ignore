@@ -25,4 +25,6 @@ _darcs
 copy-nix.sh
 restore-nix.sh
 .*\.nix
+.*\.scm
+nix
 result
