@@ -4,26 +4,13 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     waytrogen = {
-      url = "github:nikolaizombie1/waytrogen?ref=dev";
+      url = "github:nikolaizombie1/waytrogen";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     audio_output_switcher = {
       url = "github:nikolaizombie1/audio_output_switcher";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    color_scheme_generator = {
-      url = "github:nikolaizombie1/color_scheme_generator";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprland_monitor_switcher = {
-      url = "github:nikolaizombie1/hyprland_monitor_switcher";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    gslapper = {
-      url = "github:Nomadcxx/gSlapper";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

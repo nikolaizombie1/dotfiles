@@ -2,7 +2,6 @@ let
   username = "uwu";
 in
 {
-  config,
   pkgs,
   inputs,
   ...
@@ -21,11 +20,6 @@ in
     fsType = "ext4";
   };
 
-  fileSystems."/home/uwu/NVME_Storage" = {
-    device = "/dev/disk/by-uuid/dbe7e37d-213a-481a-bc8f-4ea28858c239";
-    fsType = "ext4";
-  };
-
   home-manager = {
     useGlobalPkgs = true;
     extraSpecialArgs = { inherit inputs; };
@@ -34,25 +28,14 @@ in
     };
   };
 
-  boot.kernelModules = [
-    "kvm-amd"
-    "vfio_pci"
-    "vfio"
-    "vfio_iommu_type1"
-    "vfio_virqfd"
-
-    "amdgpu"
-  ];
-  boot.kernelParams = [
-    "amd_iommu=on"
-    "vfio-pci.ids=1002:13c0,1002:1640"
-    # "vfio-pci.ids=1002:744c,1002:ab30"
-  ];
-
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  #boot.blacklistedKernelModules = ["amdgpu"];
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = true;
+  };
 
   networking.hostName = "uwu"; # Define your hostname.
 
@@ -86,10 +69,6 @@ in
   programs.gamemode.enable = true;
 
   programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    # Add any missing dynamic libraries for unpackaged programs
-    # here, NOT in environment.systemPackages
-  ];
 
   # Enable networking
 
@@ -130,7 +109,6 @@ in
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.plasma6.enable = true;
   services.displayManager.autoLogin.enable = true;
@@ -138,26 +116,6 @@ in
   services.displayManager.defaultSession = "hyprland";
   security.polkit.enable = true;
 
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    xwayland.enable = true;
-    package = pkgs.swayfx;
-  };
-
-  services.gvfs.enable = true;
-
-  # Configure keymap in X11
-  services.xserver = {
-    xkb.layout = "us";
-    xkb.variant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  #sound.enable = true;
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -186,7 +144,6 @@ in
     description = "uwu";
     extraGroups = [ "wheel" "libvirtd" ];
     shell = pkgs.fish;
-    packages = with pkgs; [ ];
   };
 
   programs.fish.enable = true;
@@ -257,7 +214,6 @@ in
     nil
     libtool
     waybar
-    gopls
     rust-analyzer
     rustfmt
     clippy
@@ -271,6 +227,7 @@ in
     nautilus
     bash-language-server
     yaml-language-server
+    tombi
     jq
     playerctl
     git
@@ -280,15 +237,11 @@ in
     mpv
     ripgrep
     unzip
-    hakuneko
     hyprland-qtutils
     nwg-look
     ffmpeg
     inputs.waytrogen.packages.x86_64-linux.waytrogen
     inputs.audio_output_switcher.packages.x86_64-linux.default
-    inputs.color_scheme_generator.packages.x86_64-linux.default
-    inputs.hyprland_monitor_switcher.packages.x86_64-linux.default
-    inputs.gslapper.packages.x86_64-linux.default
     (aspellWithDicts (
       ds: with ds; [
         en
@@ -298,7 +251,6 @@ in
         es
       ]
     ))
-    firefox
     hyprpaper
     swaybg
     mpvpaper
@@ -307,30 +259,18 @@ in
     fish
     steam
     speedcrunch
-    wallust
     cmake
     gimp-with-plugins
     clang
     clang-tools
     cmake-language-server
-    #librewolf
     transmission_4-gtk
-    gnumake
-    autotiling
     mangohud
     gamescope
     heroic
     cyanrip
     picard
-    dnsmasq
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    protontricks
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-libav
   ];
 
   fonts.packages = with pkgs; [
@@ -340,23 +280,8 @@ in
   hardware.graphics.extraPackages32 = with pkgs.pkgsi686Linux; [
     libva
     pipewire
-    gst_all_1.gstreamer
-    gst_all_1.gst-plugins-base
-    gst_all_1.gst-plugins-good
-    gst_all_1.gst-plugins-bad
-    gst_all_1.gst-plugins-ugly
-    gst_all_1.gst-libav
   ];
 
-  programs.firefox.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
   services.openssh.enable = true;
   services.openssh.ports = [ 39801 ];
 
@@ -383,17 +308,7 @@ in
   };
 
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "23.11";
 }
