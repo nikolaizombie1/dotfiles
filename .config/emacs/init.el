@@ -3,7 +3,7 @@
 ;; Use-Package Setup
 (require 'package)
 (require 'use-package)
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
+;;(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")) ;; installed by default
 (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/")) ;; installed by default from Emacs 28 onwards
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -198,19 +198,10 @@
   (nix-mode . direnv-mode)
   (eglot . direnv-mode))
 
-;; CMAKE Mode (CMAKE Language Support)
-(use-package cmake-mode
-  :mode "CMakeLists\.txt\\'"
-  :hook
-  (cmake-mode . direnv-mode))
-
-(use-package cmake-font-lock
-  :after cmake-mode)
-
-(use-package cmake-ide
-  :after cmake-ide
-  :config
-  (cmake-ide-setup))
+(use-package meson-mode
+  :mode "meson\\.build\\'"
+  :mode "meson_options\\.build\\'"
+)
 
 ;; Fullframe (Maximize buffer)
 (use-package fullframe
@@ -341,7 +332,7 @@
 (use-package vterm
   :commands (vterm)
   :custom
-  (setq vterm-shell "/bin/fish")
+  (setq vterm-shell "/usr/bin/fish")
   (evil-set-initial-state 'vterm-mode 'insert))
 
 

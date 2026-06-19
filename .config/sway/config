@@ -30,7 +30,7 @@ include /etc/sway/config-vars.d/*
 # Example configuration:
 #
 
-exec_always autotiling
+exec_always autotiling-rs
 
 workspace 1 output DP-1
 
@@ -85,7 +85,7 @@ output HDMI-A-1 {
     bindsym $mod+Shift+Return exec $menu
 
     bindsym $mod+Shift+e exec emacsclient -c -a 'emacs'
-    bindsym $mod+Shift+f exec firefox
+    bindsym $mod+Shift+f exec zen-browser
     bindsym $mod+0 exec audio_output_switcher --change
     bindsym $mod+Shift+n exec nautilus
     bindsym $mod+Shift+x exec systemctl poweroff
@@ -244,3 +244,4 @@ blur enable
 blur_passes 2
 
 exec_always "$HOME/dotfiles/autostart.sh"
+exec uwsm finalize

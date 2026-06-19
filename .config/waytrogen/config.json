@@ -16,61 +16,21 @@
     },
     {
       "monitor": "DP-1",
-      "path": "/home/uwu/Downloads/Wallpapers/2026/Jan to Jun 2026/Konachan.com - 403835 bed blush bow breasts goth-loli liberalio_(nikke) lolita_fashion long_hair no_bra purple_hair red_eyes ribbons skirt thighhighs twintails.jpg",
+      "path": "/home/uwu/Downloads/Wallpapers/2026/Jan to Jun 2026/Konachan.com - 405151 animal arknights barefoot bird dress grass gray_hair headdress horns long_hair nightingale_(arknights) rafaelaaa third-party_edit twintails wristwear.png",
       "changer": {
-        "Awww": {
-          "resize_mode": "Crop",
-          "fill_color": "000000ff",
-          "scalling_filter": "Lanczos3",
-          "transition_type": "Simple",
-          "transition_step": 90,
-          "transition_duration": 3,
-          "transition_fps": 30,
-          "transition_angle": 45,
-          "transition_position": {
-            "position": "center"
-          },
-          "invert_y": false,
-          "transition_bezier": {
-            "p0": 0.54,
-            "p1": 0.0,
-            "p2": 0.34,
-            "p3": 0.99
-          },
-          "transition_wave": {
-            "width": 200,
-            "height": 200
-          }
+        "Swaybg": {
+          "mode": "Fill",
+          "fill_color": "#000000"
         }
       }
     },
     {
       "monitor": "HDMI-A-1",
-      "path": "/home/uwu/Downloads/Wallpapers/2026/Jan to Jun 2026/Konachan.com - 400491 blue_eyes blush bow breasts choker cinderella_(nikke) cleavage close gray_hair long_hair mol833 no_bra ribbons see_through twintails.png",
+      "path": "/home/uwu/Downloads/Wallpapers/2026/Jan to Jun 2026/Konachan.com - 402901 aqua_eyes braids clouds hololive horns long_hair pointed_ears red_hair reflection rororo school_uniform skirt sky tree twintails wings.jpg",
       "changer": {
-        "Awww": {
-          "resize_mode": "Crop",
-          "fill_color": "000000ff",
-          "scalling_filter": "Lanczos3",
-          "transition_type": "Simple",
-          "transition_step": 90,
-          "transition_duration": 3,
-          "transition_fps": 30,
-          "transition_angle": 45,
-          "transition_position": {
-            "position": "center"
-          },
-          "invert_y": false,
-          "transition_bezier": {
-            "p0": 0.54,
-            "p1": 0.0,
-            "p2": 0.34,
-            "p3": 0.99
-          },
-          "transition_wave": {
-            "width": 200,
-            "height": 200
-          }
+        "Swaybg": {
+          "mode": "Fill",
+          "fill_color": "#000000"
         }
       }
     }
@@ -83,29 +43,9 @@
   "invert_sort": true,
   "changer_doc": "Last Used Changer Description",
   "changer": {
-    "Awww": {
-      "resize_mode": "Crop",
-      "fill_color": "000000ff",
-      "scalling_filter": "Lanczos3",
-      "transition_type": "Simple",
-      "transition_step": 90,
-      "transition_duration": 3,
-      "transition_fps": 30,
-      "transition_angle": 45,
-      "transition_position": {
-        "position": "center"
-      },
-      "invert_y": false,
-      "transition_bezier": {
-        "p0": 0.54,
-        "p1": 0.0,
-        "p2": 0.34,
-        "p3": 0.99
-      },
-      "transition_wave": {
-        "width": 200,
-        "height": 200
-      }
+    "Swaybg": {
+      "mode": "Fill",
+      "fill_color": "#000000"
     }
   },
   "image_filter_doc": "The Search String For The Wallpapers",
@@ -121,9 +61,9 @@
   "mpvpaper_slideshow_interval_doc": "Mpvpaper Slideshow Interval Description",
   "mpvpaper_slideshow_interval": 0,
   "mpvpaper_additional_options_doc": "Custom Options For Mpvpaper Passed As Command Line Arguments",
-  "mpvpaper_additional_options": "loop",
+  "mpvpaper_additional_options": "",
   "selected_monitor_item_doc": "Last Used Monitor Description",
-  "selected_monitor_item": "DP-1",
+  "selected_monitor_item": "HDMI-A-1",
   "awww_resize_doc": "Awww Resize Description",
   "awww_resize": "Crop",
   "awww_fill_color_doc": "Awww Fill Color Description",
@@ -166,5 +106,9 @@
   "gslapper_additional_options": "",
   "hide_changer_options_box_doc": "Hide Bottom Bar",
   "hide_changer_options_box": false,
+  "theme_doc": "Modifies the appearance of the application. Can be one of the following options:\n\t    Light\n          Dracula\n          Nord\n          SolarizedLight\n          SolarizedDark\n          GruvboxLight\n          GruvboxDark\n          CatppuccinLatte\n          CatppuccinFrappe\n          CatppuccinMacchiato\n          CatppuccinMocha\n          TokyoNight\n          TokyoNightStorm\n          TokyoNightLight\n          KanagawaWave\n          KanagawaDragon\n          KanagawaLotus\n          Moonfly\n          Nightfly\n          Oxocarbon\n          Ferra",
+  "theme": "Moonfly",
+  "favorite_images_only_doc": "Show favorite images only or all images.",
+  "favorite_images_only": false,
   "hyprpaper_fill_mode": "Cover"
 }

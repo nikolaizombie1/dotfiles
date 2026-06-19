@@ -1,6 +1,6 @@
 [
   {
-    "device_name": "Schiit Modi 3+",
+    "device_name": "NITSCH Pietus Maximus",
     "sink_name": "Schiit"
   },
   {
@@ -9,6 +9,6 @@
   },
   {
     "device_name": "Built-in Speakers",
-    "sink_name": "hdmi-stereo.monitor"
+    "sink_name": "hdmi-stereo"
   }
 ]
